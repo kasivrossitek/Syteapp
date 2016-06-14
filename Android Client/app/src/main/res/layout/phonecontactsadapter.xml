@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xRelLayTeamMemberVwHolder"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/vw_holder_team_member_unit_ht">
+
+    <ImageView
+        android:id="@+id/xfriendsprofileimgid"
+        android:layout_width="@dimen/vw_holder_team_member_image_sz"
+        android:layout_height="@dimen/vw_holder_team_member_image_sz"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+        android:src="@drawable/img_user_thumbnail_image_list" />
+
+
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xfriendsNameid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_72"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz" />
+
+
+    <ImageView
+        android:id="@+id/xfriendinviteimgid"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
+        android:src="@drawable/ic_send_invite" />
+
+    <ImageView
+        android:id="@+id/xfriendfollowimgid"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
+        android:src="@drawable/ic_syte_installed"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/xfriendunfollowimgid"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
+        android:src="@drawable/ic_syte_not_installed"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

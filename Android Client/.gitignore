@@ -1,0 +1,20 @@
+<<<<<<< HEAD
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+=======
+**/.project
+**/.settings
+.tern-project
+.jshintrc
+node_modules/*
+**/.idea
+**/.gradle
+**/build
+**/.iml
+>>>>>>> 5fa73b68a9724ee1bfbc0bfda7ed9bdca59e48a7

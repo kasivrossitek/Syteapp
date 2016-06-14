@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/syte_analytics_page_padding"
+        android:paddingRight="@dimen/syte_analytics_page_padding"
+        android:orientation="horizontal">
+        <com.syte.widgets.TvRobortoRegular
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:textColor="@color/color_black_opacity_26"
+            android:text="Total visitors in last 12 months"
+            android:gravity="center_vertical|left"/>
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvTotalCount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="24sp"
+            android:textColor="@color/color_black_opacity_54"
+            android:text="99,000"
+            android:gravity="center_vertical|right"/>
+
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/xBarChart"
+        android:layout_width="match_parent"
+        android:padding="@dimen/syte_analytics_page_padding"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

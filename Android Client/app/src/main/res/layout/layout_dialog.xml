@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/popup_wd"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/popup_content_padding"
+        android:orientation="vertical">
+        <com.syte.widgets.TvRobortoMedium
+            android:id="@+id/xTvSubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Use Google location's services?"
+            android:textColor="@color/color_popup_subject"
+            android:textSize="@dimen/popup_subject_txt_sz"
+            android:paddingBottom="@dimen/popup_content_paddingBottom"
+            android:visibility="visible"/>
+        <com.syte.widgets.TvRobortoRegular android:id="@+id/xTvHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Let's Google help apps determine location. This means sending ananomous location data to Google, even when no apps is running"
+            android:textColor="@color/color_popup_heading"
+            android:textSize="@dimen/popup_heading_txt_sz"
+            android:paddingBottom="@dimen/popup_content_paddingBottom"/>
+        <com.syte.widgets.TvRobortoRegular android:id="@+id/xTvBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Let's Google help apps determine location. This means sending ananomous location data to Google, even when no apps is running"
+            android:textColor="@color/color_popup_body"
+            android:textSize="@dimen/popup_body_txt_sz"
+            android:paddingBottom="@dimen/popup_content_paddingBottom"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/popup_btn_lay_ht"
+        android:paddingTop="@dimen/popup_btn_lay_padding"
+        android:paddingBottom="@dimen/popup_btn_lay_padding"
+        android:paddingRight="@dimen/popup_content_paddingBottom"
+        android:paddingLeft="@dimen/popup_content_paddingBottom">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+            <com.syte.widgets.TvRobortoMedium android:id="@+id/xTvLeft"
+                android:minWidth="@dimen/popup_btn_min_wd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="CANCEL"
+                android:textColor="@color/color_popup_btn"
+                android:textSize="@dimen/popup_btn_txt_sz"
+                android:layout_marginRight="@dimen/popup_btn_padding"
+                android:paddingLeft="@dimen/popup_btn_padding"
+                android:paddingRight="@dimen/popup_btn_padding"
+                android:gravity="center_horizontal"
+                android:layout_toLeftOf="@+id/xTvRight"/>
+            <com.syte.widgets.TvRobortoMedium android:id="@+id/xTvRight"
+                android:minWidth="@dimen/popup_btn_min_wd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="DELETE"
+                android:textColor="@color/color_popup_btn"
+                android:textSize="@dimen/popup_btn_txt_sz"
+                android:paddingLeft="@dimen/popup_btn_padding"
+                android:layout_alignParentRight="true"
+                android:gravity="center_horizontal"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

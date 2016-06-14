@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/xLinLayOwnedYasPas"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/my_sytes_item_ht"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="@dimen/my_sytes_item_image_layout_wd_ht"
+        android:layout_height="@dimen/my_sytes_item_image_layout_wd_ht"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/xIvManageYaspasImage"
+            android:layout_width="@dimen/my_sytes_item_image_wd_ht"
+            android:layout_height="@dimen/my_sytes_item_image_wd_ht"
+            android:layout_centerInParent="true"
+            android:src="@drawable/img_syte_thumbnail_image_list"/>
+        <ImageView
+            android:id="@+id/xIvTmProfilePicHide"
+            android:layout_width="@dimen/vw_holder_team_member_image_sz"
+            android:layout_height="@dimen/vw_holder_team_member_image_sz"
+            android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_team_members_eye"
+            android:visibility="gone"/>
+
+        <ProgressBar
+            android:id="@+id/xPbLoader"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvManageYaspasName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/my_sytes_item_margin"
+        android:layout_marginTop="@dimen/my_sytes_item_margin"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Name"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/my_sytes_item_syte_name_sz"/>
+
+    <ImageView
+        android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+        android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/my_sytes_item_margin"
+        android:src="@drawable/ic_my_sytes_more_arrow"/>
+
+</LinearLayout>

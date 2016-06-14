@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:layout_marginBottom="@dimen/syte_detail_margin_btm"
+    >
+    <com.syte.widgets.TvRobortoMedium
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textSize="@dimen/syte_detail_txt_sz_16"
+        android:textColor="@color/color_black_opacity_87"
+        android:text="@string/syte_detail_page_category"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/syte_detail_name_padding"
+        android:layout_marginRight="@dimen/syte_detail_name_padding"
+        android:layout_marginLeft="@dimen/syte_detail_name_padding"/>
+
+        <LinearLayout
+            android:id="@+id/xLinLaySyteCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/syte_detail_name_padding"
+            android:layout_marginLeft="@dimen/syte_detail_name_padding"
+            android:orientation="vertical"
+            >
+        </LinearLayout>
+
+
+
+
+</LinearLayout>

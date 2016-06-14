@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/xRellayTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_ht"
+        android:padding="@dimen/toolbar_padding"
+        android:layout_alignParentTop="true">
+        <RelativeLayout
+            android:id="@+id/xRelLayBack"
+            android:layout_width="@dimen/toolbar_icon_sz"
+            android:layout_height="@dimen/toolbar_icon_sz"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:layout_width="@dimen/toolbar_icon_content_sz"
+                android:layout_height="@dimen/toolbar_icon_content_sz"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_action_bar_back_btn"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/xLinLayRghtBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
+            <!--CHAT-->
+            <RelativeLayout
+                android:id="@+id/xRelLayChat"
+                android:layout_width="@dimen/toolbar_icon_sz"
+                android:layout_height="@dimen/toolbar_icon_sz"
+                android:layout_marginLeft="@dimen/toolbar_icon_margin">
+                <ImageView
+                    android:id="@+id/xIvChat"
+                    android:layout_width="@dimen/toolbar_icon_content_sz"
+                    android:layout_height="@dimen/toolbar_icon_content_sz"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_yp_action_bar_message"/>
+            </RelativeLayout>
+            <!-- END CHAT-->
+            <!--Favourite-->
+            <RelativeLayout
+                android:id="@+id/xRelLayFavourite"
+                android:layout_width="@dimen/toolbar_icon_sz"
+                android:layout_height="@dimen/toolbar_icon_sz"
+                android:layout_marginLeft="@dimen/toolbar_icon_margin">
+                <ImageView
+                    android:id="@+id/xIvFavourite"
+                    android:layout_width="@dimen/toolbar_icon_content_sz"
+                    android:layout_height="@dimen/toolbar_icon_content_sz"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_action_bar_un_favourite"/>
+            </RelativeLayout>
+            <!--END Favourite-->
+            <!--Share-->
+            <RelativeLayout
+                android:id="@+id/xRelLayShare"
+                android:layout_width="@dimen/toolbar_icon_sz"
+                android:layout_height="@dimen/toolbar_icon_sz"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/toolbar_icon_margin">
+                <ImageView
+                    android:layout_width="@dimen/toolbar_icon_content_sz"
+                    android:layout_height="@dimen/toolbar_icon_content_sz"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_yp_action_bar_share"/>
+            </RelativeLayout>
+            <!--END Share-->
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

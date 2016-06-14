@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="336dp"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:orientation="vertical">
+                <com.syte.widgets.TvRobortoRegular android:id="@+id/xTvHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Choose an option"
+                    android:textColor="#6F6F6F"
+                    android:textSize="17sp"
+                    android:paddingBottom="20dp"/>
+                <!--CAMERA-->
+                <LinearLayout
+                    android:id="@+id/xLinLayCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="20dp">
+                        <ImageView
+                            android:layout_width="@dimen/popup_icon_sz"
+                            android:layout_height="@dimen/popup_icon_sz"
+                            android:src="@drawable/ic_create_new_bulletin_photo"
+                            android:layout_marginRight="8dp"
+                            android:layout_gravity="center_vertical"/>
+                        <com.syte.widgets.TvRobortoRegular
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Take a photo"
+                            android:textColor="#6F6F6F"
+                            android:textSize="13sp"
+                            android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+                <!--GALLERY-->
+                <LinearLayout
+                    android:id="@+id/xLinLayGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="@dimen/popup_icon_sz"
+                        android:layout_height="@dimen/popup_icon_sz"
+                        android:src="@drawable/ic_create_new_bulletin_photo"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center_vertical"/>
+                    <com.syte.widgets.TvRobortoRegular
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pick from gallery"
+                        android:textColor="#6F6F6F"
+                        android:textSize="13sp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+        </LinearLayout>
+
+
+
+</LinearLayout>

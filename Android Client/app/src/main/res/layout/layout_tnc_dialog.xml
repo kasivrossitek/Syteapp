@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/popup_wd"
+    android:layout_height="436dp"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:orientation="vertical"
+    android:padding="@dimen/popup_content_padding">
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_content_padding"
+            android:orientation="vertical">
+            <com.syte.widgets.TvRobortoMedium
+                android:id="@+id/xTvSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tnc_popup_subject"
+                android:textColor="@color/color_popup_subject"
+                android:textSize="@dimen/popup_subject_txt_sz"
+                android:paddingBottom="@dimen/popup_content_paddingBottom"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                    <com.syte.widgets.TvRobortoRegular android:id="@+id/xTvHeading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tnc_popup_conditions"
+                        android:textColor="@color/color_popup_heading"
+                        android:textSize="@dimen/popup_heading_txt_sz"
+                        android:paddingBottom="@dimen/popup_content_paddingBottom"/>
+
+            </ScrollView>
+    </LinearLayout>-->
+    <WebView
+        android:id="@+id/xWvTnC"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"></WebView>
+
+</LinearLayout>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Splash_Activity-->
+    <dimen name="splash_welcome_text_size">22dp</dimen>
+    <dimen name="splash_welcome_layout_margin_top">150dp</dimen>
+
+    <!--Login___Common To MobileNumberEntryActivity, SignUpActivity and OTPVerificationActivity-->
+    <dimen name="login_bottom_btn_text_size">15dp</dimen>
+    <dimen name="login_bottom_btn_padding">15dp</dimen>
+    <dimen name="login_layout_left_right_margin">15dp</dimen>
+    <dimen name="login_layout_left_right_padding">12dp</dimen>
+    <dimen name="login_layout_top_bottom_padding">25dp</dimen>
+    <dimen name="login_linear_layout_margin">5dp</dimen>
+    <dimen name="login_registration_lbl_text_size">12dp</dimen>
+    <dimen name="login_registration_content_text_size">14dp</dimen>
+    <dimen name="login_margin_top_otp">20dp</dimen>
+    <dimen name="login_otp_digit_width_height">35dp</dimen>
+    <dimen name="login_otp_text_size">15dp</dimen>
+
+    <!--Map Activity-->
+    <dimen name="map_title_button_padding">15dp</dimen>
+    <dimen name="map_create_yaspas_margin">10dp</dimen>
+    <dimen name="map_search_layout_margin">8dp</dimen>
+
+    <!--Creation YasPas___Common To___Address,Details,Location Activities-->
+    <dimen name="creation_yaspas_page_title_image_padding">15dp</dimen>
+    <dimen name="creation_yaspas_page_title_text_size">16dp</dimen>
+    <dimen name="creation_yaspas_content_text_padding">5dp</dimen>
+    <dimen name="creation_yaspas_content_text_size">14dp</dimen>
+    <dimen name="creation_yaspas_content_lbl_size">12dp</dimen>
+    <dimen name="creation_yaspas_next_text_layout_padding">15dp</dimen>
+    <dimen name="creation_yaspas_scroll_layout_padding">20dp</dimen>
+    <dimen name="creation_yaspas_edittext_hide_length">-3dp</dimen>
+    <dimen name="creation_yaspas_edittext_bottom_line_width">1dp</dimen>
+    <dimen name="creation_yaspas_team_member_image_width">150dp</dimen>
+    <dimen name="creation_yaspas_team_member_image_height">200dp</dimen>
+
+    <!--YasPas DetailsActivity-->
+    <dimen name="yaspas_details_button_padding">12dp</dimen>
+    <dimen name="yaspas_details_button_margin">5dp</dimen>
+    <dimen name="yaspas_details_tab_text_size">16dp</dimen>
+    <dimen name="yaspas_details_tab_height">20dp</dimen>
+    <dimen name="yaspas_details_name_text_size">18dp</dimen>
+    <dimen name="yaspas_details_category_text_size">12dp</dimen>
+    <dimen name="yaspas_details_address_text_size">14dp</dimen>
+    <dimen name="yaspas_details_phone_padding">10dp</dimen>
+
+    <!--Bulletin_Board and AboutUs Fragment-->
+    <dimen name="bulletin_board_subject_text_size">18dp</dimen>
+    <dimen name="bulletin_board_date_text_size">15dp</dimen>
+    <dimen name="bulletin_board_body_text_size">16dp</dimen>
+    <dimen name="bulletin_board_list_item_padding">5dp</dimen>
+    <dimen name="bulletin_board_list_item_content_padding">5dp</dimen>
+    <dimen name="bulletin_board_bulletin_image_height_width">100dp</dimen>
+
+    <!--Popup-->
+    <dimen name="popup_width">250dip</dimen>
+
+    <!--My Profile-->
+    <dimen name="my_profile_layout_padding">10dp</dimen>
+    <dimen name="my_profile_image_width_height">120dp</dimen>
+    <dimen name="my_profile_name_text_size">18dp</dimen>
+    <dimen name="my_profile_text_padding">5dp</dimen>
+    <dimen name="my_profile_gender_text_size">14dp</dimen>
+    <dimen name="my_profile_button_height">30dp</dimen>
+
+
+    <!--popup-->
+    <dimen name="padding_for_text_size">10dp</dimen>
+    <dimen name="text_size_for_title">18dp</dimen>
+    <dimen name="text_size_for_content">15dp</dimen>
+    <dimen name="padding_for_text_sizeTermncindition">15dp</dimen>
+    <dimen name="text_size_for_male">14dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="indicator_height">4dp</dimen>
+    <dimen name="text_size_for_menu">10dp</dimen>
+
+    <!--NEW-->
+    <!--Images Size for server-->
+    <dimen name="cloudinary_list_image_sz">400dp</dimen>
+    <dimen name="cloudinary_user_profile_pic_image_sz">500dp</dimen>
+    <dimen name="cloudinary_syte_banner_ht">240dp</dimen>
+    <dimen name="txt_sz_16">16sp</dimen>
+    <dimen name="txt_sz_14">14sp</dimen>
+    <!--ToolBar-->
+    <dimen name="toolbar_ht">56dp</dimen>
+    <dimen name="padding_l_r">16dp</dimen>
+    <dimen name="toolbar_padding">4dp</dimen>
+    <dimen name="toolbar_icon_sz">48dp</dimen>
+    <dimen name="toolbar_icon_content_sz">24dp</dimen>
+    <dimen name="toolbar_lbl_sz">20sp</dimen>
+    <dimen name="toolbar_lbl_btm_margin">16dp</dimen>
+    <dimen name="toolbar_btm_shadow_sz">5dp</dimen>
+    <dimen name="toolbar_icon_margin">1dp</dimen>
+    <!--Pop Up-->
+    <dimen name="popup_wd">336dp</dimen>
+    <dimen name="popup_content_padding">24dp</dimen>
+    <dimen name="popup_content_paddingBottom">20dp</dimen>
+    <dimen name="popup_btn_lay_ht">52dp</dimen>
+    <dimen name="popup_btn_lay_padding">8dp</dimen>
+    <dimen name="popup_btn_min_wd">64dp</dimen>
+    <dimen name="popup_subject_txt_sz">21sp</dimen>
+    <dimen name="popup_heading_txt_sz">17sp</dimen>
+    <dimen name="popup_body_txt_sz">13sp</dimen>
+    <dimen name="popup_btn_txt_sz">15sp</dimen>
+    <dimen name="popup_btn_padding">8dp</dimen>
+    <dimen name="popup_icon_sz">24dp</dimen>
+    <!--HOME SCREEN LEFT DRAWER-->
+    <dimen name="home_screen_lft_drawer_wd">304dp</dimen>
+    <dimen name="home_screen_lft_drawer_row_1_ht">171dp</dimen>
+    <dimen name="home_screen_lft_drawer_lbl_txt_sz">16sp</dimen>
+    <dimen name="home_screen_lft_drawer_row_2_ht">48dp</dimen>
+    <dimen name="home_screen_lft_drawer_row_2_icon_lft_margin">16dp</dimen>
+    <dimen name="home_screen_lft_drawer_row_2_text_lft_margin">72dp</dimen>
+    <dimen name="home_screen_lft_drawer_row_2_icon_sz">24dp</dimen>
+    <!--Edit Text-->
+    <dimen name="edittext_small_lbl_sz">12sp</dimen>
+    <dimen name="edittext_medium_lbl_sz">16sp</dimen>
+    <dimen name="edittext_small_lbl_margin_btm">10dp</dimen>
+    <dimen name="edittext_txt_sz">16sp</dimen>
+    <dimen name="edittext_medium_txt_sz">14sp</dimen>
+    <!--OTP VERIFICATION SCREEN-->
+    <dimen name="opt_verification_pin_sz">36dp</dimen>
+    <!--SIGNUP  SCREEN-->
+    <dimen name="sign_up_profile_pic_sz">64dp</dimen>
+    <!--MAP SCREEN-->
+    <dimen name="map_screen_search_box_margin">16dp</dimen>
+    <dimen name="map_screen_search_box_padding">16dp</dimen>
+    <dimen name="map_screen_map_property_wd">200dp</dimen>
+    <dimen name="map_screen_map_property_ht">80dp</dimen>
+    <dimen name="map_screen_map_property_padding_inner">3dp</dimen>
+    <dimen name="map_screen_map_property_padding_outer">1dp</dimen>
+    <dimen name="map_screen_map_property_corner_radius">5dp</dimen>
+    <dimen name="map_screen_map_property_name_txt_sz">16sp</dimen>
+    <dimen name="map_screen_map_property_name_bulletin_sz">12sp</dimen>
+    <!--ADD SYTE LOCATION SCREEN-->
+    <dimen name="add_syte_location_edit_pin_sz">48dp</dimen>
+    <!--ADD SYTE ADDRESS SCREEN-->
+    <dimen name="add_syte_address_top_lbl_padding">30dp</dimen>
+    <dimen name="add_syte_address_top_lbl_txt_sz">14sp</dimen>
+    <dimen name="add_syte_address_page_padding">16dp</dimen>
+    <dimen name="add_syte_address_page_vertical_margin">48dp</dimen>
+    <!--ADD SYTE OTIONAL DETAILS SCREEN-->
+    <dimen name="add_syte_otional_details_image_sz">240dp</dimen>
+    <dimen name="add_syte_otional_details_add_image_ic_sz">40dp</dimen>
+    <dimen name="add_syte_otional_details_button_ht">48dp</dimen>
+    <dimen name="add_syte_otional_details_button_txt_sz">14sp</dimen>
+    <dimen name="add_syte_otional_details_unit_ht">72dp</dimen>
+    <dimen name="add_syte_otional_details_lbl2_txt_sz">14sp</dimen>
+    <dimen name="add_syte_otional_details_rht_arr_sz">14dp</dimen>
+    <!--VIEW HOLDER TEAM MEMBER-->
+    <dimen name="vw_holder_team_member_unit_ht">72dp</dimen>
+    <dimen name="vw_holder_team_member_image_sz">40dp</dimen>
+    <dimen name="vw_holder_team_member_margin_72">72dp</dimen>
+    <dimen name="vw_holder_team_member_margin_16">16dp</dimen>
+    <dimen name="vw_holder_team_member_right_icon_sz">24dp</dimen>
+    <dimen name="vw_holder_team_member_delete_btn_sz">48dp</dimen>
+    <dimen name="vw_holder_team_member_name_txt_sz">16sp</dimen>
+    <dimen name="vw_holder_team_member_designation_txt_sz">14sp</dimen>
+    <!--My Sytes Fragment-->
+    <dimen name="my_sytes_screen_add_syte_ht">48dp</dimen>
+    <dimen name="my_sytes_screen_add_syte_txt_sz">14sp</dimen>
+    <dimen name="my_sytes_item_ht">72dp</dimen>
+    <dimen name="my_sytes_item_image_layout_wd_ht">72dp</dimen>
+    <dimen name="my_sytes_item_image_wd_ht">40dp</dimen>
+    <dimen name="my_sytes_item_more_image_wd_ht">14dp</dimen>
+    <dimen name="my_sytes_item_margin">16dp</dimen>
+    <dimen name="my_sytes_item_syte_name_sz">16sp</dimen>
+    <!--My Favourite Sytes Fragment-->
+    <dimen name="my_favourite_sytes_item_ht">72dp</dimen>
+    <dimen name="my_favourite_sytes_item_image_layout_wd_ht">72dp</dimen>
+    <dimen name="my_favourite_sytes_item_image_wd_ht">40dp</dimen>
+    <dimen name="my_favourite_sytes_item_more_image_wd_ht">14dp</dimen>
+    <dimen name="my_favourite_sytes_item_margin">16dp</dimen>
+    <dimen name="my_favourite_sytes_item_syte_name_sz">16sp</dimen>
+
+    <!--SYTE DETAIL-->
+    <dimen name="syte_detail_image_ht">240dp</dimen>
+    <dimen name="syte_detail_tab_vw_pgr_ht">392dp</dimen>
+    <dimen name="syte_detail_margin_btm">32dp</dimen>
+    <dimen name="syte_detail_name_padding">16dp</dimen>
+    <dimen name="syte_detail_name_txt_sz">24sp</dimen>
+    <dimen name="syte_detail_city_txt_sz">14sp</dimen>
+    <dimen name="syte_detail_contact_info_ht">40dp</dimen>
+    <dimen name="syte_detail_contact_info_icon_sz">24dp</dimen>
+    <dimen name="syte_detail_contact_info_icon_margin">4dp</dimen>
+    <dimen name="syte_detail_txt_sz_20">20sp</dimen>
+    <dimen name="syte_detail_txt_sz_16">16sp</dimen>
+    <dimen name="syte_detail_txt_sz_14">14sp</dimen>
+    <dimen name="syte_detail_txt_sz_12">12sp</dimen>
+    <dimen name="syte_detail_bulletin_arrow_sz">24dp</dimen>
+    <dimen name="syte_detail_margin_8">8dp</dimen>
+    <dimen name="syte_detail_bulletin_img_ht">169dp</dimen>
+    <dimen name="syte_detail_bulletin_wo_img_txt_ht">216dp</dimen>
+    <!--NO DETAIL-->
+    <dimen name="no_detail_min_ht">185dp</dimen>
+    <dimen name="no_detail_padding">30dp</dimen>
+    <dimen name="no_detail_no_img_sz">80dp</dimen>
+    <dimen name="no_detail_txt_padding">16dp</dimen>
+    <dimen name="no_detail_txt_sz">16sp</dimen>
+    <!--Messages-->
+    <dimen name="messages_item_ht">88dp</dimen>
+    <dimen name="messages_item_image_layout_wd_ht">72dp</dimen>
+    <dimen name="messages_item_image_wd_ht">40dp</dimen>
+    <dimen name="messages_item_margin">16dp</dimen>
+    <dimen name="messages_item_name_sz">16sp</dimen>
+    <dimen name="messages_item_last_message_sz">14sp</dimen>
+    <dimen name="messages_item_date_time_sz">12sp</dimen>
+    <dimen name="messages_item_unread_count_sz">14sp</dimen>
+    <dimen name="messages_item_unread_count_wd">40dp</dimen>
+    <dimen name="messages_item_unread_count_bg_padding_left_right">8dp</dimen>
+    <dimen name="messages_item_unread_count_bg_padding_top_bottom">3dp</dimen>
+    <dimen name="messages_item_unread_count_bg_corner_radius">12dp</dimen>
+    <!--Notifications-->
+    <dimen name="notification_item_ht">88dp</dimen>
+    <dimen name="notification_item_image_layout_wd_ht">72dp</dimen>
+    <dimen name="notification_item_image_wd_ht">40dp</dimen>
+    <dimen name="notification_item_margin">16dp</dimen>
+    <dimen name="notification_item_message_sz">16sp</dimen>
+    <dimen name="notification_item_date_time_sz">12sp</dimen>
+    <dimen name="notification_item_delete_wd_ht">24dp</dimen>
+    <dimen name="notification_clear_now_button_txt_sz">14sp</dimen>
+    <!--Private Chat-->
+    <dimen name="private_chat_send_sz">14sp</dimen>
+    <dimen name="private_chat_send_padding">10dp</dimen>
+    <dimen name="private_chat_message_layout_padding">8dp</dimen>
+    <dimen name="private_chat_message_edittext_padding">5dp</dimen>
+    <dimen name="private_chat_message_edittext_sz">14sp</dimen>
+    <dimen name="private_chat_message_time_sz">12sp</dimen>
+    <dimen name="private_chat_message_bg_corner">10dp</dimen>
+    <dimen name="private_chat_message_text_padding">10dp</dimen>
+    <dimen name="private_chat_message_time_padding">3dp</dimen>
+    <dimen name="private_chat_list_padding">16dp</dimen>
+    <dimen name="private_chat_message_layout_margin">50dp</dimen>
+    <dimen name="private_chat_message_read_status_wd_ht">16dp</dimen>
+    <!--Edit Profile-->
+    <dimen name="edit_profile_image_sz">240dp</dimen>
+    <dimen name="edit_profile_page_vertical_margin">48dp</dimen>
+    <dimen name="edit_profile_page_padding">16dp</dimen>
+
+    <!--Syte Team Member Details-->
+    <dimen name="syte_team_member_details_image_sz">240dp</dimen>
+    <dimen name="syte_team_member_details_page_vertical_margin">48dp</dimen>
+    <dimen name="syte_team_member_details_page_padding">16dp</dimen>
+
+    <!--PROFILE IMAGES DIMEN-->
+    <dimen name="profile_image_wd">2880dp</dimen>
+    <dimen name="profile_image_ht">960dp</dimen>
+    <!--Syte Follower Details-->
+    <dimen name="syte_follower_details_image_sz">240dp</dimen>
+    <dimen name="syte_follower_details_page_vertical_margin">48dp</dimen>
+    <dimen name="syte_follower_details_page_padding">16dp</dimen>
+    <!--Settings-->
+    <dimen name="settings_page_vertical_padding">50dp</dimen>
+    <dimen name="settings_page_horizontal_padding">16dp</dimen>
+    <dimen name="settings_content_lbl_txt_sz">12dp</dimen>
+    <dimen name="settings_content_txt_sz">16dp</dimen>
+    <dimen name="settings_img_lay_wd">72dp</dimen>
+    <dimen name="settings_img_wd_ht">24dp</dimen>
+    <dimen name="settings_separator_ht">10dp</dimen>
+    <!--Analytics-->
+    <dimen name="syte_analytics_page_padding">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+</resources>

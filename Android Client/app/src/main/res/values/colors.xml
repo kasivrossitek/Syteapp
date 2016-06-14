@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#119789</color> <!--Title Bar-->
+    <color name="colorPrimaryTransparent">#335f50e1</color>
+    <color name="colorPrimaryDark">#096A60</color> <!--Status Bar-->
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#E0E0E0</color> <!--TextInputLayout-->
+
+
+
+    <!-- A light Holo shade of blue -->
+    <color name="holo_blue_light">#ff33b5e5</color>
+    <!-- A light Holo shade of gray -->
+    <color name="holo_gray_light">#33999999</color>
+    <!-- A light Holo shade of green -->
+    <color name="holo_green_light">#ff99cc00</color>
+    <!-- A light Holo shade of red -->
+    <color name="holo_red_light">#ffff4444</color>
+    <!-- A dark Holo shade of blue -->
+    <color name="holo_blue_dark">#ff0099cc</color>
+    <!-- A dark Holo shade of green -->
+    <color name="holo_green_dark">#ff669900</color>
+    <!-- A dark Holo shade of red -->
+    <color name="holo_red_dark">#ffcc0000</color>
+    <!-- A Holo shade of purple -->
+    <color name="holo_purple">#ffaa66cc</color>
+    <!-- A light Holo shade of orange -->
+    <color name="holo_orange_light">#ffffbb33</color>
+    <!-- A dark Holo shade of orange -->
+    <color name="holo_orange_dark">#ffff8800</color>
+    <!-- A really bright Holo shade of blue -->
+    <color name="holo_blue_bright">#ff00ddff</color>
+    <!-- A really bright Holo shade of gray -->
+    <color name="holo_gray_bright">#33CCCCCC</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="btm_bar_bg_color">#FD9827</color>
+
+
+    <color name="page_title_bg_color">#119789 </color>
+    <color name="page_title_text_color">#FFFFFF </color>
+    <color name="page_bg_color">#FFFFFF </color>
+    <color name="black">#000000 </color>
+    <color name="edittext_lable_color">#FF9100 </color>
+
+    <!--19-01-16 - Khalid-->
+    <!--Add Bulletin-->
+    <color name="addBulletin_topbar_color">#119789 </color>
+    <color name="addBulletin_topbar_heading_color">#FFFFFF </color>
+
+    <!--NEW NEW-->
+    <!--COMMON-->
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_orange">#FF9100</color>
+    <color name="color_dark_orange">#CF7702</color>
+    <!--PopUp-->
+    <color name="color_popup_subject">#1F1F1F</color>
+    <color name="color_popup_heading">#6F6F6F</color>
+    <color name="color_popup_body">#6F6F6F</color>
+    <color name="color_popup_btn">#119789</color>
+    <!--EDIT TEXT-->
+    <color name="color_edit_lbl">#89000000</color> <!--54%-->
+    <color name="color_edit_hint">#42000000</color> <!--26%-->
+    <color name="color_edit_text">#DD000000</color> <!--87%-->
+    <!--BLACK COLOR SHADES-->
+    <color name="color_black_opacity_12">#1E000000</color>
+    <color name="color_black_opacity_26">#42000000</color>
+    <color name="color_black_opacity_54">#89000000</color>
+    <color name="color_black_opacity_87">#DD000000</color>
+    <color name="color_white_opacity_54">#89FFFFFF</color>
+    <!--TEXTVIEW BG COLOR-->
+    <color name="color_txtvw_top_lbl_bg">#F5F5F5</color>
+
+    <color name="my_sytes_add_syte_bg">#FE8A14 </color>
+    <color name="color_white_opacity_87">#DDFFFFFF</color>
+    <!--Private Chat-->
+    <color name="color_private_chat_own_message_bg">#FFE9CC </color>
+    <color name="color_private_chat_opponent_message_bg">#EEEEEE </color>
+
+</resources>

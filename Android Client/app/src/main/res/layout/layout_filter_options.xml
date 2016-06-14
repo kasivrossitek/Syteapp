@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/dialog_holo_light_frame">
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTv5Km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Within 5 KMs"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+        android:singleLine="true"
+        android:padding="@dimen/vw_holder_team_member_name_txt_sz"/>
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTv10Km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Within 10 KMs"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+        android:singleLine="true"
+        android:padding="@dimen/vw_holder_team_member_name_txt_sz"/>
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTv25Km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Within 25 KMs"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+        android:singleLine="true"
+        android:padding="@dimen/vw_holder_team_member_name_txt_sz"/>
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTv50Km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Within 50 KMs"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+        android:singleLine="true"
+        android:padding="@dimen/vw_holder_team_member_name_txt_sz"/>
+
+</LinearLayout>
