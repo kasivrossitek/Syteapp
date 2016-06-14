@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/private_chat_list_padding"
+    android:paddingRight="@dimen/private_chat_list_padding"
+    android:paddingTop="@dimen/private_chat_message_text_padding"
+    android:layout_marginRight="@dimen/private_chat_message_layout_margin"
+    android:orientation="vertical">
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_opponent_messages"
+        android:padding="@dimen/private_chat_message_text_padding"
+        android:text="te  dslkfajlj jksadljfs fdsajfklhfds fdsajfklhfds fdsajfklhfds fdsajfklhfds ytytyutuytfasutuytfastftuyasttutdastyutuysd"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/private_chat_message_edittext_sz"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:orientation="horizontal">
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mar 21, 2016 11:30 PM"
+            android:padding="@dimen/private_chat_message_time_padding"
+            android:textColor="@color/color_black_opacity_26"
+            android:textSize="@dimen/private_chat_message_time_sz"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

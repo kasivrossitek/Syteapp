@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="@dimen/map_screen_map_property_wd"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:id="@+id/xLinLayContent"
+        android:layout_width="@dimen/map_screen_map_property_wd"
+        android:layout_height="@dimen/map_screen_map_property_ht"
+        android:background="@drawable/background_map_property_window"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="7dp"
+        android:elevation="5dp">
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvYasPasName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/map_screen_map_property_name_txt_sz"
+            android:textColor="#000000"
+            android:text="name long name name name"
+            android:singleLine="true"/>
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvLatestBullentinSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/map_screen_map_property_name_bulletin_sz"
+            android:textColor="#000000"
+            android:layout_marginTop="@dimen/map_screen_map_property_padding_inner"
+            android:text="wewlj kljwkewrjkl kljewjkjlkew lkjlkjewjl ewkjlkjklewj jkjew jjlkjew jewkl j ew"
+            android:maxLines="2"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:src="@drawable/ic_home_pop_up_arrow"
+        android:layout_below="@+id/xLinLayContent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-6dp"
+        android:elevation="5dp"/>
+
+</RelativeLayout>

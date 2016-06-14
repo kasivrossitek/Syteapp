@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/dialog_holo_light_frame">
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvClaimThisSyte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Claim this Syte"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+        android:singleLine="true"
+        android:padding="@dimen/vw_holder_team_member_name_txt_sz"/>
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/map_screen_search_box_margin"
+    android:paddingRight="@dimen/map_screen_search_box_margin"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:padding="@dimen/map_screen_search_box_padding">
+        <!--<com.syte.widgets.EditTextLblSmall
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/map_screen_search_box_lbl1"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+                <com.syte.widgets.EtRobortoRegular
+                    android:id="@+id/xEtSearchInput"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:hint="@string/map_screen_search_box_hint"
+                    android:singleLine="true"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_btm_shadow_sz"
+        android:background="@drawable/shadow"/>
+
+</LinearLayout>
