@@ -2,6 +2,8 @@ package com.syte.activities;
 
 
 import android.app.Dialog;
+
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +34,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.syte.R;
+
+
 import com.syte.YasPasApp;
 import com.syte.fragments.HomeBulletinFragment;
 import com.syte.fragments.MapFragment;
@@ -49,11 +53,11 @@ import com.syte.utils.YasPasMessages;
 import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.CustomDialogs;
 
-
 /**
  * Created by khalid.p on 08-02-2016.
  */
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, OnCustomDialogsListener, OnLocationListener {
+
     //Hamburger Drawer Menu Items
     private RelativeLayout mRelLayHome, mRelLayMySytes, mRelLayMyFriends, mRelLayMyMessages, mRelLayMyFavouriteSytes, mRelLayContactSupport, mRelLaySettings, mRelLayMap;
     private DrawerLayout mDrawerLayout;
@@ -65,8 +69,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     //Action Bar Items
     private RelativeLayout mRelLayHamBurger, mRelLayNotification, mRelLayFavourite, mRelLaySearch, mRelLayFilter, mRellayTop, mRelLaySwitch;
     private ImageView mIvFavourite, mIvNotificationIcon, mIvSwitch;
-    public static TextView mPageTitle;
-    public static Fragment mCurrentFragment;
+    private TextView mPageTitle;
+    private Fragment mCurrentFragment;
     //Others
     private Bundle mBun;
     private YasPasPreferences mYasPasPref;
@@ -134,11 +138,24 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
             showFavourite_Search_Filter_Icon(false, false, false, false, false);
         } else if (getIntent().getExtras().getInt(StaticUtils.IPC_HOME_STARTING_FRAGMENT) == StaticUtils.HOME_STARTING_FRAG_CHAT) {
-            mPageTitle.setText(getString(R.string.my_messages_screen_page_title));
-            mCurrentFragment = new MyMessagesNewFragment();
+            mBun.putString(StaticUtils.IPC_ONGOING_CHAT_ID, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_ID));
+            mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SYTE_ID, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SYTE_ID));
+            mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SENDERTYPE, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SENDERTYPE));
+            mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SENDERNUM, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SENDERNUM));
+            mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SENDERNAME, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SENDERNAME));
+
+                        /*mPageTitle.setText(getString(R.string.my_messages_screen_page_title))
+                        mCurrentFragment = new MyMessagesNewFragment();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
+                        showFavourite_Search_Filter_Icon(false, false, false,false,true);*/
+
+            mPageTitle.setText(getString(R.string.home_bulletin_screen_page_title));
+            mCurrentFragment = new HomeBulletinFragment();
+            mCurrentFragment.setArguments(mBun);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
-            showFavourite_Search_Filter_Icon(false, false, false, false, true);
+            showFavourite_Search_Filter_Icon(true, false, true, true, true);
         } else {
             mPageTitle.setText(getString(R.string.home_bulletin_screen_page_title));
             mCurrentFragment = new HomeBulletinFragment();
@@ -184,16 +201,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             LocalBroadcastManager.getInstance(this).unregisterReceiver(brdcstChatMessages);
         }
 
-    }
-
-    //kasi
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     private void mInItWidgets() {
@@ -324,20 +331,21 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 break;
             }
             case R.id.xRelLayMyFriends: {
-              /*  if (!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof MyFriendsFragment)) {
-                    mPageTitle.setText(getString(R.string.my_friends_screen_page_title));
-                    mCurrentFragment = new MyFriendsFragment();
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
-                }
-               */
-                // showSearchFavouriteIcons(false);
+                                /*if (!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof MyFriendsFragment))
+                                {
+                                    mPageTitle.setText(getString(R.string.my_friends_screen_page_title));
+                                    mCurrentFragment = new MyFriendsFragment();
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
+                                }
+                                showSearchFavouriteIcons(false);*/
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 Intent sendIntent = new Intent(Intent.ACTION_VIEW);
                 String smsMsg = "Hi I am using Syte App. Create your own free Syte & start managing it. Download : https://play.google.com/store/apps/details?id=com.syte";
                 sendIntent.putExtra("sms_body", smsMsg);
                 sendIntent.setType("vnd.android-dir/mms-sms");
                 startActivity(sendIntent);
+
                 break;
             }
             case R.id.xRelLayMyMessages: {
@@ -363,6 +371,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 break;
             }
             case R.id.xRelLayContactSupport: {
+
                                 /*if (!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof ContactSupportFragment))
                                 {
                                     mPageTitle.setText(getString(R.string.contact_support_screen_page_title));
@@ -373,6 +382,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                                 showFavourite_Search_Filter_Icon(false, false, false,false,true);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 break;*/
+
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 Intent intentReportABugActivity = new Intent(HomeActivity.this, ReportABugActivity.class);
                 startActivity(intentReportABugActivity);
@@ -503,6 +513,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+
     @Override
     public void onLocationManagerConnected() {
 
@@ -582,28 +593,36 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         final TextView mTv50Km = (TextView) window.findViewById(R.id.xTv50Km);
 
         if (distance == 5) {
+
             mTv5Km.setBackgroundColor(Color.parseColor("#F5F5F5"));
             mTv10Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv25Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv50Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
         }
         if (distance == 10) {
+
             mTv5Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv10Km.setBackgroundColor(Color.parseColor("#F5F5F5"));
             mTv25Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv50Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
         }
         if (distance == 25) {
+
             mTv5Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv10Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv25Km.setBackgroundColor(Color.parseColor("#F5F5F5"));
             mTv50Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
         }
         if (distance == 50) {
+
             mTv5Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv10Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv25Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
             mTv50Km.setBackgroundColor(Color.parseColor("#F5F5F5"));
+
         }
 
         mTv5Km.setOnClickListener(new View.OnClickListener() {
@@ -619,7 +638,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     mDialog.dismiss();
                     if (distance != 5) {
 
-                        homeBulletinFragment.setNewGeoLoc(5);
+                        homeBulletinFragment.setNewGeoLoc(5, false);
                     }
                 } else {
                     mDialog.dismiss();
@@ -638,7 +657,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     mTv50Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
                     mDialog.dismiss();
                     if (distance != 10) {
-                        homeBulletinFragment.setNewGeoLoc(10);
+                        homeBulletinFragment.setNewGeoLoc(10, false);
                     }
                 } else {
                     mDialog.dismiss();
@@ -657,7 +676,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     mTv50Km.setBackgroundColor(Color.parseColor("#FFFFFF"));
                     mDialog.dismiss();
                     if (distance != 25) {
-                        homeBulletinFragment.setNewGeoLoc(25);
+                        homeBulletinFragment.setNewGeoLoc(25, false);
                     }
                 } else {
                     mDialog.dismiss();
@@ -676,7 +695,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     mTv50Km.setBackgroundColor(Color.parseColor("#F5F5F5"));
                     mDialog.dismiss();
                     if (distance != 50) {
-                        homeBulletinFragment.setNewGeoLoc(50);
+                        homeBulletinFragment.setNewGeoLoc(50, false);
                     }
                 } else {
                     mDialog.dismiss();
@@ -684,4 +703,5 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             }
         });
     }// END showMenuSettingsPopup()
+
 } // END HomeActivity()

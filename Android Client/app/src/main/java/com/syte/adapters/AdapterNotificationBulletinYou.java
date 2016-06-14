@@ -30,7 +30,9 @@ import java.util.ArrayList;
 /**
  * Created by khalid.p on 15-02-2016.
  */
+
 public class AdapterNotificationBulletinYou extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnCustomDialogsListener {
+
     private ArrayList<BulletinBoardPush> mNotifications;
     private ArrayList<String> mNotficationKeyLst;
     private Cloudinary mCloudinary;
@@ -142,13 +144,16 @@ public class AdapterNotificationBulletinYou extends RecyclerView.Adapter<Recycle
     @Override
     public void onDialogLeftBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish) {
         if (paramDialogType == CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("NoNw")) {
+
             // Do nothing
         }
     }
 
     @Override
+
     public void onDialogRightBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish) {
         if (paramDialogType == CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("NoNw")) {
+
             mContext.startActivity(new Intent(Settings.ACTION_SETTINGS));
         }
     }

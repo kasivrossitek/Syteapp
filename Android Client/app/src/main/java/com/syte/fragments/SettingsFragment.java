@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.syte.BuildConfig;
 import com.syte.R;
 import com.syte.activities.ReportABugActivity;
+
+import com.syte.activities.walkthrough.WalkThroughSettingsActivity;
+
 import com.syte.utils.YasPasPreferences;
 
 /**
@@ -40,6 +43,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
             mPref = YasPasPreferences.GET_INSTANCE(getActivity());
             mRootView.findViewById(R.id.xRelLaySendFeedback).setOnClickListener(this);
+
+            mRootView.findViewById(R.id.xRelLayWalkthrough).setOnClickListener(this);
+
             mTvAppVersion = (TextView) mRootView.findViewById(R.id.xTvAppVersion);
             mCbNotificationOnOff = (CheckBox) mRootView.findViewById(R.id.xCbNotificationOnOff);
             mCbNotificationOnOff.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Regular.ttf"));
@@ -59,6 +65,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                     startActivity(intentReportABugActivity);
                     break;
                 }
+
+                case R.id.xRelLayWalkthrough:
+                {
+                    Intent intentWalkThroughSettingsActivity = new Intent(getActivity(), WalkThroughSettingsActivity.class);
+                    startActivity(intentWalkThroughSettingsActivity);
+                    break;
+                }
+
 
                 default:break;
             }

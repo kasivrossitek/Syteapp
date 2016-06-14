@@ -114,7 +114,8 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/xLinLayLeft2"
+
+                        android:id="@+id/xLinLayLeft21"
                         android:layout_width="@dimen/settings_img_lay_wd"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -129,7 +130,7 @@
                     <com.syte.widgets.TvRobortoRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/xLinLayLeft2"
+                        android:layout_toRightOf="@+id/xLinLayLeft21"
                         android:text="@string/settings_send_feedback_txt"
                         android:textColor="@color/color_black_opacity_87"
                         android:textSize="@dimen/settings_content_txt_sz"/>
@@ -144,6 +145,73 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
+            <!--KP-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_separator_ht"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginRight="-2dp"
+                android:background="@drawable/background_settings_separator"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/settings_page_vertical_padding"
+                android:paddingLeft="@dimen/settings_page_horizontal_padding"
+                android:paddingRight="@dimen/settings_page_horizontal_padding"
+                android:paddingTop="@dimen/settings_page_vertical_padding">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_walkthrough_lbl_txt"
+                    android:textColor="@color/color_black_opacity_54"
+                    android:textSize="@dimen/settings_content_lbl_txt_sz"/>
+
+                <RelativeLayout
+                    android:id="@+id/xRelLayWalkthrough"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_page_vertical_padding"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/xLinLayLeft2"
+                        android:layout_width="@dimen/settings_img_lay_wd"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/help"/>
+
+                    </LinearLayout>
+
+                    <com.syte.widgets.TvRobortoRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/xLinLayLeft2"
+                        android:text="@string/settings_walkthrough_txt"
+                        android:textColor="@color/color_black_opacity_87"
+                        android:textSize="@dimen/settings_content_txt_sz"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                        android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_my_sytes_more_arrow"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--END KP-->
 
             <View
                 android:layout_width="match_parent"

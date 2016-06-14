@@ -3,6 +3,10 @@ package com.syte.services;
 import android.app.Service;
 import android.content.Intent;
 import android.database.Cursor;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import android.os.AsyncTask;
 import android.os.IBinder;
 
@@ -17,9 +21,16 @@ import com.syte.utils.StaticUtils;
 import com.syte.utils.YasPasPreferences;
 
 import java.io.File;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 
 public class MediaUploadService extends Service
     {
@@ -135,12 +146,112 @@ public class MediaUploadService extends Service
                         stopSelf();
                     }
             }
+
+
+        /* SK start function */
+
+
+        public File saveBitmapToFile1(String filePath) {
+            File file = new File(filePath);
+
+            try {
+
+                // BitmapFactory options to downsize the image
+                               BitmapFactory.Options o = new BitmapFactory.Options();
+                o.inJustDecodeBounds = true;
+                o.inSampleSize = 2;
+                // factor of downsizing the image
+
+                FileInputStream inputStream = new FileInputStream(file);
+                //Bitmap selectedBitmap = null;
+                BitmapFactory.decodeStream(inputStream, null, o);
+                inputStream.close();
+
+                // The new size we want to scale to
+                final int REQUIRED_SIZE=75;
+
+                // Find the correct scale value. It should be the power of 2.
+                int scale = 1;
+                while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                        o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                    scale *= 2;
+                }
+
+                BitmapFactory.Options o2 = new BitmapFactory.Options();
+                o2.inSampleSize = scale;
+                inputStream = new FileInputStream(file);
+
+                Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
+                inputStream.close();
+
+                File tmpFile = File.createTempFile(UUID.randomUUID().toString(), ".jpg", getApplicationContext().getCacheDir()); // Saving the file
+                FileOutputStream outputStream = new FileOutputStream(tmpFile);
+
+                selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
+
+                return tmpFile;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+
+        public File saveBitmapToFile2(String filePath) {
+            File imageFile = new File(filePath);
+
+            try {
+
+                InputStream inFileStream = new FileInputStream(imageFile);
+
+                Bitmap bitmap = BitmapFactory.decodeStream(inFileStream);
+
+                File tmpFile = File.createTempFile(UUID.randomUUID().toString(), ".jpg", getApplicationContext().getCacheDir());
+
+
+                OutputStream outFileStream = new FileOutputStream(tmpFile);
+                try {
+                    if (bitmap.compress(Bitmap.CompressFormat.JPEG, 20, outFileStream)) {
+                        {
+//                            File tmp = imageFile;
+//                            imageFile = tmpFile;
+//                            tmpFile = tmp;
+                            return tmpFile;
+                        }
+                        //tmpFile.delete();
+                    } else {
+                        throw new Exception("Failed to save the image as a JPEG");
+                    }
+                } finally {
+                    outFileStream.close();
+                    inFileStream.close();
+
+                }
+
+            } catch (Throwable t) {
+
+                //throw t;
+                return null;
+            }
+            //}catch (FileNotFoundException ex){
+            //      throw ex;
+            // }
+            //finally {
+            //}
+
+
+        }
+
+        /* SK End function */
+
         private String mUploadeImage(String filePath)
             {
                 System.out.println("filePath "+ filePath);
                 Map result = new HashMap();
                 String cloudinarId="";
-                File imageFile = new File(filePath);
+      //File imageFile = new File(filePath);
+
+                File imageFile = saveBitmapToFile1(filePath);
+
                 try
                     {
                         result = mCloudinary.uploader().upload(imageFile, ObjectUtils.emptyMap());
@@ -158,6 +269,11 @@ public class MediaUploadService extends Service
                         e.printStackTrace();
                         cloudinarId="";
                     }
+
+                finally {
+                    imageFile.delete();
+                }
+
                 System.out.println("cloudinarId "+ cloudinarId);
                 return cloudinarId;
             }// END mUploadeImage()
@@ -235,4 +351,5 @@ public class MediaUploadService extends Service
                             }
                     });
             }// END mUpdateTeamMember()
+
     }

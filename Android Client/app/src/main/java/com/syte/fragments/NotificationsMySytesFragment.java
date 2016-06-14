@@ -59,6 +59,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
     // Claim Syte
     private YasPasPush claimedYasPasPush;
     private String claimedYasPasPushKey;
+
     //Invite to follow Syte by kasi on 4/6/10
     private YasPasPush invitedYasPasPush;
     private String invitedYasPasPushKey;
@@ -67,14 +68,17 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         mRootView = inflater.inflate(R.layout.fragment_notification_my_sytes, container, false);
         return mRootView;
     }
 
     @Override
+
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mYasPasPref = YasPasPreferences.GET_INSTANCE(getActivity());
+
         mNetworkStatus = new NetworkStatus(getActivity());
         mPref = YasPasPreferences.GET_INSTANCE(getActivity());
         mCustomDialogs = CustomDialogs.CREATE_DIALOG(getActivity(), this);
@@ -92,6 +96,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
     }
 
     @Override
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.xTvClearNow: {
@@ -107,6 +112,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
                         }
                     });
                 } else {
+
                     mCustomDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", false, false);
                 }
 
@@ -189,10 +195,12 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
     private class MySytesNotificationDataChangeListener implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
+
             mNotificationLst.clear();
             mNotificatinKeyLst.clear();
 
             Iterator<DataSnapshot> it = dataSnapshot.getChildren().iterator();
+
             while (it.hasNext()) {
                 DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
                 YasPasPush notificationBulletIn = dataSnapshot1.getValue(YasPasPush.class);
@@ -200,10 +208,12 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
                 mNotificatinKeyLst.add(dataSnapshot1.getKey());
             }
 
+
             if (mAdapterNotificationMySytes == null) {
                 mAdapterNotificationMySytes = new AdapterNotificationFollowMySytes(getActivity(), NotificationsMySytesFragment.this, mNotificatinKeyLst, mNotificationLst, ((int) (getResources().getDimension(R.dimen.cloudinary_list_image_sz) / getResources().getDisplayMetrics().density)));
                 mRvNotifications.setAdapter(mAdapterNotificationMySytes);
             } else {
+
                 mAdapterNotificationMySytes.notifyDataSetChanged();
             }
 
@@ -213,7 +223,9 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
         }
 
         @Override
+
         public void onCancelled(FirebaseError firebaseError) {
+
 
         }
     }
@@ -228,6 +240,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
         mFBaseNotificationMyYaspasRef.child(followNotificationKey).removeValue(new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+
                 if (mProgressDialog != null)
                     mProgressDialog.dismiss();
             }
@@ -253,6 +266,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
 
     @Override
     public void onResume() {
+
         super.onResume();
 
         mRvNotifications = (RecyclerView) mRootView.findViewById(R.id.xRvNotifications);
@@ -265,6 +279,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
         if (mNetworkStatus.isNetworkAvailable()) {
             mTvCenterLbl.setVisibility(View.GONE);
         } else {
+
             mTvCenterLbl.setText(YasPasMessages.NO_INTERNET_ERROR_MESSAGE);
             mTvCenterLbl.setVisibility(View.VISIBLE);
         }
@@ -295,7 +310,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
         hashMap.put("syteName", "");
         hashMap.put("bulletinDateTime", ServerValue.TIMESTAMP);
         hashMap.put("pushType", StaticUtils.HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_REJECTED);
-        hashMap.put("registeredNum",  invitedYasPasPush.getSyteOwner());
+        hashMap.put("registeredNum", invitedYasPasPush.getSyteOwner());
 
 
         firebasePushNotification.push().setValue(hashMap, new Firebase.CompletionListener() {
@@ -322,7 +337,7 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
         hashMap.put("syteName", "");
         hashMap.put("bulletinDateTime", ServerValue.TIMESTAMP);
         hashMap.put("pushType", StaticUtils.HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_ACCEPTED);
-        hashMap.put("registeredNum",  invitedYasPasPush.getSyteOwner());
+        hashMap.put("registeredNum", invitedYasPasPush.getSyteOwner());
 
 
         firebasePushNotification.push().setValue(hashMap, new Firebase.CompletionListener() {
@@ -453,3 +468,4 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
         });
     }// END mClaimSyteRequestAccepted()
 }
+

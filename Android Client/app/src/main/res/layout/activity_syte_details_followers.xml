@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/xRelLayMain"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/xRelLayMain"
+
     android:background="@color/color_white">
     <!--TOP BAR-->
     <RelativeLayout
@@ -23,7 +25,8 @@
                 android:layout_width="@dimen/toolbar_icon_content_sz"
                 android:layout_height="@dimen/toolbar_icon_content_sz"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_action_bar_back_btn" />
+
+                android:src="@drawable/ic_action_bar_back_btn"/>
         </RelativeLayout>
 
         <com.syte.widgets.TvRobortoRegular
@@ -91,4 +94,5 @@
         android:textColor="@color/color_white"
         android:textSize="@dimen/add_syte_otional_details_button_txt_sz"
         android:visibility="visible" />
+
 </RelativeLayout>

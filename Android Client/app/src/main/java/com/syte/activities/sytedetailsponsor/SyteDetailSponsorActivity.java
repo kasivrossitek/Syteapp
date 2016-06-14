@@ -84,12 +84,12 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
     private AboutUs aboutUs;
     private WhatWeDo whatWeDo;
     //TOOLBAR SPONSOR SPECIFIC
-    private RelativeLayout mRelLayBackSponsor, mRelLayEditSyte, mRelLayFollowers, mRelLayAnalytics,mRelLayChat,mRelLayMenuSettings,mRellayTopBarSponsor;
+    private RelativeLayout mRelLayBackSponsor, mRelLayEditSyte, mRelLayFollowers, mRelLayAnalytics, mRelLayChat, mRelLayMenuSettings, mRellayTopBarSponsor;
     //SYTE INFO
     private TextView mTvSyteName, mTvSyteCity;
     private ImageView mIvSyteBanner;
     private ProgressBar mPbSyteBannerImage;
-    private LinearLayout mLinLaySyteCategory,mLinLaySyteCategoryMain;
+    private LinearLayout mLinLaySyteCategory, mLinLaySyteCategoryMain;
     //SYTE ABOUT US, TEAM MEMBERS, WHAT WE DO
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -121,11 +121,12 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mPrgDia.show();
         mFirebaseGenInfo.addValueEventListener(eventListenerGenInfo);
     } // END onResume()
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mIvSyteBanner.setImageResource(0);
-        mIvSyteBanner=null;
+        mIvSyteBanner = null;
 
     } // END onResume()
 
@@ -144,7 +145,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mPrgDia.setMessage(getString(R.string.prg_bar_wait));
         mPrgDia.setCancelable(false);
 
-        mDisImgOpt= new DisplayImageOptions.Builder()
+        mDisImgOpt = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
@@ -168,11 +169,11 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mRelLayFollowers.setOnClickListener(this);
         mRelLayAnalytics = (RelativeLayout) findViewById(R.id.xRelLayAnalytics);
         mRelLayAnalytics.setOnClickListener(this);
-        mRelLayChat= (RelativeLayout) findViewById(R.id.xRelLayChat);
+        mRelLayChat = (RelativeLayout) findViewById(R.id.xRelLayChat);
         mRelLayChat.setOnClickListener(this);
         mRelLayMenuSettings = (RelativeLayout) findViewById(R.id.xRelLayMenuSettings);
         mRelLayMenuSettings.setOnClickListener(this);
-        mRellayTopBarSponsor=(RelativeLayout)findViewById(R.id.xRellayTopBarSponsor);
+        mRellayTopBarSponsor = (RelativeLayout) findViewById(R.id.xRellayTopBarSponsor);
         //SYTE INFO
         mTvSyteName = (TextView) findViewById(R.id.xTvSyteName);
         mTvSyteCity = (TextView) findViewById(R.id.xTvSyteCity);
@@ -181,7 +182,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mPbSyteBannerImage = (ProgressBar) findViewById(R.id.xPbBannerImage);
         // SYTE CATEGORY
         mLinLaySyteCategory = (LinearLayout) findViewById(R.id.xLinLaySyteCategory);
-        mLinLaySyteCategoryMain=(LinearLayout)findViewById(R.id.xLinLaySyteCategoryMain);
+        mLinLaySyteCategoryMain = (LinearLayout) findViewById(R.id.xLinLaySyteCategoryMain);
         // ABOUT US, TEAM MEMBERS, WHAT WE DO
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(2);
@@ -193,8 +194,8 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mLinLaySytePhone.setOnClickListener(this);
         mLinLayContactUs = (LinearLayout) findViewById(R.id.xLinLayContactUs);
         mLinLayContactUs.setOnClickListener(this);
-        mTvMobileNumber=(TextView)findViewById(R.id.xTvMobileNumber);
-        mIvPhIcn=(ImageView)findViewById(R.id.xIvPhIcn);
+        mTvMobileNumber = (TextView) findViewById(R.id.xTvMobileNumber);
+        mIvPhIcn = (ImageView) findViewById(R.id.xIvPhIcn);
     }// END mInItWidgets()
 
     @Override
@@ -205,89 +206,79 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 finish();
                 break;
             }
-            case R.id.xRelLayEditSyte:
-                {
-                    Intent mInt_EditSyte = new Intent(SyteDetailSponsorActivity.this, EditSyteMainActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(StaticUtils.IPC_SYTE_ID,mSyteId);
-                    bundle.putParcelable(StaticUtils.IPC_SYTE,mSyte);
-                    mInt_EditSyte.putExtras(bundle);
-                    startActivity(mInt_EditSyte);
-                    break;
-                }
-            case R.id.xRelLayFollowers:
-                {
-                    Intent mInt_Followers = new Intent(SyteDetailSponsorActivity.this, SyteDetailFollowersActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(StaticUtils.IPC_SYTE_ID,mSyteId);
-                    bundle.putParcelable(StaticUtils.IPC_SYTE,mSyte);
-                    mInt_Followers.putExtras(bundle);
-                    startActivity(mInt_Followers);
-                    break;
-                }
-            case R.id.xRelLayAnalytics:
-                {
-                    Intent mInt_Analytics = new Intent(this, SyteAnalyticsActivity.class);
-                    mInt_Analytics.putExtra(StaticUtils.IPC_SYTE_ID, mSyteId);
-                    startActivity(mInt_Analytics);
-                    break;
-                }
-            case R.id.xLinLaySytePhone:
-                {
+            case R.id.xRelLayEditSyte: {
+                Intent mInt_EditSyte = new Intent(SyteDetailSponsorActivity.this, EditSyteMainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
+                bundle.putParcelable(StaticUtils.IPC_SYTE, mSyte);
+                mInt_EditSyte.putExtras(bundle);
+                startActivity(mInt_EditSyte);
+                break;
+            }
+            case R.id.xRelLayFollowers: {
+                Intent mInt_Followers = new Intent(SyteDetailSponsorActivity.this, SyteDetailFollowersActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
 
-                    if(mSyte.getMobileNo().trim().length()>0)
-                        {
-                            String number = "tel:" + mSyte.getMobileNo();
-                            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(number));
-                            if (ActivityCompat.checkSelfPermission(SyteDetailSponsorActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
-                                return;
-                            }
-                            startActivity(callIntent);
-                        }
-                    break;
+                bundle.putParcelable(StaticUtils.IPC_SYTE, mSyte);
+
+                mInt_Followers.putExtras(bundle);
+                startActivity(mInt_Followers);
+                break;
+            }
+            case R.id.xRelLayAnalytics: {
+                Intent mInt_Analytics = new Intent(this, SyteAnalyticsActivity.class);
+                mInt_Analytics.putExtra(StaticUtils.IPC_SYTE_ID, mSyteId);
+                startActivity(mInt_Analytics);
+                break;
+            }
+            case R.id.xLinLaySytePhone: {
+
+                if (mSyte.getMobileNo().trim().length() > 0) {
+                    String number = "tel:" + mSyte.getMobileNo();
+                    Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(number));
+                    if (ActivityCompat.checkSelfPermission(SyteDetailSponsorActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(callIntent);
                 }
+                break;
+            }
             case R.id.xLinLayContactUs: {
                 showContactInfoPopup();
                 break;
             }
-            case R.id.xRelLayChat:
-                {
-                    if(mNetworkStatus.isNetworkAvailable())
-                    {
-                        Bundle bundle = new Bundle();
-                        bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
-                        bundle.putString(StaticUtils.IPC_SYTE_NAME, mSyte.getName());
+            case R.id.xRelLayChat: {
+                if (mNetworkStatus.isNetworkAvailable()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
+                    bundle.putString(StaticUtils.IPC_SYTE_NAME, mSyte.getName());
 
-                        Intent intentSponsorChatListActivity = new Intent(SyteDetailSponsorActivity.this, SponsorChatListActivity.class);
-                        intentSponsorChatListActivity.putExtras(bundle);
-                        startActivity(intentSponsorChatListActivity);
-                    }
-                    else
-                    {
-                        CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this,this);
-                        customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
-                    }
-
-                    break;
+                    Intent intentSponsorChatListActivity = new Intent(SyteDetailSponsorActivity.this, SponsorChatListActivity.class);
+                    intentSponsorChatListActivity.putExtras(bundle);
+                    startActivity(intentSponsorChatListActivity);
+                } else {
+                    CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, this);
+                    customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
                 }
-            case R.id.xRelLayMenuSettings:
-                {
-                    showMenuSettingsPopup();
-                    break;
-                }
-            case R.id.xIvSyteBanner:
-            {
-                if(mSyte.getImageUrl().length()>0)
-                {
 
-                    EnlargeImageDialog enlargeImageDialog = EnlargeImageDialog.CREATE_ENLARGE_IMAGE_DIALOG(SyteDetailSponsorActivity.this,mSyte.getImageUrl());
+                break;
+            }
+            case R.id.xRelLayMenuSettings: {
+                showMenuSettingsPopup();
+                break;
+            }
+            case R.id.xIvSyteBanner: {
+                if (mSyte.getImageUrl().length() > 0) {
+
+                    EnlargeImageDialog enlargeImageDialog = EnlargeImageDialog.CREATE_ENLARGE_IMAGE_DIALOG(SyteDetailSponsorActivity.this, mSyte.getImageUrl());
                     enlargeImageDialog.sShowEnlargeImageDialog();
                 }
                 break;
@@ -298,25 +289,22 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
     }// END onClick()
 
     @Override
-    public void onDeleteSyteRequestStrated()
-        {
-            mPrgDia.show();
-        }// END onDeleteSyteRequestStrated()
+    public void onDeleteSyteRequestStrated() {
+        mPrgDia.show();
+    }// END onDeleteSyteRequestStrated()
 
     @Override
-    public void onDeleteSyteRequestFinished()
-        {
-            mPrgDia.dismiss();
-            Toast.makeText(this,YasPasMessages.DELETE_SYTE_SUCCESS,Toast.LENGTH_LONG).show();
-            finish();
-        }// END onDeleteSyteRequestFinished()
+    public void onDeleteSyteRequestFinished() {
+        mPrgDia.dismiss();
+        Toast.makeText(this, YasPasMessages.DELETE_SYTE_SUCCESS, Toast.LENGTH_LONG).show();
+        finish();
+    }// END onDeleteSyteRequestFinished()
 
     @Override
-    public void onDeleteSyteErrorOccured()
-        {
-            CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this,this);
-            customDialogs.sShowDialog_Common(YasPasMessages.ERR_OCC_SUBJECT, YasPasMessages.DELETE_SYTE_ERR_OCC_HEADING, null, null, "OK", "deleteSyteError", false, false);
-        }// END onDeleteSyteErrorOccured()
+    public void onDeleteSyteErrorOccured() {
+        CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, this);
+        customDialogs.sShowDialog_Common(YasPasMessages.ERR_OCC_SUBJECT, YasPasMessages.DELETE_SYTE_ERR_OCC_HEADING, null, null, "OK", "deleteSyteError", false, false);
+    }// END onDeleteSyteErrorOccured()
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         public final List<Fragment> mFragmentTab = new ArrayList<>();
@@ -369,6 +357,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.xFlBulletinBoard, mCurrentFragment).commit();
     }
+
     private class EventListenerGenInfo implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -376,16 +365,13 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
             if (mSyte != null) {
                 mTvSyteName.setText(mSyte.getName());
                 mTvSyteCity.setText(mSyte.getCity());
-                if(mSyte.getMobileNo().trim().length()>0)
-                    {
-                        mIvPhIcn.setVisibility(View.VISIBLE);
-                        mTvMobileNumber.setText(mSyte.getMobileNo());
-                    }
-                else
-                    {
-                        mIvPhIcn.setVisibility(View.GONE);
-                        mTvMobileNumber.setText(getString(R.string.syte_detail_page_no_mob_num));
-                    }
+                if (mSyte.getMobileNo().trim().length() > 0) {
+                    mIvPhIcn.setVisibility(View.VISIBLE);
+                    mTvMobileNumber.setText(mSyte.getMobileNo());
+                } else {
+                    mIvPhIcn.setVisibility(View.GONE);
+                    mTvMobileNumber.setText(getString(R.string.syte_detail_page_no_mob_num));
+                }
                 String[] arrSyteCategory = mSyte.getCategory().split(",");
                 LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 mLinLaySyteCategory.removeAllViews();
@@ -403,38 +389,35 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                     linLayHor.addView(viewTemp);
                     mLinLaySyteCategory.addView(linLayHor);
                 }
-                if(mSyte.getCategory().toString().trim().length()>0)
-                    {
-                        mLinLaySyteCategoryMain.setVisibility(View.VISIBLE);
-                    }
-                else
-                    {
-                        mLinLaySyteCategoryMain.setVisibility(View.GONE);
-                    }
+                if (mSyte.getCategory().toString().trim().length() > 0) {
+                    mLinLaySyteCategoryMain.setVisibility(View.VISIBLE);
+                } else {
+                    mLinLaySyteCategoryMain.setVisibility(View.GONE);
+                }
 
 
                 String cURL = mCloudinary.url().generate(mSyte.getImageUrl().toString().trim());
                 ImageLoader.getInstance().displayImage(cURL, mIvSyteBanner, mDisImgOpt, new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            mPbSyteBannerImage.setVisibility(View.VISIBLE);
-                        }
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        mPbSyteBannerImage.setVisibility(View.VISIBLE);
+                    }
 
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                            mPbSyteBannerImage.setVisibility(View.GONE);
-                        }
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        mPbSyteBannerImage.setVisibility(View.GONE);
+                    }
 
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            mPbSyteBannerImage.setVisibility(View.GONE);
-                        }
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        mPbSyteBannerImage.setVisibility(View.GONE);
+                    }
 
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-                            mPbSyteBannerImage.setVisibility(View.GONE);
-                        }
-                    });
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+                        mPbSyteBannerImage.setVisibility(View.GONE);
+                    }
+                });
                 //}
                 aboutUs = mSyte.getAboutUs();
                 whatWeDo = mSyte.getWhatWeDo();
@@ -536,15 +519,13 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 }
                 startActivity(callIntent);
 
-                    }
-                });
-            }// END showContactInfoPopup()
+            }
+        });
+    }// END showContactInfoPopup()
 
     @Override
-    public void onDialogLeftBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish)
-    {
-        if(paramDialogType==CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("NoNw") && paramIsFinish)
-        {
+    public void onDialogLeftBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish) {
+        if (paramDialogType == CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("NoNw") && paramIsFinish) {
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -554,54 +535,46 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
     }// END onDialogLeftBtnClicked()
 
     @Override
-    public void onDialogRightBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish)
-        {
-            if(paramDialogType== CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("NoNw"))
-                {
-                    startActivity(new Intent(Settings.ACTION_SETTINGS));
+    public void onDialogRightBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish) {
+        if (paramDialogType == CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("NoNw")) {
+            startActivity(new Intent(Settings.ACTION_SETTINGS));
+        }
+        if (paramDialogType == CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("deleteSyte")) {
+            Log.e("DELETE SYTE", mSyteId);
+            DeleteASyteRequest deleteASyteRequest = new DeleteASyteRequest(SyteDetailSponsorActivity.this, mSyteId, SyteDetailSponsorActivity.this);
+            deleteASyteRequest.sDeleteSyteStart();
+        }
+
+    }// END onDialogRightBtnClicked()
+
+    private void showMenuSettingsPopup() {
+        final Dialog mDialog = new Dialog(SyteDetailSponsorActivity.this);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mDialog.setContentView(R.layout.layout_menu_settings);
+
+        WindowManager.LayoutParams wmlp = mDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.TOP | Gravity.RIGHT;
+        wmlp.y = mRellayTopBarSponsor.getHeight();
+
+
+        mDialog.show();
+        final Window window = mDialog.getWindow();
+        TextView mTvClaimThisSyte = (TextView) window.findViewById(R.id.xTvClaimThisSyte);
+        mTvClaimThisSyte.setText("Delete this Syte");
+        mTvClaimThisSyte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+                if (mNetworkStatus.isNetworkAvailable()) {
+                    CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, SyteDetailSponsorActivity.this);
+                    customDialogs.sShowDialog_Common(YasPasMessages.DELETE_SYTE_SUBJECT, YasPasMessages.DELETE_SYTE_HEADING, null, "CANCEL", "DELETE", "deleteSyte", false, false);
+                } else {
+                    CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, SyteDetailSponsorActivity.this);
+                    customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
                 }
-            if(paramDialogType== CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("deleteSyte"))
-                {
-                    Log.e("DELETE SYTE",mSyteId);
-                    DeleteASyteRequest deleteASyteRequest = new DeleteASyteRequest(SyteDetailSponsorActivity.this,mSyteId,SyteDetailSponsorActivity.this);
-                    deleteASyteRequest.sDeleteSyteStart();
-                }
+            }
+        });
+    }// END showMenuSettingsPopup()
 
-        }// END onDialogRightBtnClicked()
-    private void showMenuSettingsPopup()
-        {
-            final Dialog mDialog = new Dialog(SyteDetailSponsorActivity.this);
-            mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            mDialog.setContentView(R.layout.layout_menu_settings);
-
-            WindowManager.LayoutParams wmlp = mDialog.getWindow().getAttributes();
-            wmlp.gravity = Gravity.TOP | Gravity.RIGHT;
-            wmlp.y = mRellayTopBarSponsor.getHeight();
-
-
-            mDialog.show();
-            final Window window = mDialog.getWindow();
-            TextView mTvClaimThisSyte=(TextView)window.findViewById(R.id.xTvClaimThisSyte);
-            mTvClaimThisSyte.setText("Delete this Syte");
-            mTvClaimThisSyte.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    mDialog.dismiss();
-                    if(mNetworkStatus.isNetworkAvailable())
-                        {
-                            CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this,SyteDetailSponsorActivity.this);
-                            customDialogs.sShowDialog_Common(YasPasMessages.DELETE_SYTE_SUBJECT, YasPasMessages.DELETE_SYTE_HEADING, null, "CANCEL", "DELETE", "deleteSyte", false, false);
-                        }
-                    else
-                        {
-                            CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this,SyteDetailSponsorActivity.this);
-                            customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
-                        }
-                }
-            });
-        }// END showMenuSettingsPopup()
-
-    }
+}

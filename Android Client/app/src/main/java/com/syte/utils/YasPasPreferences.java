@@ -120,13 +120,25 @@ public class YasPasPreferences
 				return mPref.getInt("prefFilterDistance", 10);
 			}
 
-		/*public void sSetIsUploadMediaRunning(boolean paramFollowingFlag)
+
+		public void sSetOnGoingChatId(String paramChatId)
 		{
-			mEditor.putBoolean("prefIsUploadMediaRunning",paramFollowingFlag);
+			mEditor.putString(StaticUtils.IPC_ONGOING_CHAT_ID, paramChatId);
 			mEditor.commit();
 		}
-		public boolean sGetIsUploadMediaRunning()
+		public String sGetOnGoingChatId()
 		{
-			return mPref.getBoolean("prefIsUploadMediaRunning", false);
-		}*/
+			return mPref.getString(StaticUtils.IPC_ONGOING_CHAT_ID, "");
+		}
+
+		public void sSetOnGoingChat_SyteId(String paramChatSyteId)
+		{
+			mEditor.putString(StaticUtils.IPC_ONGOING_CHAT_SYTE_ID, paramChatSyteId);
+			mEditor.commit();
+		}
+		public String sGetOnGoingChat_SyteId()
+		{
+			return mPref.getString(StaticUtils.IPC_ONGOING_CHAT_SYTE_ID,"");
+		}
+
 }

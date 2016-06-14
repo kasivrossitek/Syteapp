@@ -188,7 +188,9 @@
     <dimen name="syte_detail_contact_info_ht">40dp</dimen>
     <dimen name="syte_detail_contact_info_icon_sz">24dp</dimen>
     <dimen name="syte_detail_contact_info_icon_margin">4dp</dimen>
+
     <dimen name="syte_detail_txt_sz_20">20sp</dimen>
+
     <dimen name="syte_detail_txt_sz_16">16sp</dimen>
     <dimen name="syte_detail_txt_sz_14">14sp</dimen>
     <dimen name="syte_detail_txt_sz_12">12sp</dimen>
@@ -264,7 +266,9 @@
     <dimen name="settings_separator_ht">10dp</dimen>
     <!--Analytics-->
     <dimen name="syte_analytics_page_padding">16dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
+
 
 
 </resources>

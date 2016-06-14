@@ -20,13 +20,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/splash_welcome_layout_margin_top"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/login_linear_layout_margin"
             android:orientation="horizontal">
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,6 +55,7 @@
             android:textColor="#ffffff"
             android:textSize="@dimen/login_bottom_btn_text_size"/>
 
+
     </LinearLayout>
 
     <TextView
@@ -65,5 +69,6 @@
         android:text="GET STARTED"
         android:textColor="#ffffff"
         android:textSize="@dimen/login_bottom_btn_text_size"/>
+
 
 </RelativeLayout>

@@ -23,11 +23,14 @@ import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.syte.activities.HomeActivity;
-import com.syte.activities.MobileNumberEntryActivity;
+
 import com.syte.activities.SignUpActivity;
+import com.syte.activities.walkthrough.WalkThroughBeforeLoginActivity;
 import com.syte.listeners.OnCustomDialogsListener;
 import com.syte.listeners.OnLocationListener;
 import com.syte.listeners.OnPermissionRequestListener;
+import com.syte.services.UserAnalyticsService;
+
 import com.syte.utils.GoogleApiHelper;
 import com.syte.utils.LoginStatus;
 import com.syte.utils.NetworkStatus;
@@ -66,6 +69,14 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
 
         try {
             // if activity is initiated by push notification
+            // Checking if it is chat push notification, if yes then putting extra values
+            if (getIntent().getExtras().getInt(StaticUtils.IPC_HOME_STARTING_FRAGMENT) == StaticUtils.HOME_STARTING_FRAG_CHAT) {
+                mBun.putString(StaticUtils.IPC_ONGOING_CHAT_ID, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_ID));
+                mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SYTE_ID, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SYTE_ID));
+                mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SENDERTYPE, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SENDERTYPE));
+                mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SENDERNUM, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SENDERNUM));
+                mBun.putString(StaticUtils.IPC_ONGOING_CHAT_SENDERNAME, getIntent().getExtras().getString(StaticUtils.IPC_ONGOING_CHAT_SENDERNAME));
+            }
             mBun.putInt(StaticUtils.IPC_HOME_STARTING_FRAGMENT, getIntent().getExtras().getInt(StaticUtils.IPC_HOME_STARTING_FRAGMENT));
         } catch (Exception e) {
             // if activity is initiated not by push notification, but from app drawer
@@ -132,7 +143,6 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("RESUME", "RESUME");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPermissionManager = new PermissionManager(this, this);
             if (checkMMPermissions() == 0) {
@@ -149,7 +159,7 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
         if (v == mTvGetStart) {
 
             if (mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.OTP)) {
-                Intent mInt_MNES = new Intent(SplashActivity.this, MobileNumberEntryActivity.class);
+                Intent mInt_MNES = new Intent(SplashActivity.this, WalkThroughBeforeLoginActivity.class);
                 mBun.putString("keyCC", mCountryCode);
                 mInt_MNES.putExtras(mBun);
                 startActivity(mInt_MNES);
@@ -166,6 +176,7 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
                 mInt_Map.putExtras(mBun);
                 startActivity(mInt_Map);
                 finish();
+
 
                                 /*// Updating user's name and his profile pic, if updated from other phone using same registered number
                                 Firebase mYasPaseeUrl = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPref.sGetRegisteredNum());
@@ -213,8 +224,10 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
             if (mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.OTP) || mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.SIGNUP))
                 mSaveCountryCode(lastKnownLoc.getLatitude(), lastKnownLoc.getLongitude());
             mGoogleApiHelper.sGoogleApiDisconnect();
+            sendUserAnalytics(lastKnownLoc.getLatitude(), lastKnownLoc.getLongitude());
 
             if (mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.COMPLETED)) {
+                sendUserAnalytics(lastKnownLoc.getLatitude(), lastKnownLoc.getLongitude());
                 goToHomeActivity();
             }
         } else {
@@ -241,7 +254,9 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
         if (mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.OTP) || mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.SIGNUP))
             mSaveCountryCode(updatedLoc.getLatitude(), updatedLoc.getLongitude());
         mGoogleApiHelper.sGoogleApiDisconnect();
+        sendUserAnalytics(updatedLoc.getLatitude(), updatedLoc.getLongitude());
         if (mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.COMPLETED)) {
+            sendUserAnalytics(updatedLoc.getLatitude(), updatedLoc.getLongitude());
             goToHomeActivity();
         }
     }// END onLocationUpdate()
@@ -272,6 +287,8 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
     }
 
     private void goToHomeActivity() {
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -300,10 +317,12 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
         switch (requestCode) {
             case PermissionManager.PERMISSION_PHONE_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                                         /*if(checkMMPermissions()==0)
                                             {
                                                 startApp();
                                             }*/
+
                 } else {
                     finish();
                 }
@@ -311,10 +330,12 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
             break;
             case PermissionManager.PERMISSION_LOCATION_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                                         /*if(checkMMPermissions()==0)
                                             {
                                                 startApp();
                                             }*/
+
                 } else {
                     finish();
                 }
@@ -322,10 +343,12 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
             break;
             case PermissionManager.PERMISSION_STORAGE_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                                         /*if(checkMMPermissions()==0)
                                             {
                                                 startApp();
                                             }*/
+
                 } else {
                     finish();
                 }
@@ -333,10 +356,12 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
             }
             case PermissionManager.PERMISSION_SMS_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                                     /*if(checkMMPermissions()==0)
                                         {
                                             startApp();
                                         }*/
+
                 } else {
                     finish();
                 }
@@ -366,4 +391,12 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
         }
         return 0;
     }
+
+    private void sendUserAnalytics(double paramLat, double paramLong) {
+        Intent userAnalytics = new Intent(SplashActivity.this, UserAnalyticsService.class);
+        userAnalytics.putExtra("lat", paramLat);
+        userAnalytics.putExtra("long", paramLong);
+        startService(userAnalytics);
+    }
 }
+

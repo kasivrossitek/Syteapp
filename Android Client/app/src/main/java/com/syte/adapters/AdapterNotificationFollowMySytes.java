@@ -98,10 +98,12 @@ public class AdapterNotificationFollowMySytes extends RecyclerView.Adapter<Recyc
                     // Some one claimed the syte
                     viewHolder.getmTvNotificationMessage().setText(mNotification.getUserName()  + " has claimed " + mNotification.getSyteName());
                 }
+
             else if(mNotification.getPushType()==StaticUtils.HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_INVITE){
                 //  invited to the syte by kasi on 4-10-16
                 viewHolder.getmTvNotificationMessage().setText(mNotification.getUserName()  + " has invited to follow the " + mNotification.getSyteName());
             }
+
 
             viewHolder.getmTvNotificationTime().setText(StaticUtils.CONVERT_BULLETIN_DATE_TIME((long) mNotification.getDateTime()));
 
@@ -125,9 +127,11 @@ public class AdapterNotificationFollowMySytes extends RecyclerView.Adapter<Recyc
                                         {
                                             mOnFollowNotificationDelete.onSyteClaimNotificationClicked(mNotification,mNotficationKeyLst.get(position));
                                         }
+
                                     else if(mNotification.getPushType()==StaticUtils.HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_INVITE){
                                         mOnFollowNotificationDelete.onFollowSyteInvitationClicked(mNotification,mNotficationKeyLst.get(position));
                                     }
+
                                 }
                             else
                                 {

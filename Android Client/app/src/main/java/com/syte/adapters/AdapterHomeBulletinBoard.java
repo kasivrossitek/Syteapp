@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+
+import com.bumptech.glide.Glide;
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -173,30 +177,37 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
             }
         private void loadImage(final ProgressBar progressBar,ImageView imageView,String imageUrl)
             {
-                String cURL = mCloudinary.url().generate(imageUrl.trim());
-                ImageLoader.getInstance().displayImage(cURL, imageView, new ImageLoadingListener()
-                    {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view)
-                            {
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason)
-                            {
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
-                            {
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view)
-                            {
-                                progressBar.setVisibility(View.GONE);
-                            }
-                });
+
+                imageView.setImageResource(android.R.color.transparent);
+                //String cURL = mCloudinary.url().generate(imageUrl.trim());
+                String cURL = mCloudinary.url().cdnSubdomain(true).transformation(new Transformation().width(0.5).crop("scale")).generate(imageUrl.trim());
+                Glide.with(this.context).load(cURL).into(imageView);
+                progressBar.setVisibility(View.GONE);
+//
+//                ImageLoader.getInstance().displayImage(cURL, imageView, new ImageLoadingListener()
+//                    {
+//                        @Override
+//                        public void onLoadingStarted(String imageUri, View view)
+//                            {
+//                                progressBar.setVisibility(View.VISIBLE);
+//                            }
+//                        @Override
+//                        public void onLoadingFailed(String imageUri, View view, FailReason failReason)
+//                            {
+//                                progressBar.setVisibility(View.GONE);
+//                            }
+//                        @Override
+//                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
+//                            {
+//                                progressBar.setVisibility(View.GONE);
+//                            }
+//                        @Override
+//                        public void onLoadingCancelled(String imageUri, View view)
+//                            {
+//                                progressBar.setVisibility(View.GONE);
+//                            }
+//                });
+
             }
         private String convertTime(long paramTime)
             {

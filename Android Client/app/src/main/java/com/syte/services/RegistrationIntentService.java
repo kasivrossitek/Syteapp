@@ -61,8 +61,10 @@ public class RegistrationIntentService extends IntentService
 
                 InstanceID instanceID = InstanceID.getInstance(this);
                 String token="";
+
               token = instanceID.getToken("755282053053 ", GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
              //   token = instanceID.getToken("703962495781 ", GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);//KASI SENDERID
+
                 /*NOTE:
                 * The sender id 755282053053 is generated using below credentials:
                 * E-mail : prod@gosyte.com

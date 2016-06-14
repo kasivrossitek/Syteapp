@@ -9,5 +9,7 @@ public interface OnFollowNotificationDelete
 {
     void onFollowNotificationDelete(String followNotificationKey);
     void onSyteClaimNotificationClicked(YasPasPush yasPasPush,String followNotificationKey);
+
     void onFollowSyteInvitationClicked(YasPasPush yasPasPush,String followNotificationKey);//invite to follow by kasi on 4/6/16
+
 }

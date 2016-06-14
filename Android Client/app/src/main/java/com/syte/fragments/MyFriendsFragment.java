@@ -15,6 +15,7 @@ import com.syte.R;
 /**
  * Created by khalid.p on 09-02-2016.
  */
+
 public class MyFriendsFragment extends Fragment {
     private View mRootView;
 
@@ -163,3 +164,4 @@ public class MyFriendsFragment extends Fragment {
 
 
 }
+

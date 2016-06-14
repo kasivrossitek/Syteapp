@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+
 import com.google.android.gms.cast.Cast;
 import com.syte.R;
 import com.syte.adapters.AdapterFollowers;
@@ -26,12 +28,14 @@ import com.syte.models.Syte;
 import com.syte.utils.StaticUtils;
 import com.syte.widgets.TvRobortoMedium;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
  * Created by khalid.p on 02-03-2016.
  */
+
 public class SyteDetailFollowersActivity extends Activity implements View.OnClickListener {
     private RelativeLayout mRelLayBack, mRelTeam;
     private LinearLayout linLayContacts, linLaywhatsApp;
@@ -90,7 +94,7 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
         mBun = getIntent().getExtras();
         mFollowerses = new ArrayList<>();
         mSyteId = mBun.getString(StaticUtils.IPC_SYTE_ID);
-        mSyte=getIntent().getExtras().getParcelable(StaticUtils.IPC_SYTE);
+        mSyte = getIntent().getExtras().getParcelable(StaticUtils.IPC_SYTE);
         mFirebaseFollowers = new Firebase(StaticUtils.YASPAS_URL).child(mSyteId).child(StaticUtils.FOLLOWERS_YASPAS);
         eventListenerFollowers = new EventListenerFollowers();
         mPrgDia = new ProgressDialog(SyteDetailFollowersActivity.this);
@@ -143,7 +147,7 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
                 Bundle mBdl = new Bundle();
                 mBdl.putParcelableArrayList(StaticUtils.IPC_FOLLOWERS, mFollowerses);
                 mBdl.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
-                mBdl.putParcelable(StaticUtils.IPC_SYTE,mSyte);
+                mBdl.putParcelable(StaticUtils.IPC_SYTE, mSyte);
                 getcontact.putExtras(mBdl);
                 startActivity(getcontact);
 
@@ -153,7 +157,7 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
                 Bundle mBd = new Bundle();
                 mBd.putParcelableArrayList(StaticUtils.IPC_FOLLOWERS, mFollowerses);
                 mBd.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
-                mBd.putParcelable(StaticUtils.IPC_SYTE,mSyte);
+                mBd.putParcelable(StaticUtils.IPC_SYTE, mSyte);
                 whatsappcontact.putExtras(mBd);
                 startActivity(whatsappcontact);
                 break;
@@ -197,3 +201,4 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
         }
     }// END EventListenerFollowers
 }// END SyteDetailFollowersActivity
+

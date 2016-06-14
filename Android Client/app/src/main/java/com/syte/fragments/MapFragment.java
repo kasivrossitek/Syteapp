@@ -1,13 +1,16 @@
 package com.syte.fragments;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,78 +66,86 @@ import java.util.regex.Pattern;
 /**
  * Created by khalid.p on 09-02-2016.
  */
-public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeListener, GeoQueryEventListener, GoogleMap.OnInfoWindowClickListener, View.OnClickListener, OnCustomDialogsListener, GoogleMap.OnMarkerClickListener
-{
-        private View mRootView;
-        //private Bundle mBun;
-        private GoogleMap mMap;
-        private GeoFire geoFire;
-        private GeoQuery geoQuery;
-        private YasPasPreferences mYasPasPref;
-        private Map<String,CustomMapMarker> mMapMarkers;
-        private LinearLayout mLinLaySearchBox;
-        private float animationDistance;
-        private EditText mEtSearchInput;
-        private InputMethodManager mInputManager;
-        private FloatingActionButton mFabCurrentLoc,mFabAddYasPas;
-        private NetworkStatus mNetworkStatus;
-        private Marker mCurrentLocationMarker;
-        private String mCurrentLocationMarkerKey = "-1mCurrentLocationMarkerKey1-";
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
-            {
-                mRootView = inflater.inflate(R.layout.fragment_map, container, false);
-                return mRootView;
-            }// END onCreateView()
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState)
-            {
-                super.onActivityCreated(savedInstanceState);
-                mInItObjects();
-                mInItWidgets();
-            }// END onActivityCreated()
-        private void mInItObjects()
-            {
-                //mBun=getArguments();
-                mYasPasPref = YasPasPreferences.GET_INSTANCE(getActivity());
-                mMapMarkers=new HashMap<String, CustomMapMarker>();
-                animationDistance=getResources().getDimension(R.dimen.map_screen_search_box_margin);
-                mInputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                mNetworkStatus=new NetworkStatus(getActivity());
-            }// END mInItObjects()
-        private void mInItWidgets()
-            {
-                mLinLaySearchBox=(LinearLayout)mRootView.findViewById(R.id.xLinLaySearchBox);
-                mLinLaySearchBox.setY(-animationDistance - mLinLaySearchBox.getHeight());
-                mEtSearchInput=(EditText)mRootView.findViewById(R.id.xEtSearchInput);
-                mEtSearchInput.addTextChangedListener(mSearchBoxTextWatcher);
-                mFabCurrentLoc=(FloatingActionButton)mRootView.findViewById(R.id.xFabCurrentLoc);
-                mFabCurrentLoc.setOnClickListener(this);
-                mFabAddYasPas=(FloatingActionButton)mRootView.findViewById(R.id.xFabAddYasPas);
-                mFabAddYasPas.setOnClickListener(this);
-                //mFabAddYasPas
-            }// END mInItWidgets()
-        @Override
-        public void onResume()
-            {
-                super.onResume();
-                setUpMapIfNeeded();
-                LatLng latLng = new LatLng(HomeActivity.LOC_VIRTUAL.getLatitude(),HomeActivity.LOC_VIRTUAL.getLongitude());
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, HomeActivity.ZOOM_LEVEL);
-                mMap.moveCamera(cameraUpdate);
+public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeListener, GeoQueryEventListener, GoogleMap.OnInfoWindowClickListener, View.OnClickListener, OnCustomDialogsListener, GoogleMap.OnMarkerClickListener {
+    private View mRootView;
+    //private Bundle mBun;
+    private GoogleMap mMap;
+    private GeoFire geoFire;
+    private GeoQuery geoQuery;
+    private YasPasPreferences mYasPasPref;
+    private Map<String, CustomMapMarker> mMapMarkers;
+    private LinearLayout mLinLaySearchBox;
+    private float animationDistance;
+    private EditText mEtSearchInput;
+    private InputMethodManager mInputManager;
+    private FloatingActionButton mFabCurrentLoc, mFabAddYasPas;
+    private NetworkStatus mNetworkStatus;
+    private Marker mCurrentLocationMarker;
+    private String mCurrentLocationMarkerKey = "-1mCurrentLocationMarkerKey1-";
 
-                geoFire = new GeoFire(new Firebase(StaticUtils.YASPAS_GEO_LOC_URL));
-                geoQuery = this.geoFire.queryAtLocation(new GeoLocation(HomeActivity.LOC_VIRTUAL.getLatitude(),HomeActivity.LOC_VIRTUAL.getLongitude()), 10);
-                this.geoQuery.addGeoQueryEventListener(this);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_map, container, false);
+        return mRootView;
+    }// END onCreateView()
 
-                sSetCurrentLocation(HomeActivity.LOC_ACTUAL.getLatitude(),HomeActivity.LOC_ACTUAL.getLongitude());
-            }// END onResume()
-        private void setUpMapIfNeeded()
-            {
-                if (mMap == null)
-                    {
-                        mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
-                        mMap.setMyLocationEnabled(false);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mInItObjects();
+        mInItWidgets();
+    }// END onActivityCreated()
+
+    private void mInItObjects() {
+        //mBun=getArguments();
+        mYasPasPref = YasPasPreferences.GET_INSTANCE(getActivity());
+        mMapMarkers = new HashMap<String, CustomMapMarker>();
+        animationDistance = getResources().getDimension(R.dimen.map_screen_search_box_margin);
+        mInputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mNetworkStatus = new NetworkStatus(getActivity());
+    }// END mInItObjects()
+
+    private void mInItWidgets() {
+        mLinLaySearchBox = (LinearLayout) mRootView.findViewById(R.id.xLinLaySearchBox);
+        mLinLaySearchBox.setY(-animationDistance - mLinLaySearchBox.getHeight());
+        mEtSearchInput = (EditText) mRootView.findViewById(R.id.xEtSearchInput);
+        mEtSearchInput.addTextChangedListener(mSearchBoxTextWatcher);
+        mFabCurrentLoc = (FloatingActionButton) mRootView.findViewById(R.id.xFabCurrentLoc);
+        mFabCurrentLoc.setOnClickListener(this);
+        mFabAddYasPas = (FloatingActionButton) mRootView.findViewById(R.id.xFabAddYasPas);
+        mFabAddYasPas.setOnClickListener(this);
+        //mFabAddYasPas
+    }// END mInItWidgets()
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+        LatLng latLng = new LatLng(HomeActivity.LOC_VIRTUAL.getLatitude(), HomeActivity.LOC_VIRTUAL.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, HomeActivity.ZOOM_LEVEL);
+        mMap.moveCamera(cameraUpdate);
+
+        geoFire = new GeoFire(new Firebase(StaticUtils.YASPAS_GEO_LOC_URL));
+        geoQuery = this.geoFire.queryAtLocation(new GeoLocation(HomeActivity.LOC_VIRTUAL.getLatitude(), HomeActivity.LOC_VIRTUAL.getLongitude()), 10);
+        this.geoQuery.addGeoQueryEventListener(this);
+
+        sSetCurrentLocation(HomeActivity.LOC_ACTUAL.getLatitude(), HomeActivity.LOC_ACTUAL.getLongitude());
+    }// END onResume()
+
+    private void setUpMapIfNeeded() {
+        if (mMap == null) {
+            mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            mMap.setMyLocationEnabled(false);
                         mMap.setOnInfoWindowClickListener(this);
                         mMap.setOnCameraChangeListener(this);
                         if(mMap!=null)
@@ -540,33 +551,43 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
                         }
                     case R.id.xFabAddYasPas:
                         {
-                            if(mNetworkStatus.isNetworkAvailable())
-                                {
-                                    Intent mInt_AddSyteLoc = new Intent(getActivity(), AddSyteLocationActivity.class);
-                                    Bundle mBun=new Bundle();
 
-                                    Syte mSyte = new Syte();
+                            CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(getActivity(),this);
+                            customDialogs.sShowDialog_Common(YasPasMessages.ADD_YASPAS_SUBJECT, YasPasMessages.ADD_YASPAS_HEADING, null, "NO", "YES", "CreateSyte", false, false);
 
-                                    mSyte.setLatitude(HomeActivity.LOC_VIRTUAL.getLatitude());
-                                    mSyte.setLongitude(HomeActivity.LOC_VIRTUAL.getLongitude());
-                                    mSyte.setImageUrl("");
-
-                                    ArrayList<YasPasTeams> mTeamMembers = new ArrayList<>();
-                                    mBun.putParcelable(StaticUtils.IPC_SYTE, mSyte);
-                                    mBun.putString(StaticUtils.IPC_SYTE_ID,"");
-                                    mBun.putParcelableArrayList(StaticUtils.IPC_TEAM_MEMBERS_LIST, mTeamMembers);
-                                    mInt_AddSyteLoc.putExtras(mBun);
-                                    startActivity(mInt_AddSyteLoc);}
-                            else
-                                {
-                                    CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(getActivity(),this);
-                                    customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
-                                }
                             break;
                         }
                     default:break;
                 }
         }
+
+    private void mAddYasPas()
+        {
+            if(mNetworkStatus.isNetworkAvailable())
+                {
+                    Intent mInt_AddSyteLoc = new Intent(getActivity(), AddSyteLocationActivity.class);
+                    Bundle mBun=new Bundle();
+
+                    Syte mSyte = new Syte();
+
+                    mSyte.setLatitude(HomeActivity.LOC_VIRTUAL.getLatitude());
+                    mSyte.setLongitude(HomeActivity.LOC_VIRTUAL.getLongitude());
+                    mSyte.setImageUrl("");
+
+                    ArrayList<YasPasTeams> mTeamMembers = new ArrayList<>();
+                    mBun.putParcelable(StaticUtils.IPC_SYTE, mSyte);
+                    mBun.putString(StaticUtils.IPC_SYTE_ID,"");
+                    mBun.putParcelableArrayList(StaticUtils.IPC_TEAM_MEMBERS_LIST, mTeamMembers);
+                    mInt_AddSyteLoc.putExtras(mBun);
+                    startActivity(mInt_AddSyteLoc);
+                }
+            else
+                {
+                    CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(getActivity(),this);
+                    customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
+                }
+        }// END mAddYasPas()
+
 
     @Override
     public void onDialogLeftBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish)
@@ -588,6 +609,12 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
                 {
                     startActivity(new Intent(Settings.ACTION_SETTINGS));
                 }
+
+            if(paramDialogType== CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("CreateSyte"))
+                {
+                    mAddYasPas();
+                }
+
         }
 
     @Override
