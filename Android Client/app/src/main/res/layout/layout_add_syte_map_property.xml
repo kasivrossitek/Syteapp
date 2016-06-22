@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="@dimen/map_screen_map_property_wd"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/xLinLayContent"
+        android:layout_width="@dimen/map_screen_map_property_wd"
+        android:layout_height="@dimen/map_screen_map_property_ht"
+        android:background="@drawable/test_final_final"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvMsg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/map_screen_map_property_name_txt_sz"
+            android:textColor="#000000"
+            android:text="@string/add_syte_location_page_map_property_window_msg"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</RelativeLayout>

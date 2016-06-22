@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="3dp">
+
+    <com.syte.widgets.TvRobortoMedium
+        android:id="@+id/xTvSyteCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOOD"
+        android:textColor="@color/color_white"
+        android:background="@drawable/background_syte_category"
+        android:textSize="@dimen/syte_detail_txt_sz_12"/>
+
+</LinearLayout>

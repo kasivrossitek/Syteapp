@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:id="@+id/xLinLayItem">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_home_bulletin_row">
+                <LinearLayout
+                    android:id="@+id/xLinLayTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true">
+                        <com.syte.widgets.TvRobortoRegular
+                            android:id="@+id/xTvBulletinTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="12sp"
+                            android:textColor="@color/color_black_opacity_26"
+                            android:text="Bulletin title comes here Bulletin title comes here"
+                            android:layout_centerVertical="true"
+                            android:singleLine="true"/>
+                        <ImageView
+                            android:id="@+id/xIvFavIcon"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@drawable/ic_home_favourite_12pt"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="4dp"
+                            android:visibility="gone"/>
+                        <com.syte.widgets.TvRobortoRegular
+                            android:id="@+id/xTvBulletinDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="@color/color_black_opacity_26"
+                            android:text="99d"
+                            android:layout_centerVertical="true"
+                            android:singleLine="true"
+                            android:layout_marginLeft="4dp"/>
+                </LinearLayout>
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xTvBulletinBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_black_opacity_54"
+                    android:text="Bulletin Body comes here Max 3 lines"
+                    android:maxLines="3"
+                    android:minLines="3"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@+id/xLinLayTop"/>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_below="@+id/xTvBulletinBody">
+                                <com.syte.widgets.TvRobortoRegular
+                                    android:id="@+id/xTvSyteName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/color_orange"
+                                    android:text="Syte name comes here Syte name comes here"
+                                    android:singleLine="true"
+                                    android:layout_marginTop="12dp"/>
+                                <com.syte.widgets.TvRobortoRegular
+                                    android:id="@+id/xTvSyteAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/color_black_opacity_26"
+                                    android:text="Syte Address comes here Syte Address comes here"
+                                    android:singleLine="true"
+                                    android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+
+        </RelativeLayout>
+</RelativeLayout>

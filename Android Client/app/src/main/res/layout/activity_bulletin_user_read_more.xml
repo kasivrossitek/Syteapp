@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/xRelLayMain"
+    android:background="@color/color_white">
+    <!--TOP BAR-->
+    <RelativeLayout
+        android:id="@+id/xRellayTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_ht"
+        android:background="?attr/colorPrimary"
+        android:padding="@dimen/toolbar_padding">
+        <RelativeLayout
+            android:id="@+id/xRelLayBack"
+            android:layout_width="@dimen/toolbar_icon_sz"
+            android:layout_height="@dimen/toolbar_icon_sz"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:layout_width="@dimen/toolbar_icon_content_sz"
+                android:layout_height="@dimen/toolbar_icon_content_sz"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_action_bar_back_btn"/>
+        </RelativeLayout>
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xPageTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="56dp"
+            android:textSize="@dimen/toolbar_lbl_sz"
+            android:textColor="@color/color_white"
+            android:text="@string/syte_bulletin_read_more_page_title"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:layout_toLeftOf="@+id/xRelLayForward"
+            android:paddingRight="@dimen/toolbar_icon_margin"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_btm_shadow_sz"
+        android:background="@drawable/shadow"
+        android:layout_below="@+id/xRellayTop"/>
+    <!--END TOP BAR-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/xRellayTop"
+        android:orientation="vertical"
+        android:padding="@dimen/vw_holder_team_member_margin_16">
+        <RelativeLayout
+            android:id="@+id/xRellayPageIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true">
+                <ImageView
+                    android:id="@+id/xIvLeftIndicator"
+                    android:layout_width="@dimen/syte_detail_bulletin_arrow_sz"
+                    android:layout_height="@dimen/syte_detail_bulletin_arrow_sz"
+                    android:layout_marginRight="@dimen/syte_detail_contact_info_icon_margin"
+                    android:visibility="visible"/>
+                <ImageView
+                    android:id="@+id/xIvRightIndicator"
+                    android:layout_width="@dimen/syte_detail_bulletin_arrow_sz"
+                    android:layout_height="@dimen/syte_detail_bulletin_arrow_sz"
+                    android:layout_marginRight="@dimen/syte_detail_contact_info_icon_margin"
+                    android:visibility="visible"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/xVpBulletinBoard1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/vw_holder_team_member_margin_16"
+            android:visibility="visible"></android.support.v4.view.ViewPager>
+        <!--<include android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/vw_holder_bulletin_user_read_more_with_img"
+            android:layout_marginTop="@dimen/vw_holder_team_member_margin_16"></include>-->
+    </LinearLayout>
+
+
+
+</RelativeLayout>

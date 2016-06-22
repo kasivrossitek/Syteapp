@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.syte">
+
+    <!-- PERMISSIONS -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <permission
+        android:name="com.syte.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.syte.permission.C2D_MESSAGE" />
+
+    <!-- END APPLICATION -->
+    <!-- END PERMISSIONS -->
+    <!-- APPLICATION -->
+    <application
+        android:name=".YasPasApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <!-- ACTIVITIES -->
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MobileNumberEntryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.OTPVerificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ReportABugActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.sytedetailsponsor.SyteDetailSponsorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.sytedetailuser.SyteDetailUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.addsyte.AddSyteLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.addsyte.AddSyteAddressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.addsyte.AddSyteDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.addsyte.AddSyteOptinalDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.addsyte.AddSyteAboutUsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.addsyte.AddSyteWhatWeDoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.addsyte.AddSyteTeamMembersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.addsyte.AddSyteAddTeamMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.addsyte.AddSyteEditTeamMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.editsyte.EditSyteMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.editsyte.EditSyteDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.editsyte.EditSyteLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.editsyte.EditSyteAddressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.editsyte.EditSyteAboutUsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.editsyte.EditSyteWhatWeDoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.editsyte.EditSyteTeamMembersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.sytedetailsponsor.SyteDetailFollowersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.sytedetailsponsor.SytePreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.sytedetailsponsor.SyteFollowerDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.bulletin.AddBulletinBoardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.bulletin.EditBulletinBoard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.bulletin.BulletinUserReadMoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.bulletin.BulletinSponsorReadMoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.chat.UserChatWindowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.chat.SponsorChatListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.chat.SponsorChatWindowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.sytedetailuser.SyteTeamMemberDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.analytics.SyteAnalyticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.walkthrough.WalkThroughBeforeLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.walkthrough.WalkThroughSettingsActivity"
+            android:screenOrientation="portrait" />
+        <!-- END ACTIVITIES -->
+
+
+        <!-- RECEIVERS -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.syte" />
+            </intent-filter>
+        </receiver>
+        <!-- END RECEIVERS -->
+
+
+        <!-- SERVICES -->
+        <service
+            android:name=".services.UserAnalyticsService"
+            android:exported="false" />
+        <service
+            android:name=".services.MediaUploadService"
+            android:exported="false" />
+        <service
+            android:name=".services.ChatCounterService"
+            android:exported="false" />
+        <service
+            android:name=".services.RegistrationIntentService"
+            android:exported="false" />
+        <service
+            android:name=".services.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".services.YasPasGcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <!-- END SERVICES -->
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".activities.sytedetailsponsor.PhoneContactsActivity"
+            android:label="@string/title_activity_phone_contacts"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.sytedetailsponsor.WhatsappActivity"
+            android:label="@string/title_activity_whatsapp"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.ReportASyteActivity"></activity>
+    </application>
+
+</manifest>

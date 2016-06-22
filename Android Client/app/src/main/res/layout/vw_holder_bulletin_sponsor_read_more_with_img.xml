@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_syte_bulletin"
+    android:padding="1dp">
+    <!--TOP PORTION-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <!--DAY & MONTH-->
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@color/color_txtvw_top_lbl_bg">
+            <com.syte.widgets.TvRobortoMedium
+                android:id="@+id/xTvBulletinDay"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/syte_detail_txt_sz_16"
+                android:textColor="@color/color_black_opacity_54"
+                android:text="21"
+                android:gravity="center"/>
+            <com.syte.widgets.TvRobortoRegular
+                android:id="@+id/xTvBulletinMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/syte_detail_txt_sz_12"
+                android:textColor="@color/color_black_opacity_54"
+                android:text="DEC"
+                android:gravity="center"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_black_opacity_12"></View>
+        <!--END DAY & MONTH-->
+        <!--SUBJECT-->
+        <com.syte.widgets.TvRobortoMedium
+            android:id="@+id/xTvBulletinSubject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/syte_detail_txt_sz_16"
+            android:textColor="@color/color_black_opacity_54"
+            android:text="Fresh Combo Limited Offer. Expires on 26 March 2016"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:padding="@dimen/syte_detail_margin_8"
+            android:background="@color/color_white"/>
+        <!--END SUBJECT-->
+        <!--EDIT-->
+        <RelativeLayout
+            android:id="@+id/xRelLayBulletinEdit"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_yp_edit_14px"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <!-- END EDIT-->
+        <!-- DELETE-->
+        <RelativeLayout
+            android:id="@+id/xRelLayBulletinDelete"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_yp_close_14px"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <!-- END DELETE-->
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_black_opacity_12"></View>
+    <!--END TOP PORTION-->
+    <!--BULLETIN IMAGE-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/syte_detail_bulletin_img_ht">
+        <ProgressBar
+            android:id="@+id/xPbLoader"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"/>
+        <ImageView
+            android:id="@+id/xIvBulletinImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/syte_detail_bulletin_img_ht"
+            android:scaleType="centerCrop"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_black_opacity_12"></View>
+    <!--END BULLETIN IMAGE-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white"
+        android:padding="@dimen/syte_detail_margin_8">
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvBulletinBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/syte_detail_txt_sz_12"
+            android:textColor="@color/color_black_opacity_54"
+            android:text="Chicken Curry made by Indian spices. It is cooked over the night in tandoor with low heat."
+            android:gravity="center_vertical"/>
+    </ScrollView>
+
+
+</LinearLayout>

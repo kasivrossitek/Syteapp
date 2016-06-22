@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/vw_holder_team_member_unit_ht"
+    android:id="@+id/xRelLayTeamMemberVwHolder">
+    <ImageView
+        android:id="@+id/xIvTmProfilePic"
+        android:layout_width="@dimen/vw_holder_team_member_image_sz"
+        android:layout_height="@dimen/vw_holder_team_member_image_sz"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/img_user_thumbnail_image_list"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_72"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
+        android:layout_toLeftOf="@+id/xRelLayEdit"
+        android:layout_centerVertical="true">
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvTmName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Khalid Parvez hlhldglh dgflhlh lhlfdg hlg dfhlhgdf hldgf h gdflh lhgldf"
+            android:textColor="@color/color_black_opacity_87"
+            android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+            android:singleLine="true"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_white"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/settings_page_vertical_padding"
+                android:paddingLeft="@dimen/settings_page_horizontal_padding"
+                android:paddingRight="@dimen/settings_page_horizontal_padding"
+                android:paddingTop="@dimen/settings_page_vertical_padding">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_notification_lbl_txt"
+                    android:textColor="@color/color_black_opacity_54"
+                    android:textSize="@dimen/settings_content_lbl_txt_sz"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_page_vertical_padding"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/xLinLayLeft1"
+                        android:layout_width="@dimen/settings_img_lay_wd"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/settings_img_wd_ht"
+                            android:layout_height="@dimen/settings_img_wd_ht"
+                            android:src="@drawable/ic_menu_my_notification"/>
+
+                    </LinearLayout>
+
+                    <!--<Switch
+                        android:id="@+id/xSwNotificationOnOff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_toRightOf="@id/xLinLayLeft1"
+                        android:checked="true"
+                        android:singleLine="true"
+                        android:text="@string/settings_notification_txt_on"
+                        android:textColor="@color/color_black_opacity_87"
+                        android:textSize="@dimen/settings_content_txt_sz"/>-->
+
+                    <CheckBox
+                        android:id="@+id/xCbNotificationOnOff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_toRightOf="@id/xLinLayLeft1"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableRight="@drawable/ic_settings_notification_on"
+                        android:singleLine="true"
+                        android:text="@string/settings_notification_txt_on"
+                        android:textColor="@color/color_black_opacity_87"
+                        android:textSize="@dimen/settings_content_txt_sz"/>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_separator_ht"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginRight="-2dp"
+                android:background="@drawable/background_settings_separator"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/settings_page_vertical_padding"
+                android:paddingLeft="@dimen/settings_page_horizontal_padding"
+                android:paddingRight="@dimen/settings_page_horizontal_padding"
+                android:paddingTop="@dimen/settings_page_vertical_padding">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_send_feedback_lbl_txt"
+                    android:textColor="@color/color_black_opacity_54"
+                    android:textSize="@dimen/settings_content_lbl_txt_sz"/>
+
+                <RelativeLayout
+                    android:id="@+id/xRelLaySendFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_page_vertical_padding"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+
+                        android:id="@+id/xLinLayLeft21"
+                        android:layout_width="@dimen/settings_img_lay_wd"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_settings_feedback"/>
+
+                    </LinearLayout>
+
+                    <com.syte.widgets.TvRobortoRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/xLinLayLeft21"
+                        android:text="@string/settings_send_feedback_txt"
+                        android:textColor="@color/color_black_opacity_87"
+                        android:textSize="@dimen/settings_content_txt_sz"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                        android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_my_sytes_more_arrow"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--KP-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_separator_ht"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginRight="-2dp"
+                android:background="@drawable/background_settings_separator"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/settings_page_vertical_padding"
+                android:paddingLeft="@dimen/settings_page_horizontal_padding"
+                android:paddingRight="@dimen/settings_page_horizontal_padding"
+                android:paddingTop="@dimen/settings_page_vertical_padding">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_walkthrough_lbl_txt"
+                    android:textColor="@color/color_black_opacity_54"
+                    android:textSize="@dimen/settings_content_lbl_txt_sz"/>
+
+                <RelativeLayout
+                    android:id="@+id/xRelLayWalkthrough"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_page_vertical_padding"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/xLinLayLeft2"
+                        android:layout_width="@dimen/settings_img_lay_wd"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/help"/>
+
+                    </LinearLayout>
+
+                    <com.syte.widgets.TvRobortoRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/xLinLayLeft2"
+                        android:text="@string/settings_walkthrough_txt"
+                        android:textColor="@color/color_black_opacity_87"
+                        android:textSize="@dimen/settings_content_txt_sz"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                        android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_my_sytes_more_arrow"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--END KP-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_separator_ht"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginRight="-2dp"
+                android:background="@drawable/background_settings_separator"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/settings_page_vertical_padding"
+                android:paddingLeft="@dimen/settings_page_horizontal_padding"
+                android:paddingRight="@dimen/settings_page_horizontal_padding"
+                android:paddingTop="@dimen/settings_page_vertical_padding">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_app_version_lbl_txt"
+                    android:textColor="@color/color_black_opacity_54"
+                    android:textSize="@dimen/settings_content_lbl_txt_sz"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_page_vertical_padding"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/xLinLayLeft3"
+                        android:layout_width="@dimen/settings_img_lay_wd"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_settings_version"/>
+
+                    </LinearLayout>
+
+                    <com.syte.widgets.TvRobortoRegular
+                        android:id="@+id/xTvAppVersion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/xLinLayLeft3"
+                        android:text="Version: 1.0"
+                        android:textColor="@color/color_black_opacity_87"
+                        android:textSize="@dimen/settings_content_txt_sz"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_separator_ht"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginRight="-2dp"
+                android:background="@drawable/background_settings_separator"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

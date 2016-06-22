@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/vw_holder_team_member_unit_ht"
+    android:id="@+id/xRelLayTeamMemberVwHolder">
+    <ImageView
+        android:id="@+id/xIvTmProfilePic"
+        android:layout_width="@dimen/vw_holder_team_member_image_sz"
+        android:layout_height="@dimen/vw_holder_team_member_image_sz"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/img_user_thumbnail_image_list"/>
+    <ImageView
+        android:id="@+id/xIvTmProfilePicHide"
+        android:layout_width="@dimen/vw_holder_team_member_image_sz"
+        android:layout_height="@dimen/vw_holder_team_member_image_sz"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_team_members_eye"
+        android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/xRelLayEdit"
+        android:layout_width="@dimen/vw_holder_team_member_delete_btn_sz"
+        android:layout_height="@dimen/vw_holder_team_member_delete_btn_sz"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+        <ImageView
+            android:layout_width="@dimen/vw_holder_team_member_right_icon_sz"
+            android:layout_height="@dimen/vw_holder_team_member_right_icon_sz"
+            android:src="@drawable/ic_team_members_edit"
+            android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_72"
+        android:layout_toLeftOf="@+id/xRelLayEdit"
+        android:layout_centerVertical="true">
+            <com.syte.widgets.TvRobortoRegular
+                android:id="@+id/xTvTmName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Khalid Parvez"
+                android:textColor="@color/color_black_opacity_87"
+                android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+                android:singleLine="true"/>
+            <com.syte.widgets.TvRobortoRegular
+                android:id="@+id/xTvTmDesignation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Project Manager"
+                android:textColor="@color/color_black_opacity_54"
+                android:textSize="@dimen/vw_holder_team_member_designation_txt_sz"
+                android:singleLine="true"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/creation_yaspas_page_title_text_size"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.syte.widgets.TvRobortoMedium
+            android:id="@+id/xTvInvitefriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/syte_details_followers_invite_fnd_from"
+            android:textColor="@color/color_black_opacity_87"
+            android:textSize="@dimen/syte_detail_txt_sz_20" />
+
+        <ImageView
+            android:id="@+id/xIvDelete"
+            android:layout_width="@dimen/notification_item_delete_wd_ht"
+            android:layout_height="@dimen/notification_item_delete_wd_ht"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/add_syte_address_page_padding"
+            android:src="@drawable/ic_generic_close" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/xLinlayContacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_contact" />
+
+        <com.syte.widgets.TvRobortoMedium
+            android:id="@+id/xTvInvitefndcontacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:text="@string/syte_details_followers_invite_fnd_contacs"
+            android:maxLines="1"
+            android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+            android:ellipsize="end"
+            android:textColor="@color/color_black_opacity_54"
+            android:textSize="@dimen/syte_detail_txt_sz_16" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/xLinlayWhatsApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_whats_app" />
+
+        <com.syte.widgets.TvRobortoMedium
+            android:id="@+id/xTvInvitefndwhatsapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:text="@string/syte_details_followers_invite_fnd_whatsapp"
+            android:maxLines="1"
+            android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+            android:ellipsize="end"
+            android:textColor="@color/color_black_opacity_54"
+            android:textSize="@dimen/syte_detail_txt_sz_16" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

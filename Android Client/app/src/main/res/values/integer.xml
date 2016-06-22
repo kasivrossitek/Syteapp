@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--SYTE INVITE FRIENDS-->
+    <integer name="syte_invite_friends_name_txt_sz">15</integer>
+</resources>
