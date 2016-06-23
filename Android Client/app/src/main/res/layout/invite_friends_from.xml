@@ -53,6 +53,7 @@
             android:maxLines="1"
             android:maxLength="@integer/syte_invite_friends_name_txt_sz"
             android:ellipsize="end"
+
             android:textColor="@color/color_black_opacity_54"
             android:textSize="@dimen/syte_detail_txt_sz_16" />
 
@@ -83,6 +84,7 @@
             android:maxLines="1"
             android:maxLength="@integer/syte_invite_friends_name_txt_sz"
             android:ellipsize="end"
+
             android:textColor="@color/color_black_opacity_54"
             android:textSize="@dimen/syte_detail_txt_sz_16" />
 

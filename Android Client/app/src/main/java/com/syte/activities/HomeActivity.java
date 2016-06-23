@@ -19,7 +19,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+
 import android.util.Log;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -118,8 +120,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         LOC_VIRTUAL.setLongitude(getIntent().getExtras().getDouble("ipcCurrentLong"));
         ZOOM_LEVEL = StaticUtils.MAP_DEFAULT_ZOOM_LEVEL;
         mGoogleApiHelper = YasPasApp.getGoogleApiHelper(HomeActivity.this, this);
+
         Log.d("LOC_ACTUAL",LOC_ACTUAL+"");
         Log.d("LOC_VIRTUAL",LOC_VIRTUAL+"");
+
         mBun = new Bundle();
         mBun.putDouble("ipcCurrentLat", getIntent().getExtras().getDouble("ipcCurrentLat"));
         mBun.putDouble("ipcCurrentLong", getIntent().getExtras().getDouble("ipcCurrentLong"));
@@ -184,6 +188,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         sUpdateNotificationIcon();
         if (StaticUtils.IS_GPS_TURNED_ON(HomeActivity.this)) {
+
             mGoogleApiHelper.sGoogleApiConnect();
         } else {
             CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(HomeActivity.this, this);
@@ -203,6 +208,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
 
     }
+
     //kasi
     @Override
     public void onBackPressed() {
@@ -212,6 +218,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             super.onBackPressed();
         }
     }
+
     private void mInItWidgets() {
         mRelLayHome = (RelativeLayout) findViewById(R.id.xRelLayHome);
         mRelLayHome.setOnClickListener(this);

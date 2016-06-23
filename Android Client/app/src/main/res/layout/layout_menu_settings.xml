@@ -23,4 +23,5 @@
         android:padding="@dimen/vw_holder_team_member_name_txt_sz"
         android:visibility="gone"/>
 
+
 </LinearLayout>

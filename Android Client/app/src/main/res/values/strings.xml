@@ -219,7 +219,9 @@
 
     <string name="followers_search_screen_search_box_hint">Search contact</string>
     <string name="syte_details_followers_page_title">Followers</string>
+
     <!--SYTE INVITE FRIENDS-->
+
     <string name="syte_details_followers_invite_friends"> + Invite Friends</string>
     <string name="syte_details_followers_invite_fnd_contacs">Contacts</string>
     <string name="syte_details_followers_invite_phone_contacts">My phone contacts</string>
@@ -266,6 +268,7 @@
     <string name="err_report_a_bug_page_empty_description">Enter bug description</string>
     <string name="err_report_a_bug_page_bug_reported">Your bug is reported</string>
     <string name="err_report_a_bug_page_bug_not_reported">Your bug is not reported. Please try again.</string>
+
     <!--REPORT A Syte SCREEN-->
     <string name="report_a_syte_page_title">Report a syte</string>
     <string name="report_a_syte_page_lbl1">Title</string>
@@ -286,6 +289,7 @@
     <string name="report_a_syte_policy">Information about your phone,account and this app will be automatically included in this report.\n To learn more about how your information is used please see <a href="google.com">www.google.com</a></string>
     <!--CLAIM SYTE ERROR MSG-->
     <string name="err_claim_syte_subject">Syte claimed</string>
+
     <string name="follow_syte_subject">Invite to Follow </string>
 
     <!--Analytics-->

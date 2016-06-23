@@ -55,6 +55,7 @@ public class StaticUtils {
     public static String REPORT_A_BUG = FIREBASE_BASE_URL + "reportBugs";
     public static String REPORT_A_SYTE = FIREBASE_BASE_URL + "reportASyte";
 
+
     public static String CHAT_PUSH_NOTIFICATION_URL = FIREBASE_BASE_URL + "chatPushNotification";
     public static String USER_ANALYTICS_URL = FIREBASE_BASE_URL + "userAnalytics";
 

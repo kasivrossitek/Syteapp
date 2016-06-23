@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+
 import android.content.pm.PackageManager;
+
 import android.os.Bundle;
 import android.service.carrier.CarrierService;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +30,7 @@ import com.google.android.gms.cast.Cast;
 import com.syte.R;
 import com.syte.adapters.AdapterFollowers;
 import com.syte.models.AuthDb;
+
 import com.syte.models.Followers;
 import com.syte.models.Syte;
 import com.syte.utils.StaticUtils;
@@ -60,6 +65,7 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
     private View invitefndsview;
     private TvRobortoMedium btnInvitefriends;
 
+
     ArrayList<String> Authored_numbers;
 
     @Override
@@ -67,7 +73,9 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
         super.onResume();
         mPrgDia.show();
         mFirebaseFollowers.addValueEventListener(eventListenerFollowers);
+
         getAuthorisedNumbers();
+
     } // END onResume()
 
     @Override
@@ -106,7 +114,6 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
         mPrgDia = new ProgressDialog(SyteDetailFollowersActivity.this);
         mPrgDia.setMessage(getString(R.string.prg_bar_wait));
         mPrgDia.setCancelable(false);
-
     }// END mInItObjects
 
     private void mInItWidgets() {
@@ -116,13 +123,16 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
         mRvTeamMembers.setLayoutManager(layoutManager);
         mTvCenterLbl = (TextView) findViewById(R.id.xTvCenterLbl);
         //Invite friends by kasi 28/5/16
+
         Authored_numbers = new ArrayList<>();
+
         mRelTeam = (RelativeLayout) findViewById(R.id.xRelTeam);
         close_view = (ImageView) findViewById(R.id.xIvDelete);
         invitefndsview = (View) findViewById(R.id.xInvitefriendsID);
         btnInvitefriends = (TvRobortoMedium) findViewById(R.id.xTvInvitefnds);
         linLayContacts = (LinearLayout) findViewById(R.id.xLinlayContacts);
         linLaywhatsApp = (LinearLayout) findViewById(R.id.xLinlayWhatsApp);
+
         linLaywhatsApp.setOnClickListener(this);
         linLayContacts.setOnClickListener(this);
         btnInvitefriends.setOnClickListener(this);
@@ -133,6 +143,7 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
         } else {
             linLaywhatsApp.setVisibility(View.GONE);
         }
+
     }// END mInItWidgets()
 
     @Override
@@ -173,6 +184,7 @@ public class SyteDetailFollowersActivity extends Activity implements View.OnClic
                 mBd.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
                 mBd.putParcelable(StaticUtils.IPC_SYTE, mSyte);
                 mBd.putStringArrayList("authored", Authored_numbers);
+
                 whatsappcontact.putExtras(mBd);
                 startActivity(whatsappcontact);
                 break;

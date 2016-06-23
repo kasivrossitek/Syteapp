@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Created by khalid.p on 25-01-2016.
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReportBug {
     String title, description, mRegisteredNum, userName;
@@ -62,3 +63,4 @@ public class ReportBug {
         return userName;
     }
 }
+

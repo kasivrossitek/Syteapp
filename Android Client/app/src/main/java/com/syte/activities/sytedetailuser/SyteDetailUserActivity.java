@@ -43,6 +43,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.syte.R;
 import com.syte.activities.HomeActivity;
 import com.syte.activities.ReportASyteActivity;
+
 import com.syte.activities.chat.UserChatWindowActivity;
 import com.syte.fragments.BulletinBoardUserFragment;
 import com.syte.fragments.SyteDetailAboutUsFragment;
@@ -594,6 +595,7 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
         });
     }
 
+
     private void showContactInfoPopup() {
         final Dialog mDialog = new Dialog(SyteDetailUserActivity.this);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -658,6 +660,7 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
             }
         });
     }// END showContactInfoPopup()
+
 
     private void showMenuSettingsPopup() {
         final Dialog mDialog = new Dialog(SyteDetailUserActivity.this);
@@ -725,3 +728,4 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
     }
 
 }
+

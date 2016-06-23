@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -28,7 +29,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.syte.R;
+
 import com.syte.adapters.AdapterPhoneContacts;
+
 import com.syte.adapters.AdapterWhatsapp;
 import com.syte.models.AuthDb;
 import com.syte.models.Followers;
@@ -41,7 +44,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 /**
  * Created by kasi.v on 24-05-2016.
  */
@@ -65,6 +67,7 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<Followers> mFollower;
     ArrayList<String> Authored_numbers;
     ArrayList<String> myWAContacts_id, mInvited_numbers;
+
     ArrayList<Bitmap> myWAContacts_photo;
     ArrayList<PhoneContact> myWAContacts;
 
@@ -78,11 +81,7 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-    }
 
     @Override
     protected void onStart() {
@@ -111,6 +110,7 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
                         String invited_key = dataSnapshotFollower.getKey();
                         Log.d("invitetofollow data", invited_key);
                         mInvited_numbers.add(invited_key);
+
                     }
                 }
             }
@@ -156,6 +156,7 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
     private String readWhatsappContacts() {
         //read whatsapp contacts
         String success = "";
+
         ContentResolver cr = this.getContentResolver();
         //RowContacts for filter Account Types
         Cursor contactCursor = cr.query(
@@ -209,7 +210,9 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
                                 }
                                 phn_WA.setPhone_ID(id);
                                 phn_WA.setPhone_Name(name);
+
                                 phn_WA.setPhone_Mobile(number.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
+
                                 whatsAppContactCursor.close();
 
                                 //Add Number to ArrayList
@@ -228,19 +231,23 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         }
+
         success = "success";
 
         Log.d("TAG ", " WhatsApp contact size  :  " + myWAContacts.size() + "WhatsApp id size" + myWAContacts_id.size());
 
         return success;
+
     }
 
     private void mInItObjects() {
         mBun = getIntent().getExtras();
         mFollower = mBun.getParcelableArrayList(StaticUtils.IPC_FOLLOWERS);
         mySyteId = mBun.getString(StaticUtils.IPC_SYTE_ID);
+
         mySyte = mBun.getParcelable(StaticUtils.IPC_SYTE);
         Authored_numbers = mBun.getStringArrayList("authored");
+
         mYasPasPref = YasPasPreferences.GET_INSTANCE(WhatsappActivity.this);
         layoutManager = new LinearLayoutManager(WhatsappActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -249,6 +256,7 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
         myWAContacts_photo = new ArrayList<>();
         myWAContacts = new ArrayList<>();
         mInvited_numbers = new ArrayList<>();
+
         mPrgDia = new ProgressDialog(WhatsappActivity.this);
         mPrgDia.setMessage(getString(R.string.prg_bar_wait));
         mPrgDia.setCancelable(false);
@@ -272,9 +280,11 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
         if (Authored_numbers != null) {
             Authored_numbers.clear();
         }
+
         if (mInvited_numbers != null) {
             mInvited_numbers.clear();
         }
+
     }
 
     @Override
@@ -317,6 +327,7 @@ public class WhatsappActivity extends AppCompatActivity implements View.OnClickL
         msearch_close = (ImageView) findViewById(R.id.search_close);
         msearch_close.setOnClickListener(this);
         mPrgDia = new ProgressDialog(this);
+
         mRvWAContacts = (RecyclerView) findViewById(R.id.xRvWAcontacts);
         mRvWAContacts.setLayoutManager(layoutManager);
         mTvWACenterLbl = (TextView) findViewById(R.id.xTvWACenterLbl);

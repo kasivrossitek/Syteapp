@@ -268,13 +268,16 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
             //mProgressDialog.show();
             //swipeRefreshLayout.setRefreshing(true);
 
+
             //SK change
 /*            swipeRefreshLayout.post(new Runnable() {
+
                 @Override
                 public void run() {
                     swipeRefreshLayout.setRefreshing(true);
                 }
             });
+
 */
 //            swipeRefreshLayout.post(new Runnable() {
 //                @Override
@@ -379,7 +382,9 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark,
                 R.color.color_orange, R.color.color_dark_orange);
+
         swipeRefreshLayout.setEnabled(false);
+
         mFabAddYasPas = (FloatingActionButton) mRootView.findViewById(R.id.xFabAddYasPas);
         mFabAddYasPas.setOnClickListener(this);
         //sk Hide this button for now.

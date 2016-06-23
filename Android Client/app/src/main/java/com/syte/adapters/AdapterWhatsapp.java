@@ -47,6 +47,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ArrayList<PhoneContact> contactnumber, contactList_Filtered;
     private ArrayList<Followers> followerses;
     private ArrayList<String> registered_numbers, invited_numbers;
+
     private ArrayList<String> contactId;
     private Syte mysyte;
     private String mysyteid;
@@ -55,6 +56,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
     ArrayList<PhoneContact> regis_cont = new ArrayList<>();
 
     public AdapterWhatsapp(ArrayList<String> myWAContacts_id, ArrayList<Followers> mFollower, ArrayList<String> authored_numbers, ArrayList<PhoneContact> myWAContacts, Syte mySyte, String mySyteId, YasPasPreferences mYasPasPref, ArrayList<String> mInvited_numbers, int dimen, Context applicationContext) {
+
         this.mContext = applicationContext;
         this.contactId = myWAContacts_id;
         this.followerses = mFollower;
@@ -64,6 +66,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.mysyteid = mySyteId;
         this.myYasPasPref = mYasPasPref;
         this.invited_numbers = mInvited_numbers;
+
 
     }
 
@@ -84,6 +87,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
             boolean isidregs = checkreg_list(id);
             if (isidregs) {
                 if (followlist.size() != 0) {
+
                     boolean isidfollows = checkfollow_list(id);
                     if (isidfollows) {
                         displayfollowContact(viewHolder, position, id);
@@ -138,8 +142,10 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         Log.d("Whatsapp unfollow", numbers.get(0) + "size:" + numbers.size());
                         mSendInviteNotification(numbers.get(0));
 
+
                         Log.d("Whatsapp Follow request", "Follow Request Sent Successfully");
                         //   Snackbar.make(v, "Follow Request Sent Successfully" + numbers.get(0), Snackbar.LENGTH_SHORT);
+
 
                     }
                 }
@@ -166,6 +172,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     //send whatsapp message
+
     public void sendWhatsapp(String num, String id) {
         Uri mUri = Uri.parse("smsto:" + num.trim());
         Intent mIntent = new Intent(Intent.ACTION_SEND, mUri);
@@ -173,12 +180,14 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mIntent.setType("text/plain");
         mIntent.putExtra("chat", true);
         mIntent.putExtra(Intent.EXTRA_TEXT, "Hi I am using Syte App. Create your own free Syte & start managing it. Download : https://play.google.com/store/apps/details?id=com.syte");
+
         mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         try {
             mContext.startActivity(mIntent);
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(mContext, ex.getMessage(), Toast.LENGTH_SHORT).show();
+
         }
        /* String whatsappid = null;
         Cursor c = mContext.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -213,8 +222,10 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
         for (PhoneContact phc : contactnumber) {
             isregistered(phc);
         }
+
         Log.d("regis_cont",""+regis_cont.size());
         if (regis_cont.size() != 0) {
+
             isfollowsyte(regis_cont);
         }
     }
@@ -236,7 +247,6 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void isregistered(PhoneContact num_lists) {
-
        Log.d("heloo",num_lists.getPhone_Mobile());
             if (num_lists.getPhone_Mobile() != null)
             {
@@ -248,8 +258,6 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             }
-
-
     }
 
     private void displayfollowContact(ViewHolderContactlist viewHolders, int pos, String id) {
@@ -262,6 +270,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
             viewHolders.getmProfilePic().setImageResource(R.drawable.img_user_thumbnail_image_list);
         }
         viewHolders.getMinvited().setVisibility(View.GONE);
+
         viewHolders.getmInvitefnd().setVisibility(View.GONE);
         viewHolders.getmFollowfnd().setVisibility(View.VISIBLE);
         viewHolders.getmUnFollowfnd().setVisibility(View.GONE);
@@ -299,7 +308,6 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void displayfollowInvited(ViewHolderContactlist viewHolders, int pos, String id, boolean isInvited) {
-
         viewHolders.getmTvName().setText(contactnumber.get(pos).getPhone_Name());
         Bitmap img = contactnumber.get(pos).getPhoto_id();
         if (img != null) {
@@ -319,6 +327,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
             viewHolders.getmFollowfnd().setVisibility(View.GONE);
             viewHolders.getmUnFollowfnd().setVisibility(View.VISIBLE);
         }
+
     }
 
     private boolean checkfollow_list(String ids) {
@@ -345,9 +354,11 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewHolders.getmInvitefnd().setVisibility(View.VISIBLE);
         viewHolders.getmFollowfnd().setVisibility(View.GONE);
         viewHolders.getmUnFollowfnd().setVisibility(View.GONE);
+
         viewHolders.getMinvited().setVisibility(View.GONE);
 
     }
+
 
     private void mSendInviteNotification(String num) {
         updateinvite(num);
@@ -464,6 +475,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             String data = contactList_Filtered.get(i).getPhone_Name();
                             if (data.toLowerCase().startsWith(constraint.toString())) {
                                 FilteredArrList.add(new PhoneContact(contactList_Filtered.get(i).getPhone_Name(), contactList_Filtered.get(i).getPhone_ID(), contactList_Filtered.get(i).getPhoto_id(), contactList_Filtered.get(i).getPhone_Mobile()));
+
                             }
                         }
                         // set the Filtered result to return
@@ -481,7 +493,9 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     public class ViewHolderContactlist extends RecyclerView.ViewHolder {
+
         private ImageView mProfilePic, mInvitefnd, mFollowfnd, mUnFollowfnd, minvited;
+
 
         private TextView mTvName;
 
@@ -491,6 +505,7 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mInvitefnd = (ImageView) itemView.findViewById(R.id.xfriendinviteimgid);
             mFollowfnd = (ImageView) itemView.findViewById(R.id.xfriendfollowimgid);
             mUnFollowfnd = (ImageView) itemView.findViewById(R.id.xfriendunfollowimgid);
+
             minvited = (ImageView) itemView.findViewById(R.id.xfriendivited);
             mTvName = (TextView) itemView.findViewById(R.id.xfriendsNameid);
         }
@@ -502,7 +517,6 @@ public class AdapterWhatsapp extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void setMinvited(ImageView minvited) {
             this.minvited = minvited;
         }
-
         public ImageView getmProfilePic() {
             return mProfilePic;
         }
