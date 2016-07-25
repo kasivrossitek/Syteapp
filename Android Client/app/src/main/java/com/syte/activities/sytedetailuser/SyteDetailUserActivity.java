@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.syte.R;
 import com.syte.activities.HomeActivity;
 import com.syte.activities.ReportASyteActivity;
-
 import com.syte.activities.chat.UserChatWindowActivity;
 import com.syte.fragments.BulletinBoardUserFragment;
 import com.syte.fragments.SyteDetailAboutUsFragment;
@@ -595,7 +595,6 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
         });
     }
 
-
     private void showContactInfoPopup() {
         final Dialog mDialog = new Dialog(SyteDetailUserActivity.this);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -659,8 +658,32 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
 
             }
         });
+        View mviewEmail = (View) window.findViewById(R.id.xViewEmail);
+        TextView mHeaderEmail = (TextView) window.findViewById(R.id.xHeaderEmail);
+        View mviewWebsite = (View) window.findViewById(R.id.xViewWebsite);
+        TextView mHeaderWebsite = (TextView) window.findViewById(R.id.xHeaderWebsite);
+        TextView mTvEmailId = (TextView) window.findViewById(R.id.xTvEmail);
+        TextView mTvWebsite = (TextView) window.findViewById(R.id.xTvWebsite);
+        ImageView mImgEmail = (ImageView) window.findViewById(R.id.ximgemail);
+        ImageView mImgWeb = (ImageView) window.findViewById(R.id.ximgweb);
+        if (!mSyte.getEmailid().toString().isEmpty()) {
+            mImgEmail.setVisibility(View.VISIBLE);
+            mTvEmailId.setText(mSyte.getEmailid());
+        } else {
+            mImgEmail.setVisibility(View.GONE);
+            mviewEmail.setVisibility(View.GONE);
+            mHeaderEmail.setVisibility(View.GONE);
+        }
+        if (!mSyte.getWebsite().toString().isEmpty()) {
+            mImgWeb.setVisibility(View.VISIBLE);
+            mTvWebsite.setText(mSyte.getWebsite());
+            mTvWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            mImgWeb.setVisibility(View.GONE);
+            mviewWebsite.setVisibility(View.GONE);
+            mHeaderWebsite.setVisibility(View.GONE);
+        }
     }// END showContactInfoPopup()
-
 
     private void showMenuSettingsPopup() {
         final Dialog mDialog = new Dialog(SyteDetailUserActivity.this);
@@ -698,6 +721,9 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
                 if (mNetworkStatus.isNetworkAvailable()) {
                     //report a  syte
                     Intent report_intent = new Intent(SyteDetailUserActivity.this, ReportASyteActivity.class);
+                    report_intent.putExtra(StaticUtils.IPC_SYTE_ID,mSyteId);
+                    report_intent.putExtra(StaticUtils.IPC_SYTE_NAME,mSyte.getName());
+                    report_intent.putExtra(StaticUtils.IPC_SYTE_OWNERS,mSyte.getOwner());
                     startActivity(report_intent);
                 } else {
                     CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailUserActivity.this, SyteDetailUserActivity.this);
@@ -728,4 +754,3 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
     }
 
 }
-

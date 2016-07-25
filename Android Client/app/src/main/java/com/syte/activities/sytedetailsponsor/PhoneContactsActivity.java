@@ -3,14 +3,13 @@ package com.syte.activities.sytedetailsponsor;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-
 import android.os.AsyncTask;
-import android.os.Build;
-
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +20,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -34,28 +33,20 @@ import com.firebase.client.ValueEventListener;
 import com.syte.R;
 import com.syte.adapters.AdapterPhoneContacts;
 import com.syte.models.AuthDb;
-import com.syte.models.CustomMapMarker;
 import com.syte.models.Followers;
 import com.syte.models.Listcontacts;
 import com.syte.models.PhoneContact;
 import com.syte.models.Syte;
-
-import com.syte.services.MediaUploadService;
-
 import com.syte.utils.StaticUtils;
 import com.syte.utils.YasPasPreferences;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import java.util.HashMap;
-
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by kasi.v on 24-05-2016.
@@ -77,16 +68,13 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
     private Syte mySyte;
     private YasPasPreferences mYasPasPref;
     private ArrayList<Followers> mFollower;
-
     private ArrayList<String> Authored_numbers, mInvited_numbers;
     ArrayList<PhoneContact> contact_numbers;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_contacts);
-
         mInItObjects();
         mInItWidgets();
     }// END onCreate()
@@ -101,11 +89,9 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
         if (mFollower != null) {
             mFollower.clear();
         }
-
         if (mInvited_numbers != null) {
             mInvited_numbers.clear();
         }
-
     }
 
     @Override
@@ -117,7 +103,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
 
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -126,16 +111,13 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getAuthorisedNumbers() {
-
         Firebase mFirebaseAuthDbUrl = new Firebase(StaticUtils.AUTH_DB_URL);
         mFirebaseAuthDbUrl.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 if (Authored_numbers.size() != 0) {
                     Authored_numbers.removeAll(Authored_numbers);
                 }
-
                 if (dataSnapshot.getValue() != null) {
                     Log.d("autho", dataSnapshot.getKey());
                     Iterator<DataSnapshot> iteratorFollowers = dataSnapshot.getChildren().iterator();
@@ -147,7 +129,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
                     }
                 }
 
-
             }
 
             @Override
@@ -157,7 +138,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
-
 
     private void mInvites() {
         final Firebase firebaseUpdateInviteStatus = new Firebase(StaticUtils.YASPAS_URL).child(mySyteId).child("invitetofollow");
@@ -187,7 +167,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-
     private void mInItObjects() {
         mBun = getIntent().getExtras();
         mFollower = mBun.getParcelableArrayList(StaticUtils.IPC_FOLLOWERS);
@@ -196,9 +175,10 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
         mYasPasPref = YasPasPreferences.GET_INSTANCE(PhoneContactsActivity.this);
         mContext = this;
         contact_id = new ArrayList<>();
-
+        Authored_numbers = new ArrayList<>();
         mInvited_numbers = new ArrayList<>();
         contact_numbers = new ArrayList<>();
+
 
     }// END mInItObjects
 
@@ -217,7 +197,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
         msearch_close.setOnClickListener(this);
         mRvContacts = (RecyclerView) findViewById(R.id.xRvcontacts);
         mRvContacts.setLayoutManager(layoutManager);
-
         mPrgDia = new ProgressDialog(this);
         mTvCenterLbl = (TextView) findViewById(R.id.xTvCenterLbl);
     }
@@ -225,7 +204,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
     public String readContacts() {
         //Read phone contacts
         String str = "";
-
         ContentResolver cr = this.getContentResolver();
 
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
@@ -267,14 +245,12 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
             }
             cur.close();
 
-
             Log.d("idsize" + contact_id.size(), "");
             str = read_phoneNum();
 
 
         }
         return str;
-
     }
 
     // TextWatcher for Serach Box
@@ -297,13 +273,13 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
 
     };
 
-
     private void mGetContacts() {
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... params) {
                 mInvites();
-                String str = readContacts();
+                String str = readContacts();//get contacts from phone contacts
+                // String str = getcontacts_from_gsondata();//13-7-16 get contacts from cache
                 return str;
             }
 
@@ -318,16 +294,53 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
             protected void onPostExecute(String result) {
                 Log.d("", result);
                 mPrgDia.dismiss();
-                adapterContacts = new AdapterPhoneContacts(contact_id, contact_numbers, mFollower, Authored_numbers, mySyte, mySyteId, mYasPasPref, mInvited_numbers, ((int) (getResources().getDimension(R.dimen.cloudinary_list_image_sz) / getResources().getDisplayMetrics().density)), getApplicationContext());
-                mRvContacts.setAdapter(adapterContacts);
+                if (result.equalsIgnoreCase("success")) {
+                    adapterContacts = new AdapterPhoneContacts(contact_id, contact_numbers, mFollower, Authored_numbers, mySyte, mySyteId, mYasPasPref, mInvited_numbers, ((int) (getResources().getDimension(R.dimen.cloudinary_list_image_sz) / getResources().getDisplayMetrics().density)), getApplicationContext());
+                    mRvContacts.setAdapter(adapterContacts);
+                } else {
+
+                    Toast.makeText(PhoneContactsActivity.this, "No Contacts found", Toast.LENGTH_SHORT).show();
+                }
             }
         }.execute();
     } // END mGetContacts
 
+    /*public String getcontacts_from_gsondata() {
+        String request = "failed";
+
+        try {
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" );
+            if (root.exists()) {
+
+
+                FileInputStream filein = new FileInputStream(root.getAbsolutePath()+"/" + "phoneid");
+                ObjectInputStream response = new ObjectInputStream(filein);
+                contact_id = (ArrayList<Listcontacts>) response.readObject();
+                response.close();
+                filein.close();
+                FileInputStream filein2 = new FileInputStream(root.getAbsolutePath()+"/" + "phonenum");
+                ObjectInputStream response2 = new ObjectInputStream(filein2);
+                contact_numbers = (ArrayList<PhoneContact>) response2.readObject();
+                response2.close();
+                filein2.close();
+            }
+            Log.e("data found", "" + contact_id.size() + "" + contact_numbers.size());
+            //Toast.makeText(PhoneContactsActivity.this, "data found" + contact_id.size() + "" + contact_numbers.size(), Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException f) {
+            f.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        request = "success";
+        // }
+        return request;
+    }
+*/
     public String read_phoneNum() {
 
         String success = "";
-
 
         ContentResolver cr = this.getContentResolver();
         for (Listcontacts ids : contact_id) {
@@ -345,7 +358,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
 
                 switch (phoneType) {
                     case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:
-
                         Log.e(": TYPE_MOBILE", " " + phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
 
                         break;
@@ -361,26 +373,22 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
                         break;
                     case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER:
                         Log.e(": TYPE_OTHER", "" + phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
-
                         break;
                     default:
                         break;
                 }
 
                 phncon.setPhone_Mobile(phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
-
                 phncon.setPhone_ID(ids.getContact_id());
                 System.out.println("phone" + phone);
                 contact_numbers.add(phncon);
             }
             pCur.close();
-
             success = "success";
         }
 
 
         return success;
-
     }
 
 
@@ -396,10 +404,10 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
                 mRelLayBack.setVisibility(View.GONE);
                 mRelaysearch.setVisibility(View.GONE);
                 mLinLaySearchBox.setVisibility(View.VISIBLE);
-
             }
             break;
             case R.id.search_close:
+                mEtSearchContact.setText("");
                 mLinLaySearchBox.setVisibility(View.GONE);
                 mRelLayBack.setVisibility(View.VISIBLE);
                 mRelaysearch.setVisibility(View.VISIBLE);
@@ -409,5 +417,6 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
 
         }
     }
+
 
 }

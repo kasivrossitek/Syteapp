@@ -19,9 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-
 import android.util.Log;
-
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -87,6 +85,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private Cloudinary mCloudinary;
     private BrdcstNotificationReceived brdcstNotificationReceived;
     private BrdcstChatMessages brdcstChatMessages;
+    private Context cont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +94,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mYasPasPref = YasPasPreferences.GET_INSTANCE(HomeActivity.this);
         mYasPasPref.sSetFollowingFlag(false);
         mYasPasPref.sSetFilterDistance(10);
+        cont = this;
         brdcstNotificationReceived = new BrdcstNotificationReceived();
         brdcstChatMessages = new BrdcstChatMessages();
         int dime = (int) (getResources().getDimension(R.dimen.cloudinary_user_profile_pic_image_sz) / getResources().getDisplayMetrics().density);
@@ -114,16 +114,21 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         LOC_ACTUAL = new Location("");
         LOC_VIRTUAL = new Location("");
-        LOC_ACTUAL.setLatitude(getIntent().getExtras().getDouble("ipcCurrentLat"));
-        LOC_ACTUAL.setLongitude(getIntent().getExtras().getDouble("ipcCurrentLong"));
-        LOC_VIRTUAL.setLatitude(getIntent().getExtras().getDouble("ipcCurrentLat"));
-        LOC_VIRTUAL.setLongitude(getIntent().getExtras().getDouble("ipcCurrentLong"));
+        if (getIntent().getExtras().getDouble("ipcCurrentLat") == 0.000000 && getIntent().getExtras().getDouble("ipcCurrentLong") == 0.000000) {
+            LOC_ACTUAL.setLatitude(12.9589854);
+            LOC_ACTUAL.setLongitude(77.6467042);
+            LOC_VIRTUAL.setLatitude(12.9589854);
+            LOC_VIRTUAL.setLongitude(77.6467042);
+        } else {
+            LOC_ACTUAL.setLatitude(getIntent().getExtras().getDouble("ipcCurrentLat"));
+            LOC_ACTUAL.setLongitude(getIntent().getExtras().getDouble("ipcCurrentLong"));
+            LOC_VIRTUAL.setLatitude(getIntent().getExtras().getDouble("ipcCurrentLat"));
+            LOC_VIRTUAL.setLongitude(getIntent().getExtras().getDouble("ipcCurrentLong"));
+        }
         ZOOM_LEVEL = StaticUtils.MAP_DEFAULT_ZOOM_LEVEL;
         mGoogleApiHelper = YasPasApp.getGoogleApiHelper(HomeActivity.this, this);
-
-        Log.d("LOC_ACTUAL",LOC_ACTUAL+"");
-        Log.d("LOC_VIRTUAL",LOC_VIRTUAL+"");
-
+        Log.d("LOC_ACTUAL", LOC_ACTUAL + "");
+        Log.d("LOC_VIRTUAL", LOC_VIRTUAL + "");
         mBun = new Bundle();
         mBun.putDouble("ipcCurrentLat", getIntent().getExtras().getDouble("ipcCurrentLat"));
         mBun.putDouble("ipcCurrentLong", getIntent().getExtras().getDouble("ipcCurrentLong"));
@@ -175,7 +180,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-
         Intent i = new Intent(HomeActivity.this, ChatCounterService.class);
         startService(i);
 
@@ -188,7 +192,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         sUpdateNotificationIcon();
         if (StaticUtils.IS_GPS_TURNED_ON(HomeActivity.this)) {
-
             mGoogleApiHelper.sGoogleApiConnect();
         } else {
             CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(HomeActivity.this, this);
@@ -516,7 +519,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onLastLocationKnown(Location lastKnownLoc) {
-        mGoogleApiHelper.sStartLocationUpdate(1000 * 30, 1000 * 30, 1000);
+        mGoogleApiHelper.sStartLocationUpdate(cont, 1000 * 30, 1000 * 30, 1000);
     }
 
     @Override

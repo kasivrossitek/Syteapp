@@ -18,6 +18,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,6 +44,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.syte.R;
 import com.syte.activities.HomeActivity;
+import com.syte.activities.ReportASyteActivity;
 import com.syte.activities.analytics.SyteAnalyticsActivity;
 import com.syte.activities.chat.SponsorChatListActivity;
 import com.syte.activities.editsyte.EditSyteMainActivity;
@@ -59,6 +62,7 @@ import com.syte.utils.DeleteASyteRequest;
 import com.syte.utils.NetworkStatus;
 import com.syte.utils.StaticUtils;
 import com.syte.utils.YasPasMessages;
+import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.CustomDialogs;
 import com.syte.widgets.EnlargeImageDialog;
 
@@ -96,10 +100,12 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
     ViewPagerAdapter mAdapterTab;
     // BULLETIN BOARD
     //private FrameLayout mFlBulletinBoard;
+
     // CONTACT INFO
     private LinearLayout mLinLaySytePhone, mLinLayContactUs;
     private TextView mTvMobileNumber;
     private ImageView mIvPhIcn;
+    private YasPasPreferences mYasPasPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +118,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mAdapterTab = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapterTab);
         tabLayout.setupWithViewPager(viewPager);
-        mSetBulletinBoard();
+        //   mSetBulletinBoard();//kasi commented on 21-7-16
     }// END onCreate()
 
     @Override
@@ -158,6 +164,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         whatWeDo = new WhatWeDo();
         whatWeDo.setTitle("");
         whatWeDo.setDescription("");
+        mYasPasPreferences = YasPasPreferences.GET_INSTANCE(SyteDetailSponsorActivity.this);
     }// END mInItObjects()
 
     private void mInItWidgets() {
@@ -189,6 +196,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         // BULLETIN BOARD
         //mFlBulletinBoard = (FrameLayout) findViewById(R.id.xFlBulletinBoard);
+
         //CONTACT INFO
         mLinLaySytePhone = (LinearLayout) findViewById(R.id.xLinLaySytePhone);
         mLinLaySytePhone.setOnClickListener(this);
@@ -252,7 +260,16 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 break;
             }
             case R.id.xLinLayContactUs: {
-                showContactInfoPopup();
+                if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Private")) {
+                    showContactInfoPopup();
+                } else if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Public")) {
+                    if (mSyte.getMobileNo().trim().equalsIgnoreCase(mYasPasPreferences.sGetRegisteredNum().trim())) {
+                        showContactInfoPopup();
+                    } else {
+                        showPublicContactInfoPopup();
+                    }
+                }
+
                 break;
             }
             case R.id.xRelLayChat: {
@@ -272,7 +289,17 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 break;
             }
             case R.id.xRelLayMenuSettings: {
-                showMenuSettingsPopup();
+                if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Private")) {
+                    showMenuSettingsPopup();
+                } else if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Public")) {
+                    if (mSyte.getMobileNo().trim().equalsIgnoreCase(mYasPasPreferences.sGetRegisteredNum().trim())) {
+                        showMenuSettingsPopup();
+                    } else {
+                        showPublicMenuSettingsPopup();
+                    }
+                }
+
+
                 break;
             }
             case R.id.xIvSyteBanner: {
@@ -352,104 +379,31 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
     private void mSetBulletinBoard() {
         Fragment mCurrentFragment = new BulletinBoardSponsorFragment();
         Bundle bundle = new Bundle();
+        bundle.putParcelable(StaticUtils.IPC_SYTE, mSyte);//kasi  on 21-7-16
         bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
         mCurrentFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.xFlBulletinBoard, mCurrentFragment).commit();
     }
 
+
     private class EventListenerGenInfo implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             mSyte = dataSnapshot.getValue(Syte.class);
             if (mSyte != null) {
-                mTvSyteName.setText(mSyte.getName());
-                mTvSyteCity.setText(mSyte.getCity());
-                if (mSyte.getMobileNo().trim().length() > 0) {
-                    mIvPhIcn.setVisibility(View.VISIBLE);
-                    mTvMobileNumber.setText(mSyte.getMobileNo());
-                } else {
-                    mIvPhIcn.setVisibility(View.GONE);
-                    mTvMobileNumber.setText(getString(R.string.syte_detail_page_no_mob_num));
+                mSetBulletinBoard();//kasi  on 21-7-16
+                if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Private")) {
+                    genPrivateInfo(dataSnapshot);
+                } else if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Public")) {
+                    if (mSyte.getMobileNo().trim().equalsIgnoreCase(mYasPasPreferences.sGetRegisteredNum().trim())) {
+                        genPrivateInfo(dataSnapshot);
+                    } else {
+                        genPublicInfo(dataSnapshot);
+                    }
                 }
-                String[] arrSyteCategory = mSyte.getCategory().split(",");
-                LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                mLinLaySyteCategory.removeAllViews();
-                for (int i = 0; i < arrSyteCategory.length; i++) {
-                    LinearLayout.LayoutParams param;
-                    param = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
-                    LinearLayout linLayHor = new LinearLayout(SyteDetailSponsorActivity.this);
-                    linLayHor.setOrientation(LinearLayout.HORIZONTAL);
-                    View viewTemp = li.inflate(R.layout.layout_category, null);
-                    viewTemp.setLayoutParams(param);
-                    TextView textViewTemp = (TextView) viewTemp.findViewById(R.id.xTvSyteCategory);
-                    textViewTemp.setText(arrSyteCategory[i].toString().trim().toUpperCase());
-                    linLayHor.addView(viewTemp);
-                    mLinLaySyteCategory.addView(linLayHor);
-                }
-                if (mSyte.getCategory().toString().trim().length() > 0) {
-                    mLinLaySyteCategoryMain.setVisibility(View.VISIBLE);
-                } else {
-                    mLinLaySyteCategoryMain.setVisibility(View.GONE);
-                }
-
-
-                String cURL = mCloudinary.url().generate(mSyte.getImageUrl().toString().trim());
-                ImageLoader.getInstance().displayImage(cURL, mIvSyteBanner, mDisImgOpt, new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                        mPbSyteBannerImage.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        mPbSyteBannerImage.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        mPbSyteBannerImage.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-                        mPbSyteBannerImage.setVisibility(View.GONE);
-                    }
-                });
-                //}
-                aboutUs = mSyte.getAboutUs();
-                whatWeDo = mSyte.getWhatWeDo();
-
-                SyteDetailAboutUsFragment syteDetailAboutUsFragment = (SyteDetailAboutUsFragment) mAdapterTab.mFragmentTab.get(0);
-                syteDetailAboutUsFragment.sUpdateAboutUs(aboutUs);
-
-                SyteDetailWhatWeDoFragment syteDetailWhatWeDoFragment = (SyteDetailWhatWeDoFragment) mAdapterTab.mFragmentTab.get(2);
-                syteDetailWhatWeDoFragment.sUpdateWhatWeDo(whatWeDo);
-
-                //Setting Team Members
-                ArrayList<YasPasTeam> yasPasTeams = new ArrayList<>();
-
-                DataSnapshot dataSnapshotTeam = (DataSnapshot) dataSnapshot.child(StaticUtils.YASPAS_TEAM);
-                if (dataSnapshotTeam.getValue() != null) {
-                    Iterator<DataSnapshot> it = dataSnapshotTeam.getChildren().iterator();
-                    while (it.hasNext()) {
-                        DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
-                        YasPasTeam mTeam = dataSnapshot1.getValue(YasPasTeam.class);
-                        yasPasTeams.add(mTeam);
-                        if (!it.hasNext()) {
-                            SyteDetailTeamMembersFragment syteDetailTeamMembersFragment = (SyteDetailTeamMembersFragment) mAdapterTab.mFragmentTab.get(1);
-                            syteDetailTeamMembersFragment.sUpdateTeamMember(yasPasTeams);
-                        }
-                    }
-                } else {
-                    SyteDetailTeamMembersFragment syteDetailTeamMembersFragment = (SyteDetailTeamMembersFragment) mAdapterTab.mFragmentTab.get(1);
-                    syteDetailTeamMembersFragment.sUpdateTeamMember(yasPasTeams);
-                }
-
-                mPrgDia.dismiss();
             }
+
         }
 
         @Override
@@ -457,6 +411,192 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
 
         }
     } //END EventListenerGenInfo
+
+    private void genPrivateInfo(DataSnapshot dataSnapshot) {
+        {
+            mTvSyteName.setText(mSyte.getName());
+            mTvSyteCity.setText(mSyte.getCity());
+            if (mSyte.getMobileNo().trim().length() > 0) {
+                mIvPhIcn.setVisibility(View.VISIBLE);
+                mTvMobileNumber.setText(mSyte.getMobileNo());
+            } else {
+                mIvPhIcn.setVisibility(View.GONE);
+                mTvMobileNumber.setText(getString(R.string.syte_detail_page_no_mob_num));
+            }
+            String[] arrSyteCategory = mSyte.getCategory().split(",");
+            LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mLinLaySyteCategory.removeAllViews();
+            for (int i = 0; i < arrSyteCategory.length; i++) {
+                LinearLayout.LayoutParams param;
+                param = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout linLayHor = new LinearLayout(SyteDetailSponsorActivity.this);
+                linLayHor.setOrientation(LinearLayout.HORIZONTAL);
+                View viewTemp = li.inflate(R.layout.layout_category, null);
+                viewTemp.setLayoutParams(param);
+                TextView textViewTemp = (TextView) viewTemp.findViewById(R.id.xTvSyteCategory);
+                textViewTemp.setText(arrSyteCategory[i].toString().trim().toUpperCase());
+                linLayHor.addView(viewTemp);
+                mLinLaySyteCategory.addView(linLayHor);
+            }
+            if (mSyte.getCategory().toString().trim().length() > 0) {
+                mLinLaySyteCategoryMain.setVisibility(View.VISIBLE);
+            } else {
+                mLinLaySyteCategoryMain.setVisibility(View.GONE);
+            }
+
+
+            String cURL = mCloudinary.url().generate(mSyte.getImageUrl().toString().trim());
+            ImageLoader.getInstance().displayImage(cURL, mIvSyteBanner, mDisImgOpt, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    mPbSyteBannerImage.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    mPbSyteBannerImage.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    mPbSyteBannerImage.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                    mPbSyteBannerImage.setVisibility(View.GONE);
+                }
+            });
+            //}
+            aboutUs = mSyte.getAboutUs();
+            whatWeDo = mSyte.getWhatWeDo();
+
+            SyteDetailAboutUsFragment syteDetailAboutUsFragment = (SyteDetailAboutUsFragment) mAdapterTab.mFragmentTab.get(0);
+            syteDetailAboutUsFragment.sUpdateAboutUs(aboutUs);
+
+            SyteDetailWhatWeDoFragment syteDetailWhatWeDoFragment = (SyteDetailWhatWeDoFragment) mAdapterTab.mFragmentTab.get(2);
+            syteDetailWhatWeDoFragment.sUpdateWhatWeDo(whatWeDo);
+
+            //Setting Team Members
+            ArrayList<YasPasTeam> yasPasTeams = new ArrayList<>();
+
+            DataSnapshot dataSnapshotTeam = (DataSnapshot) dataSnapshot.child(StaticUtils.YASPAS_TEAM);
+            if (dataSnapshotTeam.getValue() != null) {
+                Iterator<DataSnapshot> it = dataSnapshotTeam.getChildren().iterator();
+                while (it.hasNext()) {
+                    DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
+                    YasPasTeam mTeam = dataSnapshot1.getValue(YasPasTeam.class);
+                    yasPasTeams.add(mTeam);
+                    if (!it.hasNext()) {
+                        SyteDetailTeamMembersFragment syteDetailTeamMembersFragment = (SyteDetailTeamMembersFragment) mAdapterTab.mFragmentTab.get(1);
+                        syteDetailTeamMembersFragment.sUpdateTeamMember(yasPasTeams);
+                    }
+                }
+            } else {
+                SyteDetailTeamMembersFragment syteDetailTeamMembersFragment = (SyteDetailTeamMembersFragment) mAdapterTab.mFragmentTab.get(1);
+                syteDetailTeamMembersFragment.sUpdateTeamMember(yasPasTeams);
+            }
+
+            mPrgDia.dismiss();
+        }
+    }
+
+    private void genPublicInfo(DataSnapshot dataSnapshot) {
+        {
+            mTvSyteName.setText(mSyte.getName());
+            mTvSyteCity.setText(mSyte.getCity());
+            if (mSyte.getMobileNo().trim().length() > 0) {
+                mIvPhIcn.setVisibility(View.VISIBLE);
+                mTvMobileNumber.setText(mSyte.getMobileNo());
+            } else {
+                mIvPhIcn.setVisibility(View.GONE);
+                mTvMobileNumber.setText(getString(R.string.syte_detail_page_no_mob_num));
+            }
+            String[] arrSyteCategory = mSyte.getCategory().split(",");
+            LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mLinLaySyteCategory.removeAllViews();
+            for (int i = 0; i < arrSyteCategory.length; i++) {
+                LinearLayout.LayoutParams param;
+                param = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout linLayHor = new LinearLayout(SyteDetailSponsorActivity.this);
+                linLayHor.setOrientation(LinearLayout.HORIZONTAL);
+                View viewTemp = li.inflate(R.layout.layout_category, null);
+                viewTemp.setLayoutParams(param);
+                TextView textViewTemp = (TextView) viewTemp.findViewById(R.id.xTvSyteCategory);
+                textViewTemp.setText(arrSyteCategory[i].toString().trim().toUpperCase());
+                linLayHor.addView(viewTemp);
+                mLinLaySyteCategory.addView(linLayHor);
+            }
+            if (mSyte.getCategory().toString().trim().length() > 0) {
+                mLinLaySyteCategoryMain.setVisibility(View.VISIBLE);
+            } else {
+                mLinLaySyteCategoryMain.setVisibility(View.GONE);
+            }
+
+
+            String cURL = mCloudinary.url().generate(mSyte.getImageUrl().toString().trim());
+            ImageLoader.getInstance().displayImage(cURL, mIvSyteBanner, mDisImgOpt, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    mPbSyteBannerImage.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    mPbSyteBannerImage.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    mPbSyteBannerImage.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                    mPbSyteBannerImage.setVisibility(View.GONE);
+                }
+            });
+            //}
+            aboutUs = mSyte.getAboutUs();
+            whatWeDo = mSyte.getWhatWeDo();
+            mRelLayChat.setVisibility(View.GONE);
+            mRelLayEditSyte.setVisibility(View.GONE);
+            mLinLaySytePhone.setVisibility(View.GONE);
+
+
+            SyteDetailAboutUsFragment syteDetailAboutUsFragment = (SyteDetailAboutUsFragment) mAdapterTab.mFragmentTab.get(0);
+            syteDetailAboutUsFragment.sUpdateAboutUs(aboutUs);
+
+            SyteDetailWhatWeDoFragment syteDetailWhatWeDoFragment = (SyteDetailWhatWeDoFragment) mAdapterTab.mFragmentTab.get(2);
+            syteDetailWhatWeDoFragment.sUpdateWhatWeDo(whatWeDo);
+
+            //Setting Team Members
+            ArrayList<YasPasTeam> yasPasTeams = new ArrayList<>();
+
+            DataSnapshot dataSnapshotTeam = (DataSnapshot) dataSnapshot.child(StaticUtils.YASPAS_TEAM);
+            if (dataSnapshotTeam.getValue() != null) {
+                Iterator<DataSnapshot> it = dataSnapshotTeam.getChildren().iterator();
+                while (it.hasNext()) {
+                    DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
+                    YasPasTeam mTeam = dataSnapshot1.getValue(YasPasTeam.class);
+                    yasPasTeams.add(mTeam);
+                    if (!it.hasNext()) {
+                        SyteDetailTeamMembersFragment syteDetailTeamMembersFragment = (SyteDetailTeamMembersFragment) mAdapterTab.mFragmentTab.get(1);
+                        syteDetailTeamMembersFragment.sUpdateTeamMember(yasPasTeams);
+                    }
+                }
+            } else {
+                SyteDetailTeamMembersFragment syteDetailTeamMembersFragment = (SyteDetailTeamMembersFragment) mAdapterTab.mFragmentTab.get(1);
+                syteDetailTeamMembersFragment.sUpdateTeamMember(yasPasTeams);
+            }
+
+            mPrgDia.dismiss();
+        }
+    }
 
     private void showContactInfoPopup() {
         final Dialog mDialog = new Dialog(SyteDetailSponsorActivity.this);
@@ -521,7 +661,125 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
 
             }
         });
+        View mviewEmail = (View) window.findViewById(R.id.xViewEmail);
+        TextView mHeaderEmail = (TextView) window.findViewById(R.id.xHeaderEmail);
+        View mviewWebsite = (View) window.findViewById(R.id.xViewWebsite);
+        TextView mHeaderWebsite = (TextView) window.findViewById(R.id.xHeaderWebsite);
+        TextView mTvEmailId = (TextView) window.findViewById(R.id.xTvEmail);
+        TextView mTvWebsite = (TextView) window.findViewById(R.id.xTvWebsite);
+        ImageView mImgEmail = (ImageView) window.findViewById(R.id.ximgemail);
+        ImageView mImgWeb = (ImageView) window.findViewById(R.id.ximgweb);
+        if (!mSyte.getEmailid().toString().isEmpty()) {
+            mImgEmail.setVisibility(View.VISIBLE);
+            mTvEmailId.setText(mSyte.getEmailid());
+        } else {
+            mImgEmail.setVisibility(View.GONE);
+            mviewEmail.setVisibility(View.GONE);
+            mHeaderEmail.setVisibility(View.GONE);
+        }
+        if (!mSyte.getWebsite().toString().isEmpty()) {
+            mImgWeb.setVisibility(View.VISIBLE);
+            mTvWebsite.setText(mSyte.getWebsite());
+            mTvWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            mImgWeb.setVisibility(View.GONE);
+            mviewWebsite.setVisibility(View.GONE);
+            mHeaderWebsite.setVisibility(View.GONE);
+        }
     }// END showContactInfoPopup()
+
+    private void showPublicContactInfoPopup() {
+        final Dialog mDialog = new Dialog(SyteDetailSponsorActivity.this);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mDialog.setContentView(R.layout.layout_popup_contact);
+        mDialog.show();
+        final Window window = mDialog.getWindow();
+        RelativeLayout mRelLayClose = (RelativeLayout) window.findViewById(R.id.xRelLayClose);
+        mRelLayClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+        TextView mTvAddress = (TextView) window.findViewById(R.id.xTvAddress);
+        String address = "";
+        address = mSyte.getStreetAddress1();
+        try {
+            address = address + ", " + mSyte.getStreetAddress2();
+        } catch (Exception e) {
+        }
+        address = address + ", " + mSyte.getCity();
+        address = address + ", " + mSyte.getState();
+        address = address + " - " + mSyte.getZipCode();
+        address = address + " " + mSyte.getCountry();
+        mTvAddress.setText(address);
+        TextView mTvDirection = (TextView) window.findViewById(R.id.xTvDirection);
+        mTvDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String googleMapQuery = "saddr=" + HomeActivity.LOC_ACTUAL.getLatitude() + "," + HomeActivity.LOC_ACTUAL.getLongitude()
+                        + "&daddr=" + mSyte.getLatitude() + "," + mSyte.getLongitude();
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?" + googleMapQuery));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"); // Remove this if user must have option to open this in webview
+                startActivity(intent);
+
+            }
+        });
+        LinearLayout mcontact = (LinearLayout) window.findViewById(R.id.xContactid);
+        TextView mTvPhone = (TextView) window.findViewById(R.id.xTvPhone);
+        mTvPhone.setText(mSyte.getMobileNo());
+        TextView mTvCall = (TextView) window.findViewById(R.id.xTvCall);
+        mTvCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String number = "tel:" + mSyte.getMobileNo();
+                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(number));
+                if (ActivityCompat.checkSelfPermission(SyteDetailSponsorActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(callIntent);
+
+            }
+        });
+
+        mcontact.setVisibility(View.GONE);
+        View mviewEmail = (View) window.findViewById(R.id.xViewEmail);
+        TextView mHeaderEmail = (TextView) window.findViewById(R.id.xHeaderEmail);
+        View mviewWebsite = (View) window.findViewById(R.id.xViewWebsite);
+        TextView mHeaderWebsite = (TextView) window.findViewById(R.id.xHeaderWebsite);
+        TextView mTvEmailId = (TextView) window.findViewById(R.id.xTvEmail);
+        TextView mTvWebsite = (TextView) window.findViewById(R.id.xTvWebsite);
+        ImageView mImgEmail = (ImageView) window.findViewById(R.id.ximgemail);
+        ImageView mImgWeb = (ImageView) window.findViewById(R.id.ximgweb);
+        if (!mSyte.getEmailid().toString().isEmpty()) {
+            mImgEmail.setVisibility(View.VISIBLE);
+            mTvEmailId.setText(mSyte.getEmailid());
+        } else {
+            mImgEmail.setVisibility(View.GONE);
+            mviewEmail.setVisibility(View.GONE);
+            mHeaderEmail.setVisibility(View.GONE);
+        }
+        if (!mSyte.getWebsite().toString().isEmpty()) {
+            mImgWeb.setVisibility(View.VISIBLE);
+            mTvWebsite.setText(mSyte.getWebsite());
+            mTvWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            mImgWeb.setVisibility(View.GONE);
+            mviewWebsite.setVisibility(View.GONE);
+            mHeaderWebsite.setVisibility(View.GONE);
+        }
+    }// END showPublicContactInfoPopup()
 
     @Override
     public void onDialogLeftBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish) {
@@ -556,8 +814,6 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         WindowManager.LayoutParams wmlp = mDialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.TOP | Gravity.RIGHT;
         wmlp.y = mRellayTopBarSponsor.getHeight();
-
-
         mDialog.show();
         final Window window = mDialog.getWindow();
         TextView mTvClaimThisSyte = (TextView) window.findViewById(R.id.xTvClaimThisSyte);
@@ -569,6 +825,37 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 if (mNetworkStatus.isNetworkAvailable()) {
                     CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, SyteDetailSponsorActivity.this);
                     customDialogs.sShowDialog_Common(YasPasMessages.DELETE_SYTE_SUBJECT, YasPasMessages.DELETE_SYTE_HEADING, null, "CANCEL", "DELETE", "deleteSyte", false, false);
+                } else {
+                    CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, SyteDetailSponsorActivity.this);
+                    customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
+                }
+            }
+        });
+    }// END showMenuSettingsPopup()
+
+    private void showPublicMenuSettingsPopup() {
+        final Dialog mDialog = new Dialog(SyteDetailSponsorActivity.this);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mDialog.setContentView(R.layout.layout_menu_settings);
+
+        WindowManager.LayoutParams wmlp = mDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.TOP | Gravity.RIGHT;
+        wmlp.y = mRellayTopBarSponsor.getHeight();
+        mDialog.show();
+        final Window window = mDialog.getWindow();
+        TextView mTvClaimThisSyte = (TextView) window.findViewById(R.id.xTvClaimThisSyte);
+        mTvClaimThisSyte.setText("Report a Syte");
+        mTvClaimThisSyte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+                if (mNetworkStatus.isNetworkAvailable()) {
+                    Intent mIntent_Reportasyte = new Intent(SyteDetailSponsorActivity.this, ReportASyteActivity.class);
+                    mIntent_Reportasyte.putExtra(StaticUtils.IPC_SYTE_ID, mSyteId);
+                    mIntent_Reportasyte.putExtra(StaticUtils.IPC_SYTE_NAME, mSyte.getName());
+                    mIntent_Reportasyte.putExtra(StaticUtils.IPC_SYTE_OWNERS, mSyte.getOwner());
+                    startActivity(mIntent_Reportasyte);
                 } else {
                     CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, SyteDetailSponsorActivity.this);
                     customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);

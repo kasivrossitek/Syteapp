@@ -21,4 +21,6 @@ public class SyteDataBaseConstant
         public static int C_MEDIA_TAR_BULLETIN = 2;
         public static int C_MEDIA_TAR_USER_PROFILE_PIC = 3;
         public static int C_MEDIA_TAR_TEAM_MEM_PROFILE_PIC = 4;
+        public static int C_MEDIA_TAR_REPORT_A_SYTE_PIC = 5;
+        public static int C_MEDIA_TAR_FEED_BACK_PIC = 6;
     }

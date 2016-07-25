@@ -33,7 +33,7 @@
                 android:layout_width="@dimen/toolbar_icon_content_sz"
                 android:layout_height="@dimen/toolbar_icon_content_sz"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_action_bar_success"/>
+                android:src="@drawable/ic_action_bar_next"/>
         </RelativeLayout>
         <com.syte.widgets.TvRobortoRegular
             android:id="@+id/xPageTitle"

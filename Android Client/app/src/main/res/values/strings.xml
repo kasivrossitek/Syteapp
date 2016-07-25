@@ -29,8 +29,9 @@
     <string name="err_msg_mob_num_invalid">Enter a valid mobile number</string>
     <!--OTP VERIFICATION SCREEN-->
     <string name="otp_verification_screen_title">Verify your mobile number</string>
-    <string name="otp_verification_lbl1">A verification code has been send to your mobile number. Your code is valid for 3 minutes</string>
-    <string name="otp_verification_resend">RE-SEND VERIFICATION CODE AGAIN</string>
+    <string name="otp_verification_lbl1">A verification code have been sent to your mobile number. Your code is valid for 3 minutes</string>
+    <!--   <string name="otp_verification_resend">RE-SEND VERIFICATION CODE AGAIN</string>-->
+    <string name="otp_verification_resend">Re-send verification code again</string>
     <string name="err_msg_veification_code_invalid">Enter valid OTP</string>
     <string name="err_msg_veification_code_expired">Your OTP is expired. Regenerate it again</string>
     <string name="err_msg_veification_code_wrong">You have entered wrong OTP. Enter correct OTP.</string>
@@ -74,7 +75,6 @@
     <string name="contact_support_screen_page_title">Contact Support</string>
     <!--Settings Screen-->
     <string name="settings_screen_page_title">Settings</string>
-
     <string name="settings_notification_lbl_txt">Turn off notification</string>
     <string name="settings_notification_txt_on">Notification on</string>
     <string name="settings_notification_txt_off">Notification off</string>
@@ -113,16 +113,25 @@
     <!--ADD SYTE DETAILS SCREEN-->
     <string name="add_syte_details_page_title">Your Syte details</string>
     <string name="add_syte_details_page_top_lable"><b>You are almost there!</b>\nJust a few more steps before we make your Syte\navailable to the entire world</string>
-
+    <string name="add_syte_details_page_Syte_type_lbl">What is the type of Syte?</string>
+    <string name="add_syte_details_page_type_private">Private</string>
+    <string name="add_syte_details_page_type_public">Public</string>
     <string name="add_syte_details_page_lbl1">What is the name of this location?</string>
     <string name="add_syte_details_page_hint_et1">Enter your Syte name</string>
     <string name="add_syte_details_page_lbl2">Go ahead.. add multiple categories</string>
     <string name="add_syte_details_page_hint_et2">Enter your Syte categories e.g. Hotel,Cloth etc..</string>
-    <string name="add_syte_details_page_lbl3">What the phone number for this location</string>
+    <string name="add_syte_details_page_lbl3">What is the phone number for this location?</string>
     <string name="add_syte_details_page_hint_et3">Enter your mobile number</string>
+    <string name="add_syte_details_page_lbl4">What is the email id for this syte?</string>
+    <string name="add_syte_details_page_hint_et4">Enter your email id</string>
+    <string name="add_syte_details_page_lbl5">What is the website for the syte?</string>
+    <string name="add_syte_details_page_hint_et5">Enter your website</string>
     <string name="err_syte_details_page_empty_name">Enter Syte\'s name</string>
     <string name="err_syte_details_page_empty_category">Enter Syte\'s category</string>
     <string name="err_syte_details_page_empty_mobile_num">Enter Syte\'s mobile number</string>
+    <string name="err_syte_details_page_empty_email_id">Enter Syte\'s email id</string>
+    <string name="err_syte_details_page_empty_web_site">Enter Syte\'s website address</string>
+
     <!--ADD SYTE OTIONAL DETAILS SCREEN-->
     <string name="add_syte_optional_details_page_title">Optional details</string>
     <string name="add_syte_optional_details_page_btn_preview">PREVIEW</string>
@@ -195,7 +204,7 @@
     <!--EDIT SYTE MAIN SCREEN-->
     <string name="edit_syte_main_page_title">Edit Syte</string>
     <string name="edit_syte_main_page_lbl1_unit1">Syte details</string>
-    <string name="edit_syte_main_page_lbl2_unit1">Change name, category, phone number</string>
+    <string name="edit_syte_main_page_lbl2_unit1">Change name, category, phone number, email id, website</string>
     <string name="edit_syte_main_page_lbl1_unit2">Location</string>
     <string name="edit_syte_main_page_lbl2_unit2">Change pin (on map)location, address</string>
     <string name="edit_syte_main_page_lbl1_unit3">About us</string>
@@ -206,7 +215,7 @@
     <string name="edit_syte_main_page_lbl2_unit5">This location sells products? Provide services?</string>
     <!--EDIT SYTE DETAILS SCREEN-->
     <string name="edit_syte_details_page_title">Edit Syte details</string>
-    <string name="edit_syte_details_page_top_lable">Update Syte\'s name, category and phone number</string>
+    <string name="edit_syte_details_page_top_lable">Update Syte\'s name, category, phone number, email id and website</string>
     <!--EDIT SYTE LOCATION SCREEN-->
     <string name="edit_syte_location_page_title">Edit Syte location</string>
     <!--EDIT SYTE ABOUT US SCREEN-->
@@ -219,9 +228,7 @@
 
     <string name="followers_search_screen_search_box_hint">Search contact</string>
     <string name="syte_details_followers_page_title">Followers</string>
-
     <!--SYTE INVITE FRIENDS-->
-
     <string name="syte_details_followers_invite_friends"> + Invite Friends</string>
     <string name="syte_details_followers_invite_fnd_contacs">Contacts</string>
     <string name="syte_details_followers_invite_phone_contacts">My phone contacts</string>
@@ -268,28 +275,27 @@
     <string name="err_report_a_bug_page_empty_description">Enter bug description</string>
     <string name="err_report_a_bug_page_bug_reported">Your bug is reported</string>
     <string name="err_report_a_bug_page_bug_not_reported">Your bug is not reported. Please try again.</string>
-
     <!--REPORT A Syte SCREEN-->
     <string name="report_a_syte_page_title">Report a syte</string>
     <string name="report_a_syte_page_lbl1">Title</string>
     <string name="report_a_syte_issue_lbl1">Type of issue</string>
     <string name="report_a_syte_issue_type1">Offensive Syte</string>
     <string name="report_a_syte_issue_type2">Incorrect Syte</string>
-    <string name="report_a_syte_issue_type3">Un authorised Syte</string>
-    <string name="report_a_syte_issue_uploadimage">Upload Image (Optional)</string>
+    <string name="report_a_syte_issue_type3">Unauthorized Syte</string>
+    <string name="report_a_syte_issue_uploadimage">Upload Image</string>
+    <string name="report_a_syte_issue_optional">\t(Optional)</string>
     <string name="report_a_syte_issue_btn_uploadimage">Upload Image</string>
-    <string name="report_a_syte_issue_lbl_uploadimage">image.png</string>
+
     <string name="report_a_syte_page_hint_et1">Title of the issue.e.g., I can not see my Sytes</string>
-    <string name="report_a_syte_page_lbl2">Write a description about issue on Syte</string>
+    <string name="report_a_syte_page_lbl2">Description</string>
     <string name="report_a_syte_page_hint_et2">Write a description about this bug. E.g. I added a syte and its details. But I am unable to see it on the map but I can see it in My Sytes\' list</string>
-    <string name="err_report_a_syte_page_empty_title">Enter bug title</string>
-    <string name="err_report_a_syte_page_empty_description">Enter issue description</string>
+    <string name="err_report_a_syte_page_empty_title">Enter syte title</string>
+    <string name="err_report_a_syte_page_empty_description">Enter description</string>
     <string name="err_report_a_syte_page_reported">Your issue is reported</string>
     <string name="err_report_a_syte_page_not_reported">Your issue is not reported. Please try again.</string>
     <string name="report_a_syte_policy">Information about your phone,account and this app will be automatically included in this report.\n To learn more about how your information is used please see <a href="google.com">www.google.com</a></string>
     <!--CLAIM SYTE ERROR MSG-->
     <string name="err_claim_syte_subject">Syte claimed</string>
-
     <string name="follow_syte_subject">Invite to Follow </string>
 
     <!--Analytics-->
@@ -300,6 +306,23 @@
     <string name="title_activity_whatsapp">WhatsappActivity</string>
     <!--WALK THROUGH - SETTINGS SCREEN-->
     <string name="walk_through_settings_page_title">Tour</string>
+    <!--FEED BACK - SETTINGS SCREEN-->
+    <string name="feedback_new_feature_lbl_txt">New feature request</string>
+    <string name="feedback_suggest_feature_lbl_txt">Suggest feature enhancement</string>
+    <string name="feedback_Report_Bug_lbl_txt">Report a bug</string>
+    <string name="feedback_Report_Syte_lbl_txt">Report a syte</string>
+    <string name="feedback_Comment_lbl_txt">Comment</string>
+    <string name="feedback_Compliment_lbl_txt">Compliments</string>
+    <string name="feedback_Other_lbl_txt">Other</string>
+    <string name="feedback_type_lbl_txt">Feed back type</string>
+    <string name="feedback_title_lbl_txt">Feedback</string>
+    <string name="title_activity_feedback">FeedbackActvity</string>
+    <string name="feedback_body_hint_lbl_txt">write description on your feedback type</string>
+
+    <string name="err_feedback_page_empty_title">Enter syte title</string>
+    <string name="err_feedback_page_empty_description">Enter description</string>
+    <string name="err_feedback_page_reported">Your feedback is reported</string>
+    <string name="err_feedback_page_not_reported">Your feedback is not reported. Please try again.</string>
 
 
 </resources>

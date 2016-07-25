@@ -4,9 +4,16 @@ package com.syte.models;
  * Created by Developer on 6/22/2016.
  */
 public class ReportASyte {
-    String issuetype, title, description, imageUrl, mRegisteredNum, userName;
+    String issuetype, title, description, imageUrl, mRegisteredNum, userName,syteId;
     Object dateTime;
 
+    public String getSyteId() {
+        return syteId;
+    }
+
+    public void setSyteId(String syteId) {
+        this.syteId = syteId;
+    }
 
     public String getTitle() {
         return title;

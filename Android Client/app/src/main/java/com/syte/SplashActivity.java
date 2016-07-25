@@ -1,14 +1,23 @@
 package com.syte;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,14 +32,14 @@ import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.syte.activities.HomeActivity;
-
 import com.syte.activities.SignUpActivity;
 import com.syte.activities.walkthrough.WalkThroughBeforeLoginActivity;
 import com.syte.listeners.OnCustomDialogsListener;
 import com.syte.listeners.OnLocationListener;
 import com.syte.listeners.OnPermissionRequestListener;
+import com.syte.models.Listcontacts;
+import com.syte.models.PhoneContact;
 import com.syte.services.UserAnalyticsService;
-
 import com.syte.utils.GoogleApiHelper;
 import com.syte.utils.LoginStatus;
 import com.syte.utils.NetworkStatus;
@@ -40,7 +49,14 @@ import com.syte.utils.YasPasMessages;
 import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.CustomDialogs;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,6 +72,10 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
     private ProgressDialog mPrgDia;
     private PermissionManager mPermissionManager;
     public static boolean DEBUG = false;
+
+    //read contacts by kasi
+    ArrayList<PhoneContact> contact_numbers;
+    private ArrayList<Listcontacts> contact_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +106,10 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
 
         mYasPasPref = YasPasPreferences.GET_INSTANCE(SplashActivity.this);
         mNetworkStatus = new NetworkStatus(SplashActivity.this);
+        contact_id = new ArrayList<>();
+        contact_numbers = new ArrayList<>();
         mInitializeWidgets();
+        // mGetContacts();
     }// END onCreate()
 
     private void mInitializeWidgets() {
@@ -119,6 +142,7 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
     private void startApp() {
         // Checking if user is already logged in
         if (mYasPasPref.sGetLoginStatus().equalsIgnoreCase(LoginStatus.COMPLETED)) {
+
             //User is logged in
             mTvGetStart.setVisibility(View.GONE);
         } else {
@@ -216,6 +240,7 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
         }
     }// END mSaveCountryCode()
 
+
     @Override
     public void onLastLocationKnown(Location lastKnownLoc) {
         if (lastKnownLoc != null) {
@@ -235,7 +260,7 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
             mPrgDia.setCancelable(false);
             mPrgDia.setMessage(getString(R.string.prg_bar_wait));
             mPrgDia.show();
-            mGoogleApiHelper.sStartLocationUpdate(1, 1, 1);
+            mGoogleApiHelper.sStartLocationUpdate(SplashActivity.this, 1, 1, 1);
         }
     }// END onLastLocationKnown()
 
@@ -284,6 +309,217 @@ public class SplashActivity extends AppCompatActivity implements OnClickListener
             startActivity(new Intent(Settings.ACTION_SETTINGS));
         }
 
+    }
+
+    private void mGetContacts() {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+
+                String str = readContacts();
+                return str;
+            }
+
+            @Override
+            protected void onPreExecute() {
+               /* mPrgDia = new ProgressDialog(SplashActivity.this);
+                mPrgDia.setMessage(getString(R.string.prg_bar_wait));
+                mPrgDia.setCancelable(false);
+                mPrgDia.show();*/
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.d("", result);
+
+                mStorecontacts();
+                //   mPrgDia.dismiss();
+
+            }
+        }.execute();
+    }
+
+    private void mStorecontacts() {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                File root1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" + "/" + "phoneid");
+                File root2 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" + "/" + "phonenum");
+                if (root1.exists()) {
+                    root1.delete();
+                }
+                if (root2.exists()) {
+                    root2.delete();
+                }
+                String str = storeNoteOnLocal(SplashActivity.this, "phoneid", contact_id, "phonenum", contact_numbers);
+                return str;
+            }
+
+            @Override
+            protected void onPreExecute() {
+               /* mPrgDia = new ProgressDialog(SplashActivity.this);
+                mPrgDia.setMessage(getString(R.string.prg_bar_wait));
+                mPrgDia.setCancelable(false);
+                mPrgDia.show();*/
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.d("", result);
+
+                // mPrgDia.dismiss();
+
+            }
+        }.execute();
+    }
+
+    public String storeNoteOnLocal(SplashActivity context, String sFileName, ArrayList<Listcontacts> contactid, String file2, ArrayList<PhoneContact> contactnumbers) {
+        String save = "notsaved";
+        try {
+            File root1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" + "/" + sFileName);
+            File root2 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" + "/" + file2);
+            if (!root1.exists()) {
+                root1.mkdir();
+            }
+            if (!root2.exists()) {
+                root2.mkdir();
+            }
+
+            FileOutputStream fileout = new FileOutputStream(root1.getAbsolutePath());
+            ObjectOutputStream out = new ObjectOutputStream(fileout);
+            out.writeObject(contactid);
+            out.close();
+            fileout.close();
+            FileOutputStream fileout2 = new FileOutputStream(root2.getAbsolutePath());
+            ObjectOutputStream out2 = new ObjectOutputStream(fileout2);
+            out2.writeObject(contactnumbers);
+            out2.close();
+            fileout2.close();
+            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+            save = "saved";
+            contact_id.clear();
+            contact_numbers.clear();
+            contactnumbers.clear();
+            contactid.clear();
+
+            return save;
+
+        } catch (FileNotFoundException f) {
+            f.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return save;
+    }
+
+    public String readContacts() {
+        //Read phone contacts
+        String str = "";
+        ContentResolver cr = this.getContentResolver();
+
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, "upper(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+        contact_id.clear();
+
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+
+                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                String image_uri = cur
+                        .getString(cur
+                                .getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                Bitmap bp = null;
+                byte[] byteArray = null;
+
+                if (image_uri != null) {
+                    try {
+                        bp = MediaStore.Images.Media
+                                .getBitmap(this.getContentResolver(),
+                                        Uri.parse(image_uri));
+
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byteArray = stream.toByteArray();
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+                if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    System.out.println("name : " + name + ", ID : " + id);
+                    Log.d("names ", name + ", IDs : " + id);
+                    Listcontacts listcontacts = new Listcontacts();
+                    listcontacts.setContact_id(id);
+                    listcontacts.setName(name);
+                  //  listcontacts.setPhoto_byte(byteArray);
+                    contact_id.add(listcontacts);
+                }
+            }
+            cur.close();
+
+            Log.d("idsize" + contact_id.size(), "");
+            str = read_phoneNum();
+
+
+        }
+        return str;
+    }
+
+    public String read_phoneNum() {
+
+        String success = "";
+
+        ContentResolver cr = this.getContentResolver();
+        for (Listcontacts ids : contact_id) {
+
+            Log.d("idsss", ids.getContact_id());
+            // get the phone number
+            Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                    new String[]{ids.getContact_id()}, "upper(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+
+            while (pCur.moveToNext()) {
+                PhoneContact phncon = new PhoneContact();
+                int phoneType = pCur.getInt(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                String phone = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                switch (phoneType) {
+                    case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:
+                        Log.e(": TYPE_MOBILE", " " + phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
+
+                        break;
+                    case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:
+                        Log.e(": TYPE_HOME", " " + phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
+
+                        break;
+                    case ContactsContract.CommonDataKinds.Phone.TYPE_WORK:
+                        Log.e(": TYPE_WORK", " " + phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
+                        break;
+                    case ContactsContract.CommonDataKinds.Phone.TYPE_WORK_MOBILE:
+                        Log.e(": TYPE_WORK_MOBILE", " " + phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
+                        break;
+                    case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER:
+                        Log.e(": TYPE_OTHER", "" + phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
+                        break;
+                    default:
+                        break;
+                }
+
+                phncon.setPhone_Mobile(phone.replaceAll("\\s+", "").replaceFirst("((\\+91)|0|(\\+1)|1?)", "").trim());
+                phncon.setPhone_ID(ids.getContact_id());
+                System.out.println("phone" + phone);
+                contact_numbers.add(phncon);
+            }
+            pCur.close();
+            success = "success";
+        }
+
+
+        return success;
     }
 
     private void goToHomeActivity() {

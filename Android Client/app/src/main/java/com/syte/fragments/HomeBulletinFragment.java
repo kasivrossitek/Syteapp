@@ -1,5 +1,7 @@
 package com.syte.fragments;
 
+import android.os.Environment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 
@@ -23,6 +25,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -45,6 +48,8 @@ import com.syte.listeners.OnCustomDialogsListener;
 import com.syte.listeners.OnHomeBulletinListener;
 import com.syte.models.BulletinBoard;
 import com.syte.models.FilteredBulletinBoard;
+import com.syte.models.Listcontacts;
+import com.syte.models.PhoneContact;
 import com.syte.models.Syte;
 import com.syte.models.YasPasTeams;
 import com.syte.utils.NetworkStatus;
@@ -53,10 +58,18 @@ import com.syte.utils.YasPasMessages;
 import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.CustomDialogs;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -75,7 +88,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     private RecyclerView mRvBulletins;
     private LinearLayoutManager mLayoutManager;
     private YasPasPreferences yasPasPreferences;
-    //private ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog;//kasi4-7-16
     private SwipeRefreshLayout swipeRefreshLayout;
     private FloatingActionButton mFabAddYasPas;
     private NetworkStatus mNetworkStatus;
@@ -84,6 +97,9 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     private Button mBtnImLucky;
     private Dialog mDialog;
     Bundle bundle;
+    private Firebase mFBOwnedYasPaseesUrl;
+
+    private SyteTypeFlagChangeListener mSyteTypeFlagChangeListener;
 
     @Override
     public void onClick(View v) {
@@ -115,6 +131,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                 break;
             }
             default:
+
                 break;
         }
     }
@@ -170,6 +187,8 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //  mNullifyAllData();
+
     }// END onDestroy()
 
     @Override
@@ -180,7 +199,19 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         } catch (Exception e) {
             //do not do anything, as listener was removed earlier}
         }
-
+        if (allFilteredBulletins.size() > 0) {
+            //mTvCenterLbl.setVisibility(View.GONE);
+            mRellayNoSyte.setVisibility(View.GONE);
+            try {
+                File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" + "/" + "sytekey");
+                if (root.exists()) {
+                    root.delete();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            generateNoteOnSD(getActivity(), allFilteredBulletins, "sytekey");
+        }
 
     }// END onPause()
 
@@ -228,17 +259,99 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                     mDialog.dismiss();
                 } catch (Exception e) {
                 }
-                setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);
+                //  setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);//kasi commented on 7-8-16
+                // kasi 7-8-16 for cache
+                displayinFilteredBulletins = getcachedata();
+                if (adapterHomeBulletinBoard == null && displayinFilteredBulletins.size() > 0) {
+                    adapterHomeBulletinBoard = new AdapterHomeBulletinBoard(getActivity(), displayinFilteredBulletins, this);
+                    mRvBulletins.setAdapter(adapterHomeBulletinBoard);
+                } else if (adapterHomeBulletinBoard != null) {
+                    adapterHomeBulletinBoard.notifyDataSetChanged();
+                } else {
+                    setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);//kasi commented on 7-8-16
+                }
+                //end kasi 7-8-16 for cache
             }
         } catch (Exception e) {
             try {
                 mDialog.dismiss();
             } catch (Exception e1) {
             }
-            setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);
+            //setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);//kasi commented on 7-8-16
+            // kasi 7-8-16 for cache
+            displayinFilteredBulletins = getcachedata();
+            if (adapterHomeBulletinBoard == null && displayinFilteredBulletins.size() > 0) {
+                adapterHomeBulletinBoard = new AdapterHomeBulletinBoard(getActivity(), displayinFilteredBulletins, this);
+                mRvBulletins.setAdapter(adapterHomeBulletinBoard);
+            } else if (adapterHomeBulletinBoard != null) {
+                adapterHomeBulletinBoard.notifyDataSetChanged();
+            } else {
+                setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);//kasi commented on 7-8-16
+            }
+            //end kasi 7-8-16 for cache
         }
 
     }// END onResume()
+
+    private void updateSyteType() {
+        mFBOwnedYasPaseesUrl = new Firebase(StaticUtils.YASPASEE_URL).child(yasPasPreferences.sGetRegisteredNum()).child("ownedYasPases");
+        mFBOwnedYasPaseesUrl.addValueEventListener(mSyteTypeFlagChangeListener);
+    }
+
+
+    private class SyteTypeFlagChangeListener implements ValueEventListener {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            if (dataSnapshot != null) {
+                Iterator<DataSnapshot> it = dataSnapshot.getChildren().iterator();
+                while (it.hasNext()) {
+                    DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
+                    if (!dataSnapshot1.hasChild("syteType")) {
+                        updatesyteType_OwnedSytes(dataSnapshot1.getKey());
+                    }
+
+                }
+            }
+
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+            if (mProgressDialog.isShowing())//This listener will be running continously. I am showing progress dialog only in onCreate(), so i am dismisssing the progress dialog only if it is showing.
+                mProgressDialog.dismiss();
+        }
+    }
+
+    private void updatesyteType_OwnedSytes(final String key) {
+        HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
+        mUpdateMap.put("syteType", "Private");
+        mUpdateMap.put("mobileNo", yasPasPreferences.sGetRegisteredNum());
+        final Firebase firebaseYasPasee = new Firebase(StaticUtils.YASPASEE_URL).child(yasPasPreferences.sGetRegisteredNum()).child("ownedYasPases").child(key);
+        firebaseYasPasee.updateChildren(mUpdateMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+                    Log.d("adding syteTye", "" + firebaseYasPasee);
+                    updatesyteType_yaspas(key);
+                }
+            }
+        });
+    }
+
+    private void updatesyteType_yaspas(String key) {
+        HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
+        mUpdateMap.put("syteType", "Private");
+        final Firebase firebaseYasPas = new Firebase(StaticUtils.YASPAS_URL).child(key);
+        firebaseYasPas.updateChildren(mUpdateMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+                    Log.d("adding syteTye", "" + firebaseYasPas);
+
+                }
+            }
+        });
+    }
 
     @Override
     public void onRefresh() {
@@ -256,6 +369,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         bundle = getArguments();
         mInItObjects();
         mInItWidgets();
+        updateSyteType();//update syte with syteType and mobileNo in ownedyaspases
     }// END onActivityCreated()
 
     public boolean sIsBulletinRefreshing() {
@@ -265,19 +379,16 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     public void setNewGeoLoc(double radius, boolean iMFeelingLucky) {
         if (mNetworkStatus.isNetworkAvailable()) {
             sytesIds.removeAll(sytesIds);
-            //mProgressDialog.show();
+            mProgressDialog.show();//kasi4-7-16
             //swipeRefreshLayout.setRefreshing(true);
-
 
             //SK change
 /*            swipeRefreshLayout.post(new Runnable() {
-
                 @Override
                 public void run() {
                     swipeRefreshLayout.setRefreshing(true);
                 }
             });
-
 */
 //            swipeRefreshLayout.post(new Runnable() {
 //                @Override
@@ -289,12 +400,11 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
             //end SK Change
 
 
-
             geoFire = new GeoFire(new Firebase(StaticUtils.YASPAS_GEO_LOC_URL));
             if (!iMFeelingLucky)
                 geoQuery = geoFire.queryAtLocation(new GeoLocation(HomeActivity.LOC_VIRTUAL.getLatitude(), HomeActivity.LOC_VIRTUAL.getLongitude()), radius);
             else
-                geoQuery = geoFire.queryAtLocation(new GeoLocation(37.313788, -121.967114), radius);
+                geoQuery = geoFire.queryAtLocation(new GeoLocation(12.9589854, 77.6467042), radius);
             geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
                 @Override
                 public void onKeyEntered(String key, GeoLocation location) {
@@ -368,10 +478,11 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         tempSytes = new ArrayList<>();
         yasPasPreferences = YasPasPreferences.GET_INSTANCE(getActivity());
         userOwnedSytes = new ArrayList<>();
-        //mProgressDialog = new ProgressDialog(getActivity());
-        //mProgressDialog.setMessage("Please Wait...");
-        //mProgressDialog.setCancelable(false);
+        mProgressDialog = new ProgressDialog(getActivity());//kasi4-7-16
+        mProgressDialog.setMessage("Please Wait...");//kasi4-7-16
+        mProgressDialog.setCancelable(false);//kasi4-7-16
         mNetworkStatus = new NetworkStatus(getActivity());
+        mSyteTypeFlagChangeListener = new SyteTypeFlagChangeListener();//kasi 18-7-16
     }// END mInItObjects()
 
     private void mInItWidgets() {
@@ -382,9 +493,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark,
                 R.color.color_orange, R.color.color_dark_orange);
-
         swipeRefreshLayout.setEnabled(false);
-
         mFabAddYasPas = (FloatingActionButton) mRootView.findViewById(R.id.xFabAddYasPas);
         mFabAddYasPas.setOnClickListener(this);
         //sk Hide this button for now.
@@ -438,52 +547,9 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         }
     }// END getSyteData()
 
-    /*
-    private void getOwnedSytes()
-    {
-        userOwnedSytes.removeAll(userOwnedSytes);
-        Firebase firebaseYasPaseeOwnedSyte = new Firebase(StaticUtils.YASPASEE_URL).child(yasPasPreferences.sGetRegisteredNum()).child(StaticUtils.OWNED_YASPAS);
-        firebaseYasPaseeOwnedSyte.addListenerForSingleValueEvent(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                if (dataSnapshot != null && dataSnapshot.getValue() != null)
-                {
-                    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                    while (iterator.hasNext())
-                    {
-                        if (!HomeBulletinFragment.this.isResumed())
-                        {
-                            Log.e("getOwnedSytes", "HomeBulletinFragment is not active");
-                            mNullifyAllData();
-                            break;
-                        }
-                        DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
-                        userOwnedSytes.add(dataSnapshot1.getKey());
-                        if (!iterator.hasNext())
-                        {
-                            allFilteredBulletins.removeAll(allFilteredBulletins);
-                            getBulletinData(0);
-                        }
-                    }
-                }
-                else
-                {
-                    allFilteredBulletins.removeAll(allFilteredBulletins);
-                    getBulletinData(0);
-                }
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError)
-            {
-            }
-        });
-    }// END getOwnedSytes()
-
-    */
 
     private void getBulletinData(final int pIndex) {
+
         if (!HomeBulletinFragment.this.isResumed()) {
             Log.e("getBulletinData", "HomeBulletinFragment is not active");
             mNullifyAllData();
@@ -498,7 +564,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                     noDataFound();
                 }
             } else {
-                Firebase firebaseBulletinBoard = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(tempSytes.get(pIndex).syteId);
+                final Firebase firebaseBulletinBoard = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(tempSytes.get(pIndex).syteId);
                 firebaseBulletinBoard.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -521,6 +587,16 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                                 filteredBulletinBoard.setIsOwned(tempSytes.get(pIndex).syteOwner.equals(yasPasPreferences.sGetRegisteredNum()));
                                 System.out.println(tempSytes.get(pIndex).syteName + "--" + tempSytes.get(pIndex).isFav);
                                 filteredBulletinBoard.setIsFavourite(tempSytes.get(pIndex).isFav);
+                                if (dataSnapshot1.hasChild("Likes")) {
+                                    Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
+                                    while (iterator2.hasNext()) {
+                                        DataSnapshot dataSnapshot2 = (DataSnapshot) iterator2.next();
+                                        filteredBulletinBoard.setLiked(dataSnapshot2.getKey().equals(yasPasPreferences.sGetRegisteredNum()));
+                                    }
+                                } else {
+                                    filteredBulletinBoard.setLiked(false);
+                                }
+
                                 allFilteredBulletins.add(filteredBulletinBoard);
                                 if (allFilteredBulletins.size() == 10) {
                                     display(false);
@@ -536,7 +612,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
-
+                        mProgressDialog.dismiss(); // needs to write code for pop up //kasi4-7-16
                     }
                 });
             }
@@ -561,6 +637,15 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         if (allFilteredBulletins.size() > 0) {
             //mTvCenterLbl.setVisibility(View.GONE);
             mRellayNoSyte.setVisibility(View.GONE);
+           /* try {
+                File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" + "/" + "sytekey");
+                if (root.exists()) {
+                    root.delete();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            generateNoteOnSD(getActivity(), allFilteredBulletins, "sytekey");*/
         }
         displayinFilteredBulletins.removeAll(displayinFilteredBulletins);
         for (int i = 0; i < allFilteredBulletins.size(); i++) {
@@ -579,8 +664,59 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         } else {
             adapterHomeBulletinBoard.notifyDataSetChanged();
         }
-        if (refreshDisable)
+
+        if (refreshDisable) {
+            mProgressDialog.dismiss(); //kasi4-7-16
             swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void generateNoteOnSD(FragmentActivity activity, ArrayList<FilteredBulletinBoard> sytesIds, String sFileName) {
+        try {
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal");
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            FileOutputStream fileout = new FileOutputStream(root.getAbsolutePath() + "/" + sFileName);
+            ObjectOutputStream out = new ObjectOutputStream(fileout);
+            out.writeObject(sytesIds);
+            out.close();
+            fileout.close();
+            Log.d("", "data saved locally");
+            Toast.makeText(activity, "Saved", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException f) {
+            f.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<FilteredBulletinBoard> getcachedata() {
+        try {
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" + "/" + "sytekey");
+            if (root.exists()) {
+
+                FileInputStream filein = new FileInputStream(root.getAbsolutePath());
+                ObjectInputStream response = new ObjectInputStream(filein);
+                displayinFilteredBulletins = (ArrayList<FilteredBulletinBoard>) response.readObject();
+                response.close();
+                filein.close();
+
+                Log.e("data found", "" + sytesIds.size());
+                //Toast.makeText(PhoneContactsActivity.this, "data found" + contact_id.size() + "" + contact_numbers.size(), Toast.LENGTH_SHORT).show();
+            } else {
+                return displayinFilteredBulletins;
+            }
+        } catch (FileNotFoundException f) {
+            f.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return displayinFilteredBulletins;
+
     }
 
     public void sSetFavourite() {
@@ -609,7 +745,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     }
 
     private void noDataFound() {
-        //mProgressDialog.dismiss(); // needs to write code for pop up
+        mProgressDialog.dismiss(); // needs to write code for pop up //kasi4-7-16
         swipeRefreshLayout.setRefreshing(false);
         mRellayNoSyte.setVisibility(View.VISIBLE);
         allFilteredBulletins.removeAll(allFilteredBulletins);

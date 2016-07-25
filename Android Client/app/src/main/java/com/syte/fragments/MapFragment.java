@@ -122,19 +122,15 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
         super.onResume();
         setUpMapIfNeeded();
 
-
+        LatLng latLng = new LatLng(HomeActivity.LOC_VIRTUAL.getLatitude(), HomeActivity.LOC_VIRTUAL.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, HomeActivity.ZOOM_LEVEL);
+        mMap.moveCamera(cameraUpdate);
 
         geoFire = new GeoFire(new Firebase(StaticUtils.YASPAS_GEO_LOC_URL));
         geoQuery = this.geoFire.queryAtLocation(new GeoLocation(HomeActivity.LOC_VIRTUAL.getLatitude(), HomeActivity.LOC_VIRTUAL.getLongitude()), 10);
         this.geoQuery.addGeoQueryEventListener(this);
 
-        Log.d("LOC_ACTUAL", HomeActivity.LOC_ACTUAL.getLatitude() + "lon" + HomeActivity.LOC_ACTUAL.getLongitude() + "");
-        Log.d("LOC_VIRTUAL", HomeActivity.LOC_VIRTUAL.getLatitude() + "lon" + HomeActivity.LOC_VIRTUAL.getLongitude());
         sSetCurrentLocation(HomeActivity.LOC_ACTUAL.getLatitude(), HomeActivity.LOC_ACTUAL.getLongitude());
-        LatLng latLng = new LatLng(HomeActivity.LOC_ACTUAL.getLatitude(), HomeActivity.LOC_ACTUAL.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, HomeActivity.ZOOM_LEVEL);
-        mMap.moveCamera(cameraUpdate);
-
 
     }// END onResume()
 
@@ -244,7 +240,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
         });
     }// END onKeyEntered()
     //@Override
-
         /*public void onKeyEntered(final String key, final GeoLocation location)
             {
                 Firebase obj = new Firebase(StaticUtils.YASPAS_URL).child(key);
@@ -302,6 +297,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
 
     @Override
     public void onKeyExited(String key) {
+
         Log.e("onKeyExited", "" + key);
         try {
             Marker marker = mMapMarkers.get(key).marker;
@@ -641,4 +637,3 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
     }// END sSetCurrentLocation()
 
 }// END MapFragment
-

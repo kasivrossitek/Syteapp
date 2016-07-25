@@ -2,144 +2,162 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <android.support.v4.widget.DrawerLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/drawer_layout"
+
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/xRellayTop"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_ht"
+                android:background="?attr/colorPrimary"
+                android:padding="@dimen/toolbar_padding">
+
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                        <RelativeLayout
-                            android:id="@+id/xRellayTop"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/toolbar_ht"
-                            android:background="?attr/colorPrimary"
-                            android:padding="@dimen/toolbar_padding">
-                                <RelativeLayout
-                                    android:id="@+id/xRelLayHamBurger"
-                                    android:layout_width="@dimen/toolbar_icon_sz"
-                                    android:layout_height="@dimen/toolbar_icon_sz"
-                                    android:layout_alignParentLeft="true"
-                                    android:layout_centerVertical="true">
-                                        <ImageView
-                                            android:layout_width="@dimen/toolbar_icon_content_sz"
-                                            android:layout_height="@dimen/toolbar_icon_content_sz"
-                                            android:layout_centerInParent="true"
-                                            android:src="@drawable/ic_action_bar_menu"/>
-                                </RelativeLayout>
-                                <com.syte.widgets.TvRobortoRegular
-                                    android:id="@+id/xPageTitle"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="56dp"
-                                    android:textSize="@dimen/toolbar_lbl_sz"
-                                    android:textColor="@color/color_white"
-                                    android:text="@string/map_screen_page_title"
-                                    android:layout_centerVertical="true"
-                                    android:singleLine="true"
-                                    android:layout_toLeftOf="@+id/xLinLayRghtBtn"
-                                    android:paddingRight="@dimen/toolbar_icon_margin"/>
-                            <LinearLayout
-                                android:id="@+id/xLinLayRghtBtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_alignParentRight="true">
-                                <RelativeLayout
-                                    android:id="@+id/xRelLayNotification"
-                                    android:layout_width="@dimen/toolbar_icon_sz"
-                                    android:layout_height="@dimen/toolbar_icon_sz"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginLeft="@dimen/toolbar_icon_margin">
-                                    <ImageView
-                                        android:id="@+id/xIvNotificationIcon"
-                                        android:layout_width="@dimen/toolbar_icon_content_sz"
-                                        android:layout_height="@dimen/toolbar_icon_content_sz"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/ic_action_bar_notification"/>
-                                </RelativeLayout>
+                    android:id="@+id/xRelLayHamBurger"
+                    android:layout_width="@dimen/toolbar_icon_sz"
+                    android:layout_height="@dimen/toolbar_icon_sz"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true">
 
-                                <RelativeLayout
-                                    android:id="@+id/xRelLaySwitch"
-                                    android:layout_width="@dimen/toolbar_icon_sz"
-                                    android:layout_height="@dimen/toolbar_icon_sz"
-                                    android:layout_marginLeft="@dimen/toolbar_icon_margin">
-                                    <ImageView
-                                        android:id="@+id/xIvSwitch"
-                                        android:layout_width="@dimen/toolbar_icon_content_sz"
-                                        android:layout_height="@dimen/toolbar_icon_content_sz"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/ic_action_bar_map_view"/>
-                                </RelativeLayout>
-
-                                    <RelativeLayout
-                                        android:id="@+id/xRelLayFavourite"
-                                        android:layout_width="@dimen/toolbar_icon_sz"
-                                        android:layout_height="@dimen/toolbar_icon_sz"
-                                        android:layout_marginLeft="@dimen/toolbar_icon_margin">
-                                            <ImageView
-                                                android:id="@+id/xIvFavourite"
-                                                android:layout_width="@dimen/toolbar_icon_content_sz"
-                                                android:layout_height="@dimen/toolbar_icon_content_sz"
-                                                android:layout_centerInParent="true"
-                                                android:src="@drawable/ic_action_bar_un_favourite"/>
-                                    </RelativeLayout>
-                                    <RelativeLayout android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true">
-                                            <RelativeLayout
-                                                android:id="@+id/xRelLaySearch"
-                                                android:layout_width="@dimen/toolbar_icon_sz"
-                                                android:layout_height="@dimen/toolbar_icon_sz"
-                                                android:layout_centerVertical="true"
-                                                android:layout_marginLeft="@dimen/toolbar_icon_margin"
-                                                android:visibility="visible">
-                                                    <ImageView
-                                                        android:layout_width="@dimen/toolbar_icon_content_sz"
-                                                        android:layout_height="@dimen/toolbar_icon_content_sz"
-                                                        android:layout_centerInParent="true"
-                                                        android:src="@drawable/ic_action_bar_search"/>
-                                            </RelativeLayout>
-                                            <RelativeLayout
-                                                android:id="@+id/xRelLayFilter"
-                                                android:layout_width="@dimen/toolbar_icon_sz"
-                                                android:layout_height="@dimen/toolbar_icon_sz"
-                                                android:layout_centerVertical="true"
-                                                android:layout_marginLeft="@dimen/toolbar_icon_margin"
-                                                android:visibility="visible">
-                                                <ImageView
-                                                    android:layout_width="@dimen/toolbar_icon_content_sz"
-                                                    android:layout_height="@dimen/toolbar_icon_content_sz"
-                                                    android:layout_centerInParent="true"
-                                                    android:src="@drawable/ic_action_bar_filter_active"/>
-                                            </RelativeLayout>
-                                    </RelativeLayout>
-
-                            </LinearLayout>
-
-
-
-                        </RelativeLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/toolbar_btm_shadow_sz"
-                            android:background="@drawable/shadow"
-                            android:layout_below="@+id/xRellayTop"/>
-                        <FrameLayout
-                            android:id="@+id/frame_container"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_below="@+id/xRellayTop"/>
-
+                    <ImageView
+                        android:layout_width="@dimen/toolbar_icon_content_sz"
+                        android:layout_height="@dimen/toolbar_icon_content_sz"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_action_bar_menu" />
                 </RelativeLayout>
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xPageTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="56dp"
+                    android:layout_toLeftOf="@+id/xLinLayRghtBtn"
+                    android:paddingRight="@dimen/toolbar_icon_margin"
+                    android:singleLine="true"
+                    android:text="@string/map_screen_page_title"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/toolbar_lbl_sz" />
+
+                <LinearLayout
+                    android:id="@+id/xLinLayRghtBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/xRelLayNotification"
+                        android:layout_width="@dimen/toolbar_icon_sz"
+                        android:layout_height="@dimen/toolbar_icon_sz"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/toolbar_icon_margin">
+
+                        <ImageView
+                            android:id="@+id/xIvNotificationIcon"
+                            android:layout_width="@dimen/toolbar_icon_content_sz"
+                            android:layout_height="@dimen/toolbar_icon_content_sz"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_action_bar_notification" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/xRelLaySwitch"
+                        android:layout_width="@dimen/toolbar_icon_sz"
+                        android:layout_height="@dimen/toolbar_icon_sz"
+                        android:layout_marginLeft="@dimen/toolbar_icon_margin">
+
+                        <ImageView
+                            android:id="@+id/xIvSwitch"
+                            android:layout_width="@dimen/toolbar_icon_content_sz"
+                            android:layout_height="@dimen/toolbar_icon_content_sz"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_action_bar_map_view" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/xRelLayFavourite"
+                        android:layout_width="@dimen/toolbar_icon_sz"
+                        android:layout_height="@dimen/toolbar_icon_sz"
+                        android:layout_marginLeft="@dimen/toolbar_icon_margin">
+
+                        <ImageView
+                            android:id="@+id/xIvFavourite"
+                            android:layout_width="@dimen/toolbar_icon_content_sz"
+                            android:layout_height="@dimen/toolbar_icon_content_sz"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_action_bar_un_favourite" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true">
+
+                        <RelativeLayout
+                            android:id="@+id/xRelLaySearch"
+                            android:layout_width="@dimen/toolbar_icon_sz"
+                            android:layout_height="@dimen/toolbar_icon_sz"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/toolbar_icon_margin"
+                            android:visibility="visible">
+
+                            <ImageView
+                                android:layout_width="@dimen/toolbar_icon_content_sz"
+                                android:layout_height="@dimen/toolbar_icon_content_sz"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_action_bar_search" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/xRelLayFilter"
+                            android:layout_width="@dimen/toolbar_icon_sz"
+                            android:layout_height="@dimen/toolbar_icon_sz"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/toolbar_icon_margin"
+                            android:visibility="visible">
+
+                            <ImageView
+                                android:layout_width="@dimen/toolbar_icon_content_sz"
+                                android:layout_height="@dimen/toolbar_icon_content_sz"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_action_bar_filter_active" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_btm_shadow_sz"
+                android:layout_below="@+id/xRellayTop"
+                android:background="@drawable/shadow" />
+
+            <FrameLayout
+                android:id="@+id/frame_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/xRellayTop" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="@dimen/home_screen_lft_drawer_wd"
             android:layout_height="match_parent"
             android:layout_gravity="start">
-            <include layout="@layout/layout_home_left_drawer"/>
+
+            <include layout="@layout/layout_home_left_drawer" />
         </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
 

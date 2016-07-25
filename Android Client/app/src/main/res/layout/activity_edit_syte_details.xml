@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xRelLayMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/xRelLayMain"
     android:background="@color/color_white">
     <!--TOP BAR-->
     <RelativeLayout
@@ -11,111 +11,191 @@
         android:layout_height="@dimen/toolbar_ht"
         android:background="?attr/colorPrimary"
         android:padding="@dimen/toolbar_padding">
+
         <RelativeLayout
             android:id="@+id/xRelLayBack"
             android:layout_width="@dimen/toolbar_icon_sz"
             android:layout_height="@dimen/toolbar_icon_sz"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true">
+
             <ImageView
                 android:layout_width="@dimen/toolbar_icon_content_sz"
                 android:layout_height="@dimen/toolbar_icon_content_sz"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_action_bar_back_btn"/>
+                android:src="@drawable/ic_action_bar_back_btn" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/xRelLayForward"
             android:layout_width="@dimen/toolbar_icon_sz"
             android:layout_height="@dimen/toolbar_icon_sz"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true">
+
             <ImageView
                 android:layout_width="@dimen/toolbar_icon_content_sz"
                 android:layout_height="@dimen/toolbar_icon_content_sz"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_action_bar_success"/>
+                android:src="@drawable/ic_action_bar_success" />
         </RelativeLayout>
+
         <com.syte.widgets.TvRobortoRegular
             android:id="@+id/xPageTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp"
-            android:textSize="@dimen/toolbar_lbl_sz"
-            android:textColor="@color/color_white"
-            android:text="@string/edit_syte_details_page_title"
             android:layout_centerVertical="true"
-            android:singleLine="true"
+            android:layout_marginLeft="56dp"
             android:layout_toLeftOf="@+id/xRelLayForward"
-            android:paddingRight="@dimen/toolbar_icon_margin"/>
+            android:paddingRight="@dimen/toolbar_icon_margin"
+            android:singleLine="true"
+            android:text="@string/edit_syte_details_page_title"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/toolbar_lbl_sz" />
     </RelativeLayout>
     <!--END TOP BAR-->
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_btm_shadow_sz"
-        android:background="@drawable/shadow"
-        android:layout_below="@+id/xRellayTop"/>
+        android:layout_below="@+id/xRellayTop"
+        android:background="@drawable/shadow" />
+
     <com.syte.widgets.TvRobortoRegular
         android:id="@+id/xTopLbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/xRellayTop"
-        android:paddingTop="@dimen/add_syte_address_top_lbl_padding"
-        android:paddingBottom="@dimen/add_syte_address_top_lbl_padding"
-        android:textSize="@dimen/add_syte_address_top_lbl_txt_sz"
         android:background="@color/color_txtvw_top_lbl_bg"
-        android:textColor="@color/color_black_opacity_54"
+        android:gravity="center"
+        android:paddingBottom="@dimen/add_syte_address_top_lbl_padding"
+        android:paddingTop="@dimen/add_syte_address_top_lbl_padding"
         android:text="@string/edit_syte_details_page_top_lable"
-        android:gravity="center"/>
+        android:textColor="@color/color_black_opacity_54"
+        android:textSize="@dimen/add_syte_address_top_lbl_txt_sz" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/xTopLbl"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/add_syte_address_page_padding"
-            android:paddingRight="@dimen/add_syte_address_page_padding"
-            android:orientation="vertical"
             android:layout_marginTop="@dimen/add_syte_address_page_vertical_margin"
-            android:paddingBottom="@dimen/add_syte_address_page_vertical_margin">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/add_syte_address_page_vertical_margin"
+            android:paddingLeft="@dimen/add_syte_address_page_padding"
+            android:paddingRight="@dimen/add_syte_address_page_padding">
+
             <com.syte.widgets.EditTextLblSmall
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_syte_details_page_lbl1"/>
+                android:text="@string/add_syte_details_page_lbl1" />
+
             <com.syte.widgets.EtRobortoRegular
                 android:id="@+id/xEtName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"
                 android:ems="6"
                 android:hint="@string/add_syte_details_page_hint_et1"
-                android:singleLine="true"
-                android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"/>
+                android:singleLine="true" />
+
             <com.syte.widgets.EditTextLblSmall
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_syte_details_page_lbl2"/>
+                android:text="@string/add_syte_details_page_lbl2" />
+
             <com.syte.widgets.EtRobortoRegular
                 android:id="@+id/xEtCategories"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"
                 android:ems="6"
                 android:hint="@string/add_syte_details_page_hint_et2"
-                android:singleLine="true"
-                android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"/>
+                android:singleLine="true" />
+
             <com.syte.widgets.EditTextLblSmall
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_syte_details_page_lbl3"/>
+                android:text="@string/add_syte_details_page_lbl3" />
+
             <com.syte.widgets.EtRobortoRegular
                 android:id="@+id/xEtMobileNo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"
                 android:ems="6"
                 android:hint="@string/add_syte_details_page_hint_et3"
-                android:singleLine="true"
+                android:inputType="phone"
+                android:singleLine="true" />
+
+            <com.syte.widgets.EditTextLblSmall
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_syte_details_page_lbl4" />
+
+            <com.syte.widgets.EtRobortoRegular
+                android:id="@+id/xEtEmailid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"
-                android:inputType="phone"/>
+                android:ems="6"
+                android:hint="@string/add_syte_details_page_hint_et4"
+                android:inputType="textEmailAddress"
+                android:singleLine="true" />
+
+            <com.syte.widgets.EditTextLblSmall
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_syte_details_page_lbl5" />
+
+            <com.syte.widgets.EtRobortoRegular
+                android:id="@+id/xEtWebsite"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"
+                android:ems="6"
+                android:hint="@string/add_syte_details_page_hint_et5"
+                android:singleLine="true" />
+
+            <com.syte.widgets.EditTextLblSmall
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_syte_details_page_Syte_type_lbl" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_syte_address_page_vertical_margin"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/xRadioGrpType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RadioButton
+                        android:id="@+id/xRadioPrivate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/syte_detail_radio_padding"
+                        android:checked="true"
+                        android:text="@string/add_syte_details_page_type_private"
+                        android:textColor="@color/color_black_opacity_54" />
+
+                    <RadioButton
+                        android:id="@+id/xRadioPublic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/syte_detail_radio_padding"
+                        android:text="@string/add_syte_details_page_type_public"
+                        android:textColor="@color/color_black_opacity_54" />
+                </RadioGroup>
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

@@ -11,29 +11,28 @@ import com.syte.R;
 /**
  * Created by khalid.p on 30-03-2016.
  */
-public class ViewHolderHomeBulletinWithoutImage extends RecyclerView.ViewHolder
-{
-    private ImageView mIvFavIcon;
-    private TextView mTvBulletinTitle,mTvBulletinDuration,mTvBulletinBody,mTvSyteName,mTvSyteAddress;
+public class ViewHolderHomeBulletinWithoutImage extends RecyclerView.ViewHolder {
+    private ImageView mIvFavIcon, mIvLikeIcon;
+    private TextView mTvBulletinTitle, mTvBulletinDuration, mTvBulletinBody, mTvSyteName, mTvSyteAddress;
     private RelativeLayout mLinLayItem;
-    public ViewHolderHomeBulletinWithoutImage(View itemView)
-    {
-        super(itemView);
-        mIvFavIcon = (ImageView)itemView.findViewById(R.id.xIvFavIcon);
-        mTvBulletinTitle = (TextView)itemView.findViewById(R.id.xTvBulletinTitle);
-        mTvBulletinDuration = (TextView)itemView.findViewById(R.id.xTvBulletinDuration);
-        mTvBulletinBody = (TextView)itemView.findViewById(R.id.xTvBulletinBody);
-        mTvSyteName = (TextView)itemView.findViewById(R.id.xTvSyteName);
-        mTvSyteAddress = (TextView)itemView.findViewById(R.id.xTvSyteAddress);
-        mLinLayItem=(RelativeLayout)itemView.findViewById(R.id.xLinLayItem);
-    }
 
+    public ViewHolderHomeBulletinWithoutImage(View itemView) {
+        super(itemView);
+        mIvFavIcon = (ImageView) itemView.findViewById(R.id.xIvFavIcon);
+        mTvBulletinTitle = (TextView) itemView.findViewById(R.id.xTvBulletinTitle);
+        mTvBulletinDuration = (TextView) itemView.findViewById(R.id.xTvBulletinDuration);
+        mTvBulletinBody = (TextView) itemView.findViewById(R.id.xTvBulletinBody);
+        mTvSyteName = (TextView) itemView.findViewById(R.id.xTvSyteName);
+        mTvSyteAddress = (TextView) itemView.findViewById(R.id.xTvSyteAddress);
+        mLinLayItem = (RelativeLayout) itemView.findViewById(R.id.xLinLayItem);
+        mIvLikeIcon = (ImageView) itemView.findViewById(R.id.xIvLikeIcon);
+
+    }
 
 
     public void setmIvFavIcon(ImageView mIvFavIcon) {
         this.mIvFavIcon = mIvFavIcon;
     }
-
 
 
     public void setmTvBulletinTitle(TextView mTvBulletinTitle) {
@@ -57,15 +56,21 @@ public class ViewHolderHomeBulletinWithoutImage extends RecyclerView.ViewHolder
     }
 
 
-
     public ImageView getmIvFavIcon() {
         return mIvFavIcon;
     }
 
 
-
     public TextView getmTvBulletinTitle() {
         return mTvBulletinTitle;
+    }
+
+    public ImageView getmIvLikeIcon() {
+        return mIvLikeIcon;
+    }
+
+    public void setmIvLikeIcon(ImageView mIvLikeIcon) {
+        this.mIvLikeIcon = mIvLikeIcon;
     }
 
     public TextView getmTvBulletinDuration() {

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -53,18 +54,14 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
     private YasPasPreferences myYasPasPref;
     private ArrayList<PhoneContact> contactnumber;
     private ArrayList<Followers> followerses;
-
     private ArrayList<String> registered_numbers, invited_numbers;
-
     private ArrayList<Listcontacts> contactId, contactList_Filtered;
 
 
     ArrayList<PhoneContact> followlist = new ArrayList<>();
     ArrayList<PhoneContact> regis_cont = new ArrayList<>();
 
-
     public AdapterPhoneContacts(ArrayList<Listcontacts> contact_id, ArrayList<PhoneContact> contact_numbers, ArrayList<Followers> mFollower, ArrayList<String> authored_numbers, Syte mySyte, String mySyteId, YasPasPreferences mYasPasPref, ArrayList<String> mInvited_numbers, int i, Context applicationContext) {
-
         this.contactId = contact_id;
         this.contactnumber = contact_numbers;
         this.mContext = applicationContext;
@@ -74,7 +71,6 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
         this.mysyteid = mySyteId;
         this.myYasPasPref = mYasPasPref;
         this.invited_numbers = mInvited_numbers;
-
 
 
     }
@@ -133,14 +129,12 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
                     }
                     if (numbers != null) {
                         Log.d("unfollowed", numbers.get(0) + "size:" + numbers.size());
-
                         mSendFollowInviteNotification(numbers.get(0));
                         contactfollowInvited(viewHolder, position, cont_id.getContact_id());
 
                         Log.d("Follow request", "Follow Request Sent Successfully" + position);
 
                         //  Snackbar.make(v.getRootView(), "Follow Request Sent Successfully" + numbers.get(0), Snackbar.LENGTH_SHORT);
-
                     }
                 }
             }
@@ -149,21 +143,22 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View v) {
 
-                Log.d("invite", "syte not installed");
+                Log.d("invite", "syte not installed" + contactId.size());
                 Listcontacts cont_id = contactId.get(position);
                 if (cont_id != null) {
+                    Log.d("cont_id", "syte " + cont_id.getContact_id() + cont_id.getName());
                     ArrayList<String> numbers = new ArrayList<String>();
                     for (PhoneContact getphn : contactnumber) {
+                        Log.d("phone_id", "phone " + getphn.getPhone_ID() + getphn.getPhone_Name());
                         if (cont_id.getContact_id().equalsIgnoreCase(getphn.getPhone_ID())) {
                             numbers.add(getphn.getPhone_Mobile());
                         }
                     }
-                    if (numbers != null) {
+                    if (numbers.size() != 0) {
                         Log.d("invite", numbers.get(0) + "size:" + numbers.size());
                         sendMessage(numbers.get(0));
                     }
                 }
-
 
             }
         });
@@ -174,10 +169,8 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
         return (Integer) iv.getTag();
     }
 
-
     //follow invite push notification
     private void mSendFollowInviteNotification(String num) {
-
         updateinvite(num);
         Firebase firebaseYasPasPushNotification = new Firebase(StaticUtils.YASPAS_PUSH_NOTIFICATION_URL);
         YasPasPush yasPasPush = new YasPasPush();
@@ -197,17 +190,14 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
         });
     }
 
-
-    //updating to follow invite in firebase
+    //updateing to follow invite in firebase
     private void updateinvite(String num) {
         Firebase firebaseUpdateInviteStatus = new Firebase(StaticUtils.YASPAS_URL).child(mysyteid).child("invitetofollow").child(num);
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("syteId", mysyteid);
         hashMap.put("syteName", mysyte.getName());
-
         hashMap.put("syteowner", mysyte.getOwner());
         hashMap.put("follow", "invited");
-
         hashMap.put("bulletinDateTime", ServerValue.TIMESTAMP);
         hashMap.put("pushType", StaticUtils.HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_INVITE);
         hashMap.put("registeredNum", num);
@@ -230,6 +220,7 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
         mContext.startActivity(sendIntent);
 
     }
+
     //flipping follow invited contact
     private void contactfollowInvited(ViewHolderContactlist viewHolders, int pos, String id) {
         viewHolders.getmTvName().setText(contactId.get(pos).getName());
@@ -251,7 +242,6 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
     }
 
     //to display followed contacts
-
     private void displayfollowContact(ViewHolderContactlist viewHolders, int pos, String id) {
         viewHolders.getmTvName().setText(contactId.get(pos).getName());
         Bitmap img = contactId.get(pos).getPhoto_id();
@@ -303,7 +293,6 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
     }//end unfollowed/followinvited
 
     private void displayfollowInvited(ViewHolderContactlist viewHolders, int pos, String id, boolean isInvited) {
-
         viewHolders.getmTvName().setText(contactId.get(pos).getName());
         Bitmap img = contactId.get(pos).getPhoto_id();
         if (img != null) {
@@ -326,7 +315,6 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
             viewHolders.getmUnfollowfnd().setVisibility(View.VISIBLE);
             viewHolders.getMfollowfnd().setVisibility(View.GONE);
         }
-
     }
 
     private boolean checkfollow_list(String ids) {
@@ -343,22 +331,19 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
     private void displayInviteContact(ViewHolderContactlist viewHolders, int pos, String id) {
         viewHolders.getmTvName().setText(contactId.get(pos).getName());
         Bitmap img = contactId.get(pos).getPhoto_id();
-        if (img != null) {
-            Bitmap bmp = getRoundedShape(img);
-            // ImageLoader.getInstance().displayImage(img.toString(), viewHolders.getmProfilePic(), mDspImgOptions);
-            viewHolders.getmProfilePic().setImageBitmap(bmp);
+            if (img != null) {
+                Bitmap bmp = getRoundedShape(img);
+                // ImageLoader.getInstance().displayImage(img.toString(), viewHolders.getmProfilePic(), mDspImgOptions);
+                viewHolders.getmProfilePic().setImageBitmap(bmp);
+
         } else {
             viewHolders.getmProfilePic().setImageResource(R.drawable.img_user_thumbnail_image_list);
         }
         // viewHolders.getmInvitefnd().setImageResource(R.drawable.ic_send_invite);
-
         viewHolders.getMinvited().setVisibility(View.GONE);
-
         viewHolders.getmInvitefnd().setVisibility(View.VISIBLE);
         viewHolders.getmUnfollowfnd().setVisibility(View.GONE);
         viewHolders.getMfollowfnd().setVisibility(View.GONE);
-
-
     }
 
     public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
@@ -398,7 +383,6 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
         }
         return regid;
     }
-
 
     //filtering registered contacts and following
     private void contacts() {
@@ -509,6 +493,7 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
         public void setMinvited(ImageView minvited) {
             this.minvited = minvited;
         }
+
         public ViewHolderContactlist(View itemView) {
             super(itemView);
             mProfilePic = (ImageView) itemView.findViewById(R.id.xfriendsprofileimgid);
@@ -516,7 +501,6 @@ public class AdapterPhoneContacts extends RecyclerView.Adapter<RecyclerView.View
             mfollowfnd = (ImageView) itemView.findViewById(R.id.xfriendfollowimgid);
             mUnfollowfnd = (ImageView) itemView.findViewById(R.id.xfriendunfollowimgid);
             minvited = (ImageView) itemView.findViewById(R.id.xfriendivited);
-
             mTvName = (TextView) itemView.findViewById(R.id.xfriendsNameid);
         }
 

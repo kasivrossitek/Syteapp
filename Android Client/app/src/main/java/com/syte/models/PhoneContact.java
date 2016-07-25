@@ -2,10 +2,12 @@ package com.syte.models;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by Developer on 5/31/2016.
  */
-public class PhoneContact {
+public class PhoneContact implements Serializable {
 
     String phone_Mobile, phone_ID, phone_Name;
     Bitmap photo_id;
@@ -20,11 +22,13 @@ public class PhoneContact {
     public PhoneContact() {
     }
 
+
     public Bitmap getPhoto_id() {
         return photo_id;
     }
 
     public void setPhoto_id(Bitmap photo_id) {
+
         this.photo_id = photo_id;
     }
 

@@ -198,9 +198,7 @@
     <dimen name="syte_detail_margin_8">8dp</dimen>
     <dimen name="syte_detail_bulletin_img_ht">169dp</dimen>
     <dimen name="syte_detail_bulletin_wo_img_txt_ht">216dp</dimen>
-
     <dimen name="syte_detail_radio_padding">8dp</dimen>
-
     <!--NO DETAIL-->
     <dimen name="no_detail_min_ht">185dp</dimen>
     <dimen name="no_detail_padding">30dp</dimen>
@@ -272,5 +270,6 @@
     <dimen name="syte_analytics_page_padding">16dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+
 
 </resources>

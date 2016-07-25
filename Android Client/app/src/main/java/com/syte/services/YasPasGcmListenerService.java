@@ -16,6 +16,7 @@
 
 package com.syte.services;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -244,6 +245,7 @@ public class YasPasGcmListenerService extends com.google.android.gms.gcm.GcmList
         boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
         return useWhiteIcon ? *//*R.drawable.ic_notification*//*R.mipmap.ic_launcher : R.mipmap.ic_launcher;//Todo need to update the transparent image to support devices grater than lollipop
     }*/
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void mSendNotification(String paramSub,
                                    String paramTitle,
                                    Bitmap paramBigImgage,

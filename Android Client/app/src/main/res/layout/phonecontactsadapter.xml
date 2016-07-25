@@ -25,7 +25,6 @@
         android:text="@string/app_name"
         android:maxLength="@integer/syte_invite_friends_name_txt_sz"
         android:ellipsize="end"
-
         android:textColor="@color/color_black_opacity_87"
         android:textSize="@dimen/vw_holder_team_member_name_txt_sz" />
 
@@ -58,7 +57,6 @@
         android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
         android:src="@drawable/ic_syte_not_installed"
         android:visibility="gone" />
-
     <ImageView
         android:id="@+id/xfriendivited"
         android:layout_width="wrap_content"
@@ -68,7 +66,6 @@
         android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
         android:src="@drawable/ic_invited"
         android:visibility="gone" />
-
 
 
 </RelativeLayout>

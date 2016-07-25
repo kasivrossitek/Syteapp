@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xLinLayOwnedYasPas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/xLinlayFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/my_sytes_screen_add_syte_ht"
+        android:layout_marginLeft="@dimen/my_sytes_item_margin"
+        android:layout_marginRight="@dimen/my_sytes_item_margin"
+        android:orientation="horizontal">
+
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvFeedbackType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/feedback_type_lbl_txt"
+            android:textColor="@color/color_black_opacity_87"
+            android:textSize="@dimen/my_sytes_item_syte_name_sz" />
+
+        <ImageView
+            android:id="@+id/xvClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_yp_close_14px" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_btm_shadow_sz"
+        android:layout_below="@+id/xLinlayFeedback"
+        android:background="@drawable/shadow"
+        android:textColor="@color/color_black_opacity_12" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/xLinLayReportbug"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_sytes_screen_add_syte_ht"
+                android:layout_marginLeft="@dimen/my_sytes_item_margin"
+                android:layout_marginRight="@dimen/my_sytes_item_margin"
+                android:orientation="horizontal">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xTvReportaBug"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/feedback_Report_Bug_lbl_txt"
+                    android:textColor="@color/color_black_opacity_87"
+                    android:textSize="@dimen/txt_sz_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_my_sytes_more_arrow" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/xLinLayNewfeature"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_sytes_screen_add_syte_ht"
+                android:layout_marginLeft="@dimen/my_sytes_item_margin"
+                android:layout_marginRight="@dimen/my_sytes_item_margin"
+                android:orientation="horizontal">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xTvFeatureRequest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="@string/feedback_new_feature_lbl_txt"
+                    android:textColor="@color/color_black_opacity_87"
+                    android:textSize="@dimen/txt_sz_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_my_sytes_more_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/xLinLaySuggestfeature"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_sytes_screen_add_syte_ht"
+                android:layout_marginLeft="@dimen/my_sytes_item_margin"
+                android:layout_marginRight="@dimen/my_sytes_item_margin"
+                android:orientation="horizontal">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xTvFeatureEnhance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/feedback_suggest_feature_lbl_txt"
+                    android:textColor="@color/color_black_opacity_87"
+                    android:textSize="@dimen/txt_sz_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_my_sytes_more_arrow" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/xLinLayComment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_sytes_screen_add_syte_ht"
+                android:layout_marginLeft="@dimen/my_sytes_item_margin"
+                android:layout_marginRight="@dimen/my_sytes_item_margin"
+                android:orientation="horizontal">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xTvComments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/feedback_Comment_lbl_txt"
+                    android:textColor="@color/color_black_opacity_87"
+                    android:textSize="@dimen/txt_sz_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_my_sytes_more_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/xLinLayCompliment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_sytes_screen_add_syte_ht"
+                android:layout_marginLeft="@dimen/my_sytes_item_margin"
+                android:layout_marginRight="@dimen/my_sytes_item_margin"
+                android:orientation="horizontal">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xTvCompliments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/feedback_Compliment_lbl_txt"
+                    android:textColor="@color/color_black_opacity_87"
+                    android:textSize="@dimen/txt_sz_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_my_sytes_more_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/xLinLayOther"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_sytes_screen_add_syte_ht"
+                android:layout_marginLeft="@dimen/my_sytes_item_margin"
+                android:layout_marginRight="@dimen/my_sytes_item_margin"
+                android:orientation="horizontal">
+
+                <com.syte.widgets.TvRobortoRegular
+                    android:id="@+id/xTvOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/feedback_Other_lbl_txt"
+                    android:textColor="@color/color_black_opacity_87"
+                    android:textSize="@dimen/txt_sz_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_height="@dimen/my_sytes_item_more_image_wd_ht"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_my_sytes_more_arrow" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

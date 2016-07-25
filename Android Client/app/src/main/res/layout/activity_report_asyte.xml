@@ -49,7 +49,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/xTvSave"
+        android:layout_above="@+id/xTvReport"
         android:layout_below="@+id/xRellayTop"
         android:scrollbars="none">
 
@@ -57,8 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/add_syte_address_page_padding"
-            android:paddingRight="@dimen/add_syte_address_page_padding">
+            android:padding="@dimen/add_syte_address_page_padding">
 
             <com.syte.widgets.EditTextLblMedium
                 android:layout_width="match_parent"
@@ -77,21 +76,24 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/syte_detail_radio_padding"
                     android:checked="true"
-                    android:text="@string/report_a_syte_issue_type1" />
+                    android:text="@string/report_a_syte_issue_type1"
+                    android:textColor="@color/color_black_opacity_54" />
 
                 <RadioButton
                     android:id="@+id/xIncorrecttype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/syte_detail_radio_padding"
-                    android:text="@string/report_a_syte_issue_type2" />
+                    android:text="@string/report_a_syte_issue_type2"
+                    android:textColor="@color/color_black_opacity_54" />
 
                 <RadioButton
                     android:id="@+id/xUnauthorised"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/syte_detail_radio_padding"
-                    android:text="@string/report_a_syte_issue_type3" />
+                    android:text="@string/report_a_syte_issue_type3"
+                    android:textColor="@color/color_black_opacity_54" />
 
             </RadioGroup>
 
@@ -112,13 +114,14 @@
             <com.syte.widgets.EditTextLblMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:text="@string/report_a_syte_page_lbl2" />
 
             <com.syte.widgets.EtRobortoRegularMedium
                 android:id="@+id/xEtReportBody"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+
                 android:ems="6"
                 android:hint="@string/report_a_syte_page_hint_et2"
                 android:maxLength="500" />
@@ -134,35 +137,64 @@
                 android:textColor="@color/color_black_opacity_26"
                 android:textSize="@dimen/edittext_small_lbl_sz" />
 
-            <com.syte.widgets.EditTextLblMedium
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/report_a_syte_issue_uploadimage" />
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/add_syte_address_page_padding"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_syte_address_page_padding"
                 android:orientation="horizontal">
 
-                <com.syte.widgets.TvRobortoRegular
-                    android:id="@+id/xTvUpload"
+                <com.syte.widgets.EditTextLblMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_syte_contact"
-                    android:gravity="center"
-                    android:padding="@dimen/add_syte_address_page_padding"
-                    android:text="@string/report_a_syte_issue_btn_uploadimage"
-                    android:textColor="@color/color_black_opacity_54"
-                    android:textSize="@dimen/txt_sz_14" />
+                    android:text="@string/report_a_syte_issue_uploadimage" />
+
+                <com.syte.widgets.EditTextLblMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/report_a_syte_issue_optional"
+                    android:textColor="@color/color_black_opacity_26"
+                    android:textSize="@dimen/edittext_small_lbl_sz" />
+
+            </LinearLayout>
+
+            <com.syte.widgets.TvRobortoRegular
+                android:id="@+id/xTvUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_syte_address_page_padding"
+                android:background="@drawable/background_syte_contact"
+                android:gravity="center"
+                android:padding="@dimen/add_syte_address_page_padding"
+                android:text="@string/report_a_syte_issue_btn_uploadimage"
+                android:textColor="@color/color_black_opacity_54"
+                android:textSize="@dimen/txt_sz_14" />
+
+            <LinearLayout
+                android:id="@+id/xLinlayimg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/add_syte_address_page_padding"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <com.syte.widgets.EditTextLblMedium
                     android:id="@+id/xTVimgpath"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textSize="@dimen/txt_sz_14" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/add_syte_address_page_padding"
-                    android:text="@string/report_a_syte_issue_lbl_uploadimage" />
+                    android:layout_marginRight="@dimen/add_syte_address_page_padding"
+                    android:background="@drawable/ic_yp_close_14px"
+                    android:padding="@dimen/add_syte_address_page_padding" />
+
             </LinearLayout>
 
             <com.syte.widgets.EditTextLblMedium

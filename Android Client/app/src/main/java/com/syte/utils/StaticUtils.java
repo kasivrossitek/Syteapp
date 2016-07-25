@@ -24,10 +24,11 @@ import java.util.TimeZone;
  */
 public class StaticUtils {
     //URLs --
-    //public static String FIREBASE_BASE_URL="https://yaspasbeta.firebaseIO.com/"; // STAGING
+    public static String FIREBASE_BASE_URL = "https://yaspasbeta.firebaseIO.com/"; // STAGING
 
-    // public static String FIREBASE_BASE_URL="https://gosyte.firebaseio.com/"; // PRODUCTION
-    public static String FIREBASE_BASE_URL = "https://yaspastest.firebaseio.com/";//kasi test firebase url
+    //  public static String FIREBASE_BASE_URL="https://gosyte.firebaseio.com/"; // PRODUCTION
+    // public static String FIREBASE_BASE_URL = "https://yaspastest.firebaseio.com/";//kasi test firebase url
+
     public static String AUTH_DB_URL = FIREBASE_BASE_URL + "authDB";
     public static String YASPASEE_URL = FIREBASE_BASE_URL + "yaspasees";
     public static String YASPAS_URL = FIREBASE_BASE_URL + "yaspas";
@@ -47,6 +48,7 @@ public class StaticUtils {
     public static String YASPAS_ABOUT_US = "/aboutUs";
     public static String YASPAS_WHAT_WE_DO = "/whatWeDo";
     public static String OWNED_YASPAS = "ownedYasPases";
+    public static String PUBLIC_YASPAS = FIREBASE_BASE_URL+"publicYasPases";
     public static String FOLLOWING_YASPAS = "followingYasPases";
     public static String FOLLOWERS_YASPAS = "followerYasPasees";
     public static String MY_CHAT = "myChat";
@@ -54,7 +56,7 @@ public class StaticUtils {
     public static String CHAT_MESSAGES = "chatMessages";
     public static String REPORT_A_BUG = FIREBASE_BASE_URL + "reportBugs";
     public static String REPORT_A_SYTE = FIREBASE_BASE_URL + "reportASyte";
-
+    public static String REPORT_FEEDBACK = FIREBASE_BASE_URL + "feedbackreport";
 
     public static String CHAT_PUSH_NOTIFICATION_URL = FIREBASE_BASE_URL + "chatPushNotification";
     public static String USER_ANALYTICS_URL = FIREBASE_BASE_URL + "userAnalytics";
@@ -78,6 +80,7 @@ public class StaticUtils {
     public static String IPC_SYTE_NAME = "ipcSyteName";
     public static String IPC_SYTE_IMAGE = "ipcSyteImg";
     public static String IPC_SYTE_OWNERS = "ipcSyteOwners";
+    public static String IPC_SYTE_TYPE = "ipcSyteType";
     //public static String IPC_CHAT_SENDER_TYPE="ipcChatSenderType";
     //public static String IPC_CHAT_WINDOW_PAGE_TITLE="ipcChatWinPgTitle";
     public static String IPC_TEAM_MEMBERS_LIST = "ipctmlist";
@@ -126,6 +129,12 @@ public class StaticUtils {
     public static int HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_INVITE = 7;
     public static int HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_ACCEPTED = 8;
     public static int HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_REJECTED = 9;
+    //Settings feedback tags by kasi on 4/6/16
+    public static String FEED_BACK_NAME = "feedbackname";
+    public static String IPC_PHONE_CONTACTS_ID = "ipcPhoneContactsId";
+    public static String IPC_PHONE_CONTACTS_NUMBERS = "ipcPhoneContactsNumbers";
+    public static String IPC_WHATSAPP_CONTACTS_ID = "ipcWhatsappContactsId";
+    public static String IPC_WHATSAPP_CONTACTS_NUMBERS = "ipcWhatsappContactsNumbers";
 
 
     //public static String IPC_OWNED_SYTE="ipcsyteowned";

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.syte">
-
+    package="com.syte" >
 
     <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -35,15 +34,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme" >
 
         <!-- ACTIVITIES -->
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -183,8 +180,7 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -210,18 +206,14 @@
             android:exported="false" />
         <service
             android:name=".services.MyInstanceIDListenerService"
-
-            android:exported="false">
-
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
             android:name=".services.YasPasGcmListenerService"
-
-            android:exported="false">
-
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -250,9 +242,11 @@
             android:name=".activities.sytedetailsponsor.WhatsappActivity"
             android:label="@string/title_activity_whatsapp"
             android:theme="@style/AppTheme" />
-
-        <activity android:name=".activities.ReportASyteActivity"></activity>
-
+        <activity android:name=".activities.ReportASyteActivity" />
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:label="@string/title_activity_feedback"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

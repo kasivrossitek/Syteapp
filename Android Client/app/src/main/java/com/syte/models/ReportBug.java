@@ -5,18 +5,50 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Created by khalid.p on 25-01-2016.
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReportBug {
-    String title, description, mRegisteredNum, userName;
+    String title, description, mRegisteredNum, userName,deviceModel,deviceModelVersion,appVersionName,appBuildversion;
     Object dateTime;
     int bugStatus; // 0 - new , 1 - replied
 
     public ReportBug() {
     }
 
+    public String getAppBuildversion() {
+        return appBuildversion;
+    }
+
+    public void setAppBuildversion(String appBuildversion) {
+        this.appBuildversion = appBuildversion;
+    }
+
+    public String getAppVersionName() {
+        return appVersionName;
+    }
+
+    public void setAppVersionName(String appVersionName) {
+        this.appVersionName = appVersionName;
+    }
+
+    public String getDeviceModelVersion() {
+        return deviceModelVersion;
+    }
+
+    public void setDeviceModelVersion(String deviceModelVersion) {
+        this.deviceModelVersion = deviceModelVersion;
+    }
+
+    public String getDeviceModel() {
+        return deviceModel;
+    }
+
+    public void setDeviceModel(String deviceModel) {
+        this.deviceModel = deviceModel;
+    }
+
     public void setTitle(String paramTitle) {
         this.title = paramTitle;
+
     }
 
     public String getTitle() {
@@ -63,4 +95,3 @@ public class ReportBug {
         return userName;
     }
 }
-

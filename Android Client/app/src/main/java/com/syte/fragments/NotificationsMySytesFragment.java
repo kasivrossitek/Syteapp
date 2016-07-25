@@ -8,14 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.firebase.client.ChildEventListener;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -359,7 +358,6 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
     private void updateFollow() {
         //update the firebase on accepting by kasi on 4/10/16
         mRemoveInvite();
-
         Followers mObjFollowers = new Followers();
         mObjFollowers.setRegisteredNum(mYasPasPref.sGetRegisteredNum());
         mObjFollowers.setUserGender(mYasPasPref.sGetUserGender());
@@ -384,7 +382,6 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
                             if (firebaseError == null) {
 
                                 //  mSendPushNotification();
-
                                 //mPrgDia=null;
                             }
                            /* else
@@ -401,7 +398,6 @@ public class NotificationsMySytesFragment extends Fragment implements OnFollowNo
         });
 
     }//end update by kasi
-
 
     private void mRemoveInvite() {
         final Firebase firebaseUpdateInviteStatus = new Firebase(StaticUtils.YASPAS_URL).child(invitedYasPasPush.getSyteId()).child("invitetofollow");
