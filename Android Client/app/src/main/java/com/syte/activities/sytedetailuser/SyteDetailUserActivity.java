@@ -694,8 +694,6 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
         WindowManager.LayoutParams wmlp = mDialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.TOP | Gravity.RIGHT;
         wmlp.y = mRellayTopBarUser.getHeight();
-
-
         mDialog.show();
         final Window window = mDialog.getWindow();
         TextView mTvClaimThisSyte = (TextView) window.findViewById(R.id.xTvClaimThisSyte);

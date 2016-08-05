@@ -268,7 +268,6 @@
     <dimen name="settings_separator_ht">10dp</dimen>
     <!--Analytics-->
     <dimen name="syte_analytics_page_padding">16dp</dimen>
-
     <dimen name="fab_margin">16dp</dimen>
 
 

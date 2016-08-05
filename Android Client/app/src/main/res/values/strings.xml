@@ -47,10 +47,11 @@
     <string name="title_activity_maps">Map</string>
     <!--HOME BULLETIN SCREEN-->
     <string name="home_bulletin_screen_page_title">Bulletins</string>
-    <string name="home_bulletin_screen_no_data_data_found">"No Sytes found near you. Please do one of the following:\n
+    <!--<string name="home_bulletin_screen_no_data_data_found">"No Sytes found near you. Please do one of the following:\n
 - Increase search radius by tapping on the filter.
 - Re-position the map by tapping on the map.
-- Or better yet, create your own free Syte by clicking on "+"</string>
+- Or better yet, create your own free Syte by clicking on "+"</string>-->
+    <string name="home_bulletin_screen_no_data_data_found">"No Sytes found near you.</string>
 
     <string name="home_bulletin_screen_i_am_lucky">I\'M FEELING LUCKY</string>
 

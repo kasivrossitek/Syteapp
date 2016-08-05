@@ -9,7 +9,15 @@ public class FilteredBulletinBoard implements Serializable {
     private String syteId, syteName, syteAddress, bulletinId, bulletinSubject, bulletinBody, bulletinImageUrl;
     private Object dateTime;
     private int sendToAllFollowers;
-    private boolean isFavourite, isOwned, isLiked;
+    private boolean isFavourite, isOwned, isLiked,isPublic;
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
 
     public void setSyteId(String syteId) {
         this.syteId = syteId;

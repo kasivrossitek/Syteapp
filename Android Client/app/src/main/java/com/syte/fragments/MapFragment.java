@@ -206,17 +206,25 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     boolean isOwnedYasPas = false;
+                    boolean isPublicYasPas = false;
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(new LatLng(location.latitude, location.longitude));
                     markerOptions.title(key);
-                    if (dataSnapshot.child("owner").getValue().toString().equalsIgnoreCase(mYasPasPref.sGetRegisteredNum())) {
-                        isOwnedYasPas = true;
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_home_orange_pin));
-                    } else if (!isOwnedYasPas && dataSnapshot.child(StaticUtils.YASPAS_MANAGERS).hasChild(mYasPasPref.sGetRegisteredNum())) {
-                        isOwnedYasPas = true;
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_home_orange_pin));
-                    } else {
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_home_green_pin));
+                    if (dataSnapshot.child("syteType").getValue().toString().equalsIgnoreCase("Private")) {
+                        if (dataSnapshot.child("owner").getValue().toString().equalsIgnoreCase(mYasPasPref.sGetRegisteredNum())) {
+                            isOwnedYasPas = true;
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_home_orange_pin));
+                        } else if (!isOwnedYasPas && dataSnapshot.child(StaticUtils.YASPAS_MANAGERS).hasChild(mYasPasPref.sGetRegisteredNum())) {
+                            isOwnedYasPas = true;
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_home_orange_pin));
+                        } else {
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_home_green_pin));
+                        }
+                    } else if (dataSnapshot.child("syteType").getValue().toString().equalsIgnoreCase("Public")) {
+
+                        isPublicYasPas = true;
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_public_syte));
+
                     }
                     Marker marker = mMap.addMarker(markerOptions);
                     marker.setVisible(false);
@@ -226,7 +234,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
                             dataSnapshot.child("imageUrl").getValue().toString(),
                             isOwnedYasPas,
                             dataSnapshot.child("category").getValue().toString().trim(),
-                            isOwnedYasPas ? true : (dataSnapshot.child(StaticUtils.FOLLOWERS_YASPAS).hasChild(mYasPasPref.sGetRegisteredNum())), dataSnapshot.child("city").getValue().toString());
+                            isOwnedYasPas ? true : (dataSnapshot.child(StaticUtils.FOLLOWERS_YASPAS).hasChild(mYasPasPref.sGetRegisteredNum())), dataSnapshot.child("city").getValue().toString(), isPublicYasPas ? true : false);
                     mMapMarkers.put(key, customMapMarker);
                     //marker.setVisible(true);
                     checkMarkerVisibility(customMapMarker);
@@ -461,13 +469,19 @@ public class MapFragment extends Fragment implements GoogleMap.OnCameraChangeLis
     public void onInfoWindowClick(Marker marker) {
         if (!marker.getTitle().equalsIgnoreCase(mCurrentLocationMarkerKey)) {
             if (mNetworkStatus.isNetworkAvailable()) {
-                if (!mMapMarkers.get(marker.getTitle()).isOwnedYasPas) {
+                if (!mMapMarkers.get(marker.getTitle()).isOwnedYasPas && !mMapMarkers.get(marker.getTitle()).isPublicYasPas) {
                     Intent mIntSyteDetailUser = new Intent(getActivity(), SyteDetailUserActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString(StaticUtils.IPC_SYTE_ID, marker.getTitle());
                     bundle.putBoolean(StaticUtils.IPC_FOLLOWED_SYTE, mMapMarkers.get(marker.getTitle()).isFollowingYasPas);
                     mIntSyteDetailUser.putExtras(bundle);
                     startActivity(mIntSyteDetailUser);
+                } else if (mMapMarkers.get(marker.getTitle()).isPublicYasPas) {
+                    Intent mIntSyteDetailSponsor = new Intent(getActivity(), SyteDetailSponsorActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(StaticUtils.IPC_SYTE_ID, marker.getTitle());
+                    mIntSyteDetailSponsor.putExtras(bundle);
+                    startActivity(mIntSyteDetailSponsor);
                 } else {
                     Intent mIntSyteDetailSponsor = new Intent(getActivity(), SyteDetailSponsorActivity.class);
                     Bundle bundle = new Bundle();

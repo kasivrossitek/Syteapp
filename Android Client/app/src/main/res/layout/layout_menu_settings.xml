@@ -4,6 +4,16 @@
     android:layout_height="wrap_content"
     android:background="@android:drawable/dialog_holo_light_frame">
     <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvReportSyte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Report Syte"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
+        android:singleLine="true"
+        android:padding="@dimen/vw_holder_team_member_name_txt_sz"
+        android:visibility="gone"/>
+    <com.syte.widgets.TvRobortoRegular
         android:id="@+id/xTvClaimThisSyte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,11 +22,12 @@
         android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
         android:singleLine="true"
         android:padding="@dimen/vw_holder_team_member_name_txt_sz"/>
+
     <com.syte.widgets.TvRobortoRegular
-        android:id="@+id/xTvReportSyte"
+        android:id="@+id/xTvDeleteSyte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Report a Syte"
+        android:text="Delete Syte"
         android:textColor="@color/color_black_opacity_87"
         android:textSize="@dimen/vw_holder_team_member_name_txt_sz"
         android:singleLine="true"

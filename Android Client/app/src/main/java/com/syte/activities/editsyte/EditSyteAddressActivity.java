@@ -43,13 +43,15 @@ public class EditSyteAddressActivity extends Activity implements View.OnClickLis
     private InputMethodManager mInputManager;
     private String mSyteId;
     private YasPasPreferences mYasPasPref;
-
+    public static Activity TO_BE_DELETED;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_syte_address);
         mInItObjects();
         mInItWidgets();
+        TO_BE_DELETED=null;
+        TO_BE_DELETED=this;
     }// END onCreate()
 
     private void mInItObjects() {

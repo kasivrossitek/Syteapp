@@ -305,39 +305,7 @@ public class PhoneContactsActivity extends AppCompatActivity implements View.OnC
         }.execute();
     } // END mGetContacts
 
-    /*public String getcontacts_from_gsondata() {
-        String request = "failed";
 
-        try {
-            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YasPasLocal" );
-            if (root.exists()) {
-
-
-                FileInputStream filein = new FileInputStream(root.getAbsolutePath()+"/" + "phoneid");
-                ObjectInputStream response = new ObjectInputStream(filein);
-                contact_id = (ArrayList<Listcontacts>) response.readObject();
-                response.close();
-                filein.close();
-                FileInputStream filein2 = new FileInputStream(root.getAbsolutePath()+"/" + "phonenum");
-                ObjectInputStream response2 = new ObjectInputStream(filein2);
-                contact_numbers = (ArrayList<PhoneContact>) response2.readObject();
-                response2.close();
-                filein2.close();
-            }
-            Log.e("data found", "" + contact_id.size() + "" + contact_numbers.size());
-            //Toast.makeText(PhoneContactsActivity.this, "data found" + contact_id.size() + "" + contact_numbers.size(), Toast.LENGTH_SHORT).show();
-        } catch (FileNotFoundException f) {
-            f.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        request = "success";
-        // }
-        return request;
-    }
-*/
     public String read_phoneNum() {
 
         String success = "";

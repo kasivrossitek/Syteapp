@@ -296,6 +296,8 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
                     //mBdl.putParcelableArrayList(StaticUtils.IPC_TEAM_MEMBERS_LIST, mTeamMembers);
                     mIntent_EditSyteDetails.putExtras(mBdl);
                     startActivity(mIntent_EditSyteDetails);
+                    EditSyteLocationActivity.TO_BE_DELETED.finish();
+                    EditSyteAddressActivity.TO_BE_DELETED.finish();
                     finish();
                 } else {
                     mPrgDia.dismiss();
@@ -327,6 +329,8 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
                     //mBdl.putParcelableArrayList(StaticUtils.IPC_TEAM_MEMBERS_LIST, mTeamMembers);
                     mIntent_EditSyteDetails.putExtras(mBdl);
                     startActivity(mIntent_EditSyteDetails);
+                    EditSyteLocationActivity.TO_BE_DELETED.finish();
+                    EditSyteAddressActivity.TO_BE_DELETED.finish();
                     finish();
                 } else {
                     mPrgDia.dismiss();
@@ -363,6 +367,8 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
                     //mBdl.putParcelableArrayList(StaticUtils.IPC_TEAM_MEMBERS_LIST, mTeamMembers);
                     mIntent_EditSyteDetails.putExtras(mBdl);
                     startActivity(mIntent_EditSyteDetails);
+                    EditSyteLocationActivity.TO_BE_DELETED.finish();
+                    EditSyteAddressActivity.TO_BE_DELETED.finish();
                     finish();
                 } else {
                     mPrgDia.dismiss();
@@ -398,6 +404,8 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
                     //mBdl.putParcelableArrayList(StaticUtils.IPC_TEAM_MEMBERS_LIST, mTeamMembers);
                     mIntent_EditSyteDetails.putExtras(mBdl);
                     startActivity(mIntent_EditSyteDetails);
+                    EditSyteLocationActivity.TO_BE_DELETED.finish();
+                    EditSyteAddressActivity.TO_BE_DELETED.finish();
                     finish();
 
                 } else {
@@ -416,7 +424,6 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-
                     Iterator<DataSnapshot> iteratorSyteId = dataSnapshot.getChildren().iterator();
                     while (iteratorSyteId.hasNext()) {
                         DataSnapshot dataSnapshotFollower = (DataSnapshot) iteratorSyteId.next();

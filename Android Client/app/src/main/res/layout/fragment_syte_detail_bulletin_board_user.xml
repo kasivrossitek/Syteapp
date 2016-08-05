@@ -32,6 +32,7 @@
                         android:id="@+id/xIvLeftIndicator"
                         android:layout_width="@dimen/syte_detail_bulletin_arrow_sz"
                         android:layout_height="@dimen/syte_detail_bulletin_arrow_sz"
+                        android:visibility="gone"
                         android:src="@drawable/ic_yp_left_arrow_in_active_14px"
                         android:layout_marginRight="@dimen/syte_detail_contact_info_icon_margin"/>
                     <ImageView

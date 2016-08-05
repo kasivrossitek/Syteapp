@@ -11,9 +11,9 @@ public class CustomMapMarker
     {
         public Marker marker;
         public String title,bulletin,imageUrl,category,city;
-        public boolean isOwnedYasPas,visible,isFollowingYasPas; // It is true if a YasPas is owned or managed by the logged in user
-        public CustomMapMarker(Marker paramMarker,String paramTitle,String paramBullentin,String paramImageUrl,boolean paramIsOwnedYasPas,String paramCategory,
-                               boolean paramIsFollowingYasPas,String paramCity)
+        public boolean isOwnedYasPas,visible,isFollowingYasPas,isPublicYasPas; // It is true if a YasPas is owned or managed by the logged in user
+        public CustomMapMarker(Marker paramMarker, String paramTitle, String paramBullentin, String paramImageUrl, boolean paramIsOwnedYasPas, String paramCategory,
+                               boolean paramIsFollowingYasPas, String paramCity, boolean paramPublic)
             {
                 this.marker=paramMarker;
                 this.title=paramTitle;
@@ -23,6 +23,7 @@ public class CustomMapMarker
                 this.category=paramCategory;
                 this.isFollowingYasPas=paramIsFollowingYasPas;
                 this.city=paramCity;
+                this.isPublicYasPas=paramPublic;
             }
     public boolean getVisible(){
             return this.visible;

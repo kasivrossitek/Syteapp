@@ -141,16 +141,21 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
         if (position == 0 && bulletinBoards.size() == 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
             mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
+            mIvLeftIndicator.setVisibility(View.GONE);
+            mIvRightIndicator.setVisibility(View.GONE);
         } else if (position == 0 && bulletinBoards.size() > 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
-            mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
-        } else if (position == bulletinBoards.size() - 1 && bulletinBoards.size() > 1 && position > 0) {
+           // mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+            mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
+            mIvLeftIndicator.setVisibility(View.GONE);
+            mIvRightIndicator.setVisibility(View.VISIBLE);
+        }/* else if (position == bulletinBoards.size() - 1 && bulletinBoards.size() > 1 && position > 0) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
             mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
         } else if (bulletinBoards.size() > 1 && position > 0 && position < bulletinBoards.size() - 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
             mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
-        }
+        }*/
     }// END onPageSelected()
 
     @Override
@@ -238,12 +243,15 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
                             adapterBulletinBoardSponsor = new AdapterBulletinBoardSponsor(getActivity(), bulletinBoards, bulletinBoardsIds, BulletinBoardSponsorFragment.this);
                             mVpBulletinBoard.setAdapter(adapterBulletinBoardSponsor);
                             mVpBulletinBoard.invalidate();
-                            mIvLeftIndicator.setVisibility(View.VISIBLE);
-                            mIvRightIndicator.setVisibility(View.VISIBLE);
+                            mIvLeftIndicator.setVisibility(View.GONE);
+
                             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
                             if (bulletinBoards.size() > 1) {
-                                mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+                              //  mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+                                mIvRightIndicator.setVisibility(View.VISIBLE);
+                                mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
                             } else {
+                                mIvRightIndicator.setVisibility(View.GONE);
                                 mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
                             }
                         }

@@ -26,7 +26,7 @@ public class StaticUtils {
     //URLs --
     public static String FIREBASE_BASE_URL = "https://yaspasbeta.firebaseIO.com/"; // STAGING
 
-    //  public static String FIREBASE_BASE_URL="https://gosyte.firebaseio.com/"; // PRODUCTION
+  //  public static String FIREBASE_BASE_URL="https://gosyte.firebaseio.com/"; // PRODUCTION
     // public static String FIREBASE_BASE_URL = "https://yaspastest.firebaseio.com/";//kasi test firebase url
 
     public static String AUTH_DB_URL = FIREBASE_BASE_URL + "authDB";
@@ -81,6 +81,8 @@ public class StaticUtils {
     public static String IPC_SYTE_IMAGE = "ipcSyteImg";
     public static String IPC_SYTE_OWNERS = "ipcSyteOwners";
     public static String IPC_SYTE_TYPE = "ipcSyteType";
+    public static String IPC_SYTE_LOC_LAT = "ipcSyteLocLat";
+    public static String IPC_SYTE_LOC_LONG = "ipcSyteLocLong";
     //public static String IPC_CHAT_SENDER_TYPE="ipcChatSenderType";
     //public static String IPC_CHAT_WINDOW_PAGE_TITLE="ipcChatWinPgTitle";
     public static String IPC_TEAM_MEMBERS_LIST = "ipctmlist";

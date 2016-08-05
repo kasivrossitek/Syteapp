@@ -148,7 +148,7 @@ public class YasPasPreferences {
     }
 
     public void sSetSyteType(String syteType) {
-        mEditor.putString(StaticUtils.IPC_SYTE_TYPE,syteType);
+        mEditor.putString(StaticUtils.IPC_SYTE_TYPE, syteType);
         mEditor.commit();
     }
 
@@ -156,4 +156,25 @@ public class YasPasPreferences {
 
         return mPref.getString(StaticUtils.IPC_SYTE_NAME, "");
     }
+
+    public void sSetSyteLat(String syteLat) {
+        mEditor.putString(StaticUtils.IPC_SYTE_LOC_LAT, syteLat);
+        mEditor.commit();
+    }
+
+    public String sGetSyteLat() {
+
+        return mPref.getString(StaticUtils.IPC_SYTE_LOC_LAT, "12.958");
+    }
+
+    public void sSetSyteLongitude(String syteLong) {
+        mEditor.putString(StaticUtils.IPC_SYTE_LOC_LONG, syteLong);
+        mEditor.commit();
+    }
+
+    public String sGetSyteLongitude() {
+
+        return mPref.getString(StaticUtils.IPC_SYTE_LOC_LONG, "77.646");
+    }
+
 }

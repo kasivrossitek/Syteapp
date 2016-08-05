@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.syte" >
+    package="com.syte">
 
     <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -34,16 +34,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- ACTIVITIES -->
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -61,7 +60,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ReportABugActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".activities.sytedetailsponsor.SyteDetailSponsorActivity"
             android:screenOrientation="portrait" />
@@ -74,55 +74,55 @@
         <activity
             android:name=".activities.addsyte.AddSyteAddressActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.addsyte.AddSyteDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.addsyte.AddSyteOptinalDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.addsyte.AddSyteAboutUsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.addsyte.AddSyteWhatWeDoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.addsyte.AddSyteTeamMembersActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.addsyte.AddSyteAddTeamMemberActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.addsyte.AddSyteEditTeamMemberActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.editsyte.EditSyteMainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.editsyte.EditSyteDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.editsyte.EditSyteLocationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.editsyte.EditSyteAddressActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.editsyte.EditSyteAboutUsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.editsyte.EditSyteWhatWeDoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.editsyte.EditSyteTeamMembersActivity"
             android:screenOrientation="portrait" />
@@ -138,11 +138,11 @@
         <activity
             android:name=".activities.bulletin.AddBulletinBoardActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.bulletin.EditBulletinBoard"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activities.bulletin.BulletinUserReadMoreActivity"
             android:screenOrientation="portrait" />
@@ -160,7 +160,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.EditProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".activities.sytedetailuser.SyteTeamMemberDetailsActivity"
             android:screenOrientation="portrait" />
@@ -180,7 +181,7 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -206,14 +207,14 @@
             android:exported="false" />
         <service
             android:name=".services.MyInstanceIDListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
             android:name=".services.YasPasGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -237,16 +238,21 @@
         <activity
             android:name=".activities.sytedetailsponsor.PhoneContactsActivity"
             android:label="@string/title_activity_phone_contacts"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.sytedetailsponsor.WhatsappActivity"
             android:label="@string/title_activity_whatsapp"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.ReportASyteActivity" />
+        <activity android:name=".activities.ReportASyteActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".activities.FeedbackActivity"
             android:label="@string/title_activity_feedback"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     </application>
 
 </manifest>

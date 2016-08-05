@@ -106,13 +106,18 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
             {
                 mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
                 mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
+                mIvLeftIndicator.setVisibility(View.GONE);
+                mIvRightIndicator.setVisibility(View.GONE);
             }
             else if(position==0 && bulletinBoards.size()>1)
             {
                 mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
-                mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+              //  mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+                mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
+                mIvLeftIndicator.setVisibility(View.GONE);
+                mIvRightIndicator.setVisibility(View.VISIBLE);
             }
-            else if(position == bulletinBoards.size()-1 && bulletinBoards.size()>1 && position >0)
+            /*else if(position == bulletinBoards.size()-1 && bulletinBoards.size()>1 && position >0)
             {
                 mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
                 mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
@@ -121,7 +126,7 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
             {
                 mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
                 mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
-            }
+            }*/
         }// END onPageSelected()
         @Override
         public void onPageScrollStateChanged(int state)
@@ -177,11 +182,13 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
                                     mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
                                     if(bulletinBoards.size()>1)
                                     {
-                                        mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+                                      //  mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+                                        mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
                                     }
                                     else
                                     {
                                         mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
+                                        mIvRightIndicator.setVisibility(View.GONE);
                                     }
                                 }
                             }

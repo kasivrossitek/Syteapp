@@ -55,7 +55,7 @@ public class MySytesFragment extends Fragment implements View.OnClickListener, O
     private Firebase mFBOwnedYasPaseesUrl, mFBPublicYasPaseesUrl;
     private ProgressDialog mProgressDialog;
     private OwnedYasPasesDataChangeListener mOwnedYasPasesDataChangeListener;
-    private PublicYasPasesDataChangeListener mPublicYasPasesDataChangeListener;//Public sytes by kasi on 16-7-16
+    //private PublicYasPasesDataChangeListener mPublicYasPasesDataChangeListener;//Public sytes by kasi on 16-7-16
 
 
     @Override
@@ -79,7 +79,7 @@ public class MySytesFragment extends Fragment implements View.OnClickListener, O
         ((TextView) mRootView.findViewById(R.id.xTvAddNewSyte)).setOnClickListener(this);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mOwnedYasPasesDataChangeListener = new OwnedYasPasesDataChangeListener();
-        mPublicYasPasesDataChangeListener = new PublicYasPasesDataChangeListener();
+       // mPublicYasPasesDataChangeListener = new PublicYasPasesDataChangeListener();
 
 
     }
@@ -101,8 +101,18 @@ public class MySytesFragment extends Fragment implements View.OnClickListener, O
                 mOwnedYasPasLst.add(b);
                 mOwnedYasPasKeyLst.add(b.getYasPasId());
             }
-            mFBPublicYasPaseesUrl = new Firebase(StaticUtils.PUBLIC_YASPAS);
-            mFBPublicYasPaseesUrl.addValueEventListener(mPublicYasPasesDataChangeListener);
+            if (mManageYasPasesAdapter == null) {
+                mManageYasPasesAdapter = new SponseredYasPasesAdapter(getActivity(), mOwnedYasPasLst, mOwnedYasPasKeyLst, ((int) (getResources().getDimension(R.dimen.cloudinary_list_image_sz) / getResources().getDisplayMetrics().density)));
+                mRvManageYaspas.setAdapter(mManageYasPasesAdapter);
+
+            } else {
+                mManageYasPasesAdapter.notifyDataSetChanged();
+            }
+
+            mTvCenterLbl.setText(getString(R.string.owned_sytes_not_available));
+            mTvCenterLbl.setVisibility((mOwnedYasPasLst.size() > 0) ? View.GONE : View.VISIBLE);
+         //   mFBPublicYasPaseesUrl = new Firebase(StaticUtils.PUBLIC_YASPAS);
+         //   mFBPublicYasPaseesUrl.addValueEventListener(mPublicYasPasesDataChangeListener);
         }
 
         @Override
@@ -174,7 +184,7 @@ public class MySytesFragment extends Fragment implements View.OnClickListener, O
         super.onPause();
 
         mFBOwnedYasPaseesUrl.removeEventListener(mOwnedYasPasesDataChangeListener);
-        mFBPublicYasPaseesUrl.removeEventListener(mPublicYasPasesDataChangeListener);
+      //  mFBPublicYasPaseesUrl.removeEventListener(mPublicYasPasesDataChangeListener);
         mManageYasPasesAdapter = null;
 
         mRvManageYaspas.setAdapter(null);
