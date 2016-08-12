@@ -13,6 +13,7 @@ public class BulletinBoard implements Parcelable {
     private String subject, body, imageUrl;//, owner;
     private Object dateTime;
     private int sendToAllFollowers; // 0 - false, 1 - True
+    private boolean isLiked;//kasi added on 11-8-16
 
     public BulletinBoard() {
     }
@@ -23,6 +24,7 @@ public class BulletinBoard implements Parcelable {
         imageUrl = in.readString();
         dateTime = (Object) in.readValue(Object.class.getClassLoader());
         sendToAllFollowers = in.readInt();
+        isLiked = (boolean) in.readValue(Boolean.class.getClassLoader());
         //owner = in.readString();
     }
 
@@ -66,14 +68,6 @@ public class BulletinBoard implements Parcelable {
         return this.body;
     }
 
-   /* public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-*/
     public String getImageUrl() {
         return this.imageUrl;
     }
@@ -91,6 +85,15 @@ public class BulletinBoard implements Parcelable {
         return 0;
     }
 
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(subject);
@@ -98,6 +101,7 @@ public class BulletinBoard implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeValue(dateTime);
         dest.writeInt(sendToAllFollowers);
-       // dest.writeString(owner);
+        // dest.writeString(owner);
+        dest.writeValue(isLiked);
     }
 }

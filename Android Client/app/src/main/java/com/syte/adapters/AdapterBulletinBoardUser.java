@@ -10,9 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -21,9 +26,12 @@ import com.syte.R;
 import com.syte.listeners.OnBulletinBoardUpdate;
 import com.syte.models.BulletinBoard;
 import com.syte.utils.StaticUtils;
+import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.EnlargeImageDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by khalid.p on 29-02-2016.
@@ -36,12 +44,17 @@ public class AdapterBulletinBoardUser extends PagerAdapter
         private DisplayImageOptions mDisImgOpt;
         private LayoutInflater mLayoutInflater;
         private ArrayList<BulletinBoard> mBulletinBoards;
+        private ArrayList<String> mBulletinBoardsIds;
         private OnBulletinBoardUpdate onBulletinBoardUpdate;
-        public AdapterBulletinBoardUser(Context paramCon,ArrayList<BulletinBoard> paramBulletinBoards,OnBulletinBoardUpdate paramOnBulletinBoardUpdate)
+        private YasPasPreferences mYaspasPreference;
+        private String syteId;
+
+        public AdapterBulletinBoardUser(Context paramCon, ArrayList<BulletinBoard> paramBulletinBoards, OnBulletinBoardUpdate paramOnBulletinBoardUpdate, ArrayList<String> bulletinBoardsIds, String mSyteId)
             {
                 mContext=paramCon;
                 mLayoutInflater = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                mYaspasPreference = YasPasPreferences.GET_INSTANCE(paramCon);
                 mBulletinBoards=paramBulletinBoards;
                 //cTransformation=new Transformation().width(1202).height(676).crop("scale").quality(100);
                 mCloudinary = new Cloudinary(StaticUtils.GET_CLOUDINARY_CONFIG());
@@ -50,6 +63,8 @@ public class AdapterBulletinBoardUser extends PagerAdapter
                         .cacheOnDisk(true)
                         .considerExifParams(true).build();
                 onBulletinBoardUpdate=paramOnBulletinBoardUpdate;
+                mBulletinBoardsIds=bulletinBoardsIds;
+                syteId = mSyteId;
             }
         @Override
         public int getCount()
@@ -80,6 +95,8 @@ public class AdapterBulletinBoardUser extends PagerAdapter
             {
                 View itemView;
                 TextView mTvBulletinDay,mTvBulletinMonth,mTvBulletinSubject,mTvBulletinBody,mTvBulletinReadMore;
+                RelativeLayout mRelLayBulletinLike;
+                final ImageView mIvlike;
                 final BulletinBoard bulletinBoard = mBulletinBoards.get(position);
                 if(bulletinBoard.getImageUrl().toString().trim().length()>0)
                 {
@@ -132,6 +149,8 @@ public class AdapterBulletinBoardUser extends PagerAdapter
                 mTvBulletinSubject=(TextView)itemView.findViewById(R.id.xTvBulletinSubject);
                 mTvBulletinBody=(TextView)itemView.findViewById(R.id.xTvBulletinBody);
                 mTvBulletinReadMore=(TextView)itemView.findViewById(R.id.xTvBulletinReadMore);
+                mRelLayBulletinLike=(RelativeLayout)itemView.findViewById(R.id.xRelLayBulletinLike);
+                mIvlike=(ImageView)itemView.findViewById(R.id.xIvlike);
                 //Setting Values
                 mTvBulletinDay.setText(StaticUtils.GET_DAY_FROM_MILLISECONDS((long)bulletinBoard.getDateTime()));
                 mTvBulletinMonth.setText(StaticUtils.GET_MONTH_FROM_MILLISECONDS((long) bulletinBoard.getDateTime()).toString().toUpperCase());
@@ -143,8 +162,68 @@ public class AdapterBulletinBoardUser extends PagerAdapter
                         onBulletinBoardUpdate.onBulletinReadMore(position);
                     }
                 });
+                mRelLayBulletinLike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!mBulletinBoards.get(position).isLiked()) {
+                            mBulletinBoards.get(position).setLiked(true);
+                            mIvlike.setImageResource(R.drawable.ic_like_active_grey);
+                            bulletinUpdateLikes(mBulletinBoardsIds.get(position));
+                        } else {
+                            mBulletinBoards.get(position).setLiked(false);
+                            mIvlike.setImageResource(R.drawable.ic_like_in_active_grey);
+                            bulletinRemoveLike(mBulletinBoardsIds.get(position));
+                        }
+                    }
+                });
+                if (bulletinBoard.isLiked()) {
+                    mIvlike.setImageResource(R.drawable.ic_like_active_grey);
+                } else {
+                    mIvlike.setImageResource(R.drawable.ic_like_in_active_grey);
+                }
                 ((ViewPager) container).addView(itemView, 0);
                 // Return the page
                 return itemView;
+        }
+
+        public void bulletinUpdateLikes(String bullletinid) {
+            HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
+            mUpdateMap.put("registeredNum", mYaspasPreference.sGetRegisteredNum());
+            Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes").child(mYaspasPreference.sGetRegisteredNum());
+
+            mFBLikes.setValue(mUpdateMap, new Firebase.CompletionListener() {
+                @Override
+                public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                    if (firebaseError == null) {
+
+
+                    }
+                }
+            });
+        }
+
+        public void bulletinRemoveLike(String bullletinid) {
+
+            Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
+
+            mFBremoveLikes.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        while (iterator.hasNext()) {
+                            DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
+                            if (dataSnapshot1.getKey().equalsIgnoreCase(mYaspasPreference.sGetRegisteredNum())) {
+                                dataSnapshot1.getRef().removeValue();
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
         }
 }// END AdapterBulletinBoardUser()

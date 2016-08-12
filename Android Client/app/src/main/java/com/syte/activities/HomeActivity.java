@@ -63,7 +63,7 @@ import java.math.RoundingMode;
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, OnCustomDialogsListener, OnLocationListener {
 
     //Hamburger Drawer Menu Items
-    private RelativeLayout mRelLayHome, mRelLayMySytes, mRelLayMyFriends, mRelLayMyMessages, mRelLayMyFavouriteSytes, mRelLayContactSupport, mRelLaySettings, mRelLayMap;
+    private RelativeLayout mRelLayProfile,mRelLayHome, mRelLayMySytes, mRelLayMyFriends, mRelLayMyMessages, mRelLayMyFavouriteSytes, mRelLayContactSupport, mRelLaySettings, mRelLayMap;
     private DrawerLayout mDrawerLayout;
     private TextView mTvMsgUnreadCount;
     private ProgressBar mPbChatMsgCounterLoader;
@@ -266,6 +266,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             IS_FAVOURITE_CHECKED = false;
             mIvFavourite.setImageResource(R.drawable.ic_action_bar_un_favourite);
         }
+        mRelLayProfile=(RelativeLayout)findViewById(R.id.xRelLayRow1);//kasi
         mPageTitle = (TextView) findViewById(R.id.xPageTitle);
         mIvUserProfilepic = (ImageView) findViewById(R.id.xIvUserProfilepic);
         mTvUserName = (TextView) findViewById(R.id.xTvUserName);
@@ -496,6 +497,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 break;
             }
             case R.id.xTvUserName: {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                startActivityForResult(new Intent(HomeActivity.this, EditProfileActivity.class), StaticUtils.ACTION_EDIT_PROFILE_REQUEST);
+                break;
+            }
+            case R.id.xRelLayRow1: {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 startActivityForResult(new Intent(HomeActivity.this, EditProfileActivity.class), StaticUtils.ACTION_EDIT_PROFILE_REQUEST);
                 break;

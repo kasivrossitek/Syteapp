@@ -14,6 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -26,6 +30,8 @@ import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.EnlargeImageDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by khalid.p on 27-02-2016.
@@ -39,9 +45,10 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
     private ArrayList<BulletinBoard> mBulletinBoards;
     private ArrayList<String> mBulletinBoardsIds;
     private OnBulletinBoardUpdate onBulletinBoardUpdate;
-    YasPasPreferences mYaspasPreference;
+    private YasPasPreferences mYaspasPreference;
+    private String syteId;
 
-    public AdapterBulletinBoardSponsor(Context paramCon, ArrayList<BulletinBoard> paramBulletinBoards, ArrayList<String> paramBulletinBoardIds, OnBulletinBoardUpdate paramOnBulletinBoardUpdate) {
+    public AdapterBulletinBoardSponsor(Context paramCon, ArrayList<BulletinBoard> paramBulletinBoards, ArrayList<String> paramBulletinBoardIds, OnBulletinBoardUpdate paramOnBulletinBoardUpdate, String mSyteId) {
         mContext = paramCon;
         mLayoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,7 +62,7 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
                 .cacheOnDisk(true)
                 .considerExifParams(true).build();
         onBulletinBoardUpdate = paramOnBulletinBoardUpdate;
-
+        syteId = mSyteId;
     }
 
     @Override
@@ -86,7 +93,8 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView;
         TextView mTvBulletinDay, mTvBulletinMonth, mTvBulletinSubject, mTvBulletinBody, mTvBulletinReadMore;
-        RelativeLayout mRelLayBulletinEdit, mRelLayBulletinDelete;
+        RelativeLayout mRelLayBulletinEdit, mRelLayBulletinDelete, mRelLayBulletinLike;
+        final ImageView mIvLike;
 
         final BulletinBoard bulletinBoard = mBulletinBoards.get(position);
         if (bulletinBoard.getImageUrl().toString().trim().length() > 0) {
@@ -133,6 +141,8 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
         mTvBulletinBody = (TextView) itemView.findViewById(R.id.xTvBulletinBody);
         mTvBulletinReadMore = (TextView) itemView.findViewById(R.id.xTvBulletinReadMore);
         mRelLayBulletinEdit = (RelativeLayout) itemView.findViewById(R.id.xRelLayBulletinEdit);
+        mRelLayBulletinLike = (RelativeLayout) itemView.findViewById(R.id.xRelLayBulletinLike);
+        mIvLike = (ImageView) itemView.findViewById(R.id.xIvlike);
         mRelLayBulletinEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,9 +161,16 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
         mTvBulletinMonth.setText(StaticUtils.GET_MONTH_FROM_MILLISECONDS((long) bulletinBoard.getDateTime()).toString().toUpperCase());
         mTvBulletinSubject.setText(bulletinBoard.getSubject());
         mTvBulletinBody.setText(bulletinBoard.getBody());
+        if (bulletinBoard.isLiked()) {
+            mIvLike.setImageResource(R.drawable.ic_like_active_grey);
+        } else {
+            mIvLike.setImageResource(R.drawable.ic_like_in_active_grey);
+        }
+
         //  if (bulletinBoard.getOwner().equalsIgnoreCase(mYaspasPreference.sGetRegisteredNum())) {
         mRelLayBulletinEdit.setVisibility(View.VISIBLE);
         mRelLayBulletinDelete.setVisibility(View.VISIBLE);
+
         /*} else {
             mRelLayBulletinEdit.setVisibility(View.GONE);
             mRelLayBulletinDelete.setVisibility(View.GONE);
@@ -164,8 +181,63 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
                 onBulletinBoardUpdate.onBulletinReadMore(position);
             }
         });
+        mRelLayBulletinLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (! mBulletinBoards.get(position).isLiked()) {
+                    mBulletinBoards.get(position).setLiked(true);
+                    mIvLike.setImageResource(R.drawable.ic_like_active_grey);
+                    bulletinUpdateLikes(mBulletinBoardsIds.get(position));
+                } else {
+                    mBulletinBoards.get(position).setLiked(false);
+                    mIvLike.setImageResource(R.drawable.ic_like_in_active_grey);
+                    bulletinRemoveLike(mBulletinBoardsIds.get(position));
+                }
+            }
+        });
         ((ViewPager) container).addView(itemView, 0);
         // Return the page
         return itemView;
+    }
+
+    public void bulletinUpdateLikes(String bullletinid) {
+        HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
+        mUpdateMap.put("registeredNum", mYaspasPreference.sGetRegisteredNum());
+        Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes").child(mYaspasPreference.sGetRegisteredNum());
+
+        mFBLikes.setValue(mUpdateMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+
+
+                }
+            }
+        });
+    }
+
+    public void bulletinRemoveLike(String bullletinid) {
+
+        Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
+
+        mFBremoveLikes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                    while (iterator.hasNext()) {
+                        DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
+                        if (dataSnapshot1.getKey().equalsIgnoreCase(mYaspasPreference.sGetRegisteredNum())) {
+                            dataSnapshot1.getRef().removeValue();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }// END AdapterBulletinBoardSponsor()

@@ -150,7 +150,6 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mPrgDia = new ProgressDialog(SyteDetailSponsorActivity.this);
         mPrgDia.setMessage(getString(R.string.prg_bar_wait));
         mPrgDia.setCancelable(false);
-
         mDisImgOpt = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -262,8 +261,6 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
             case R.id.xLinLayContactUs: {
 
                 showContactInfoPopup();
-
-
                 break;
             }
             case R.id.xRelLayChat: {
@@ -390,9 +387,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Private")) {
                     genPrivateInfo(dataSnapshot);
                 } else if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Public")) {
-
                     genPublicInfo(dataSnapshot);
-
                 }
             }
 

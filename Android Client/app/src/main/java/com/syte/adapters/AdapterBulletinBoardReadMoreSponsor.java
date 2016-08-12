@@ -14,6 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -22,15 +26,17 @@ import com.syte.R;
 import com.syte.listeners.OnBulletinBoardUpdate;
 import com.syte.models.BulletinBoard;
 import com.syte.utils.StaticUtils;
+import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.EnlargeImageDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by khalid.p on 03-03-2016.
  */
-public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter
-{
+public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter {
     private Context mContext;
     //private Transformation cTransformation;
     private Cloudinary mCloudinary;
@@ -39,82 +45,83 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter
     private ArrayList<BulletinBoard> mBulletinBoards;
     private ArrayList<String> mBulletinBoardsIds;
     private OnBulletinBoardUpdate onBulletinBoardUpdate;
-    public AdapterBulletinBoardReadMoreSponsor(Context paramCon,ArrayList<BulletinBoard> paramBulletinBoards,ArrayList<String> paramBulletinBoardIds, OnBulletinBoardUpdate paramOnBulletinBoardUpdate)
-    {
-        mContext=paramCon;
+    private YasPasPreferences mYaspasPreference;
+    private String syteId;
+
+    public AdapterBulletinBoardReadMoreSponsor(Context paramCon, ArrayList<BulletinBoard> paramBulletinBoards, ArrayList<String> paramBulletinBoardIds, OnBulletinBoardUpdate paramOnBulletinBoardUpdate, String mSyteId) {
+        mContext = paramCon;
+        mYaspasPreference = YasPasPreferences.GET_INSTANCE(paramCon);
         mLayoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mBulletinBoards=paramBulletinBoards;
-        mBulletinBoardsIds=paramBulletinBoardIds;
+        mBulletinBoards = paramBulletinBoards;
+        mBulletinBoardsIds = paramBulletinBoardIds;
         //cTransformation=new Transformation().width(1202).height(676).crop("scale").quality(100);
         mCloudinary = new Cloudinary(StaticUtils.GET_CLOUDINARY_CONFIG());
-        mDisImgOpt= new DisplayImageOptions.Builder()
+        mDisImgOpt = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true).build();
-        onBulletinBoardUpdate=paramOnBulletinBoardUpdate;
+        onBulletinBoardUpdate = paramOnBulletinBoardUpdate;
+        syteId = mSyteId;
     }
+
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return mBulletinBoards.size();
     }
+
     @Override
-    public boolean isViewFromObject(View view, Object object)
-    {
+    public boolean isViewFromObject(View view, Object object) {
         return view.equals(object);
     }
+
     @Override
-    public void restoreState(Parcelable state, ClassLoader loader)
-    {
+    public void restoreState(Parcelable state, ClassLoader loader) {
     }
+
     @Override
-    public Parcelable saveState()
-    {
+    public Parcelable saveState() {
         return null;
     }
+
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object)
-    {
+    public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
-    @Override
-    public Object instantiateItem(ViewGroup container, final int position)
-    {
-        View itemView;
-        TextView mTvBulletinDay,mTvBulletinMonth,mTvBulletinSubject,mTvBulletinBody;
-        RelativeLayout mRelLayBulletinEdit,mRelLayBulletinDelete;
 
+    @Override
+    public Object instantiateItem(ViewGroup container, final int position) {
+        View itemView;
+        TextView mTvBulletinDay, mTvBulletinMonth, mTvBulletinSubject, mTvBulletinBody;
+        RelativeLayout mRelLayBulletinEdit, mRelLayBulletinDelete, mRelLayBulletinLike;
+        final ImageView mIvlike;
         final BulletinBoard bulletinBoard = mBulletinBoards.get(position);
-        if(bulletinBoard.getImageUrl().toString().trim().length()>0)
-        {
+        if (bulletinBoard.getImageUrl().toString().trim().length() > 0) {
             itemView = mLayoutInflater.inflate(R.layout.vw_holder_bulletin_sponsor_read_more_with_img, null);
-            ImageView mIvBulletinImage=(ImageView)itemView.findViewById(R.id.xIvBulletinImage);
-            final ProgressBar mPbLoader=(ProgressBar)itemView.findViewById(R.id.xPbLoader);
+            ImageView mIvBulletinImage = (ImageView) itemView.findViewById(R.id.xIvBulletinImage);
+            final ProgressBar mPbLoader = (ProgressBar) itemView.findViewById(R.id.xPbLoader);
             String cURL = mCloudinary.url().generate(bulletinBoard.getImageUrl().toString().trim());
-            ImageLoader.getInstance().displayImage(cURL, mIvBulletinImage, mDisImgOpt, new ImageLoadingListener()
-                {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view)
-                    {
-                        mPbLoader.setVisibility(View.VISIBLE);
-                    }
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason)
-                    {
-                        mPbLoader.setVisibility(View.GONE);
-                    }
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
-                    {
-                        mPbLoader.setVisibility(View.GONE);
-                    }
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view)
-                    {
-                        mPbLoader.setVisibility(View.GONE);
-                    }
-                });
+            ImageLoader.getInstance().displayImage(cURL, mIvBulletinImage, mDisImgOpt, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    mPbLoader.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    mPbLoader.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    mPbLoader.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                    mPbLoader.setVisibility(View.GONE);
+                }
+            });
             mIvBulletinImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -124,37 +131,99 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter
                     }
                 }
             }); // END OnClickListener()
-        }
-        else
-        {
+        } else {
             itemView = mLayoutInflater.inflate(R.layout.vw_holder_bulletin_sponsor_read_more_without_img, null);
         }
-        mTvBulletinDay=(TextView)itemView.findViewById(R.id.xTvBulletinDay);
-        mTvBulletinMonth=(TextView)itemView.findViewById(R.id.xTvBulletinMonth);
-        mTvBulletinSubject=(TextView)itemView.findViewById(R.id.xTvBulletinSubject);
-        mTvBulletinBody=(TextView)itemView.findViewById(R.id.xTvBulletinBody);
+        mTvBulletinDay = (TextView) itemView.findViewById(R.id.xTvBulletinDay);
+        mTvBulletinMonth = (TextView) itemView.findViewById(R.id.xTvBulletinMonth);
+        mTvBulletinSubject = (TextView) itemView.findViewById(R.id.xTvBulletinSubject);
+        mTvBulletinBody = (TextView) itemView.findViewById(R.id.xTvBulletinBody);
 
-        mRelLayBulletinEdit=(RelativeLayout)itemView.findViewById(R.id.xRelLayBulletinEdit);
+        mRelLayBulletinEdit = (RelativeLayout) itemView.findViewById(R.id.xRelLayBulletinEdit);
         mRelLayBulletinEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBulletinBoardUpdate.onBulletinEdit(mBulletinBoardsIds.get(position),mBulletinBoards.get(position));
+                onBulletinBoardUpdate.onBulletinEdit(mBulletinBoardsIds.get(position), mBulletinBoards.get(position));
             }
         });
-        mRelLayBulletinDelete=(RelativeLayout)itemView.findViewById(R.id.xRelLayBulletinDelete);
+        mRelLayBulletinDelete = (RelativeLayout) itemView.findViewById(R.id.xRelLayBulletinDelete);
         mRelLayBulletinDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBulletinBoardUpdate.onBulletinDelete(mBulletinBoardsIds.get(position));
             }
         });
+        mRelLayBulletinLike = (RelativeLayout) itemView.findViewById(R.id.xRelLayBulletinLike);
+        mIvlike = (ImageView) itemView.findViewById(R.id.xIvlike);
+
+
         //Setting Values
-        mTvBulletinDay.setText(StaticUtils.GET_DAY_FROM_MILLISECONDS((long)bulletinBoard.getDateTime()));
+        mTvBulletinDay.setText(StaticUtils.GET_DAY_FROM_MILLISECONDS((long) bulletinBoard.getDateTime()));
         mTvBulletinMonth.setText(StaticUtils.GET_MONTH_FROM_MILLISECONDS((long) bulletinBoard.getDateTime()).toString().toUpperCase());
         mTvBulletinSubject.setText(bulletinBoard.getSubject());
         mTvBulletinBody.setText(bulletinBoard.getBody());
+        if (bulletinBoard.isLiked()) {
+            mIvlike.setImageResource(R.drawable.ic_like_active_grey);
+        } else {
+            mIvlike.setImageResource(R.drawable.ic_like_in_active_grey);
+        }
+        mRelLayBulletinLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mBulletinBoards.get(position).isLiked()) {
+                    mBulletinBoards.get(position).setLiked(true);
+                    mIvlike.setImageResource(R.drawable.ic_like_active_grey);
+                    bulletinUpdateLikes(mBulletinBoardsIds.get(position));
+                } else {
+                    mBulletinBoards.get(position).setLiked(false);
+                    mIvlike.setImageResource(R.drawable.ic_like_in_active_grey);
+                    bulletinRemoveLike(mBulletinBoardsIds.get(position));
+                }
+            }
+        });
         ((ViewPager) container).addView(itemView, 0);
         // Return the page
         return itemView;
+    }
+
+    public void bulletinUpdateLikes(String bullletinid) {
+        HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
+        mUpdateMap.put("registeredNum", mYaspasPreference.sGetRegisteredNum());
+        Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes").child(mYaspasPreference.sGetRegisteredNum());
+
+        mFBLikes.setValue(mUpdateMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+
+
+                }
+            }
+        });
+    }
+
+    public void bulletinRemoveLike(String bullletinid) {
+
+        Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
+
+        mFBremoveLikes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                    while (iterator.hasNext()) {
+                        DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
+                        if (dataSnapshot1.getKey().equalsIgnoreCase(mYaspasPreference.sGetRegisteredNum())) {
+                            dataSnapshot1.getRef().removeValue();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }// END AdapterBulletinBoardSponsor()

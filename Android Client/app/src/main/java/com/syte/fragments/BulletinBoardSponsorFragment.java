@@ -29,9 +29,11 @@ import com.syte.models.Syte;
 import com.syte.utils.NetworkStatus;
 import com.syte.utils.StaticUtils;
 import com.syte.utils.YasPasMessages;
+import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.CustomDialogs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -50,6 +52,7 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
     private Firebase mFireBaseBulletinBoard;
     private EventListenerBulletinBoard eventListenerBulletinBoard;
     private AdapterBulletinBoardSponsor adapterBulletinBoardSponsor;
+    private YasPasPreferences mYasPasPreferences;
     private NetworkStatus mNetworkStatus;
     private ProgressDialog mPrgDia;
     private String globalDeleteBulletinId = "";
@@ -62,7 +65,7 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
         mVpBulletinBoard.setPageTransformer(true, new DepthPageTransformer());
         mVpBulletinBoard.addOnPageChangeListener(this);
 
-        adapterBulletinBoardSponsor = new AdapterBulletinBoardSponsor(getActivity(), bulletinBoards, bulletinBoardsIds, this);
+        adapterBulletinBoardSponsor = new AdapterBulletinBoardSponsor(getActivity(), bulletinBoards, bulletinBoardsIds, this,mSyteId);
         mVpBulletinBoard.setAdapter(adapterBulletinBoardSponsor);
         mVpBulletinBoard.invalidate();
         mVpBulletinBoard.setCurrentItem(0);
@@ -105,13 +108,13 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
         mPrgDia = new ProgressDialog(getActivity());
         mPrgDia.setMessage(getString(R.string.prg_bar_wait));
         mPrgDia.setCancelable(false);
+        mYasPasPreferences = YasPasPreferences.GET_INSTANCE(getActivity());
 
     }// END mInItObjects()
 
     private void mInItWidgets() {
         mTvAddBulletin = (TextView) mRootView.findViewById(R.id.xTvAddBulletin);
         mTvAddBulletin.setOnClickListener(this);
-
         mIvLeftIndicator = (ImageView) mRootView.findViewById(R.id.xIvLeftIndicator);
         mIvRightIndicator = (ImageView) mRootView.findViewById(R.id.xIvRightIndicator);
     }//END mInItWidgets()
@@ -145,7 +148,7 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
             mIvRightIndicator.setVisibility(View.GONE);
         } else if (position == 0 && bulletinBoards.size() > 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
-           // mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+            // mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
             mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
             mIvLeftIndicator.setVisibility(View.GONE);
             mIvRightIndicator.setVisibility(View.VISIBLE);
@@ -224,7 +227,6 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
             mDeleteBulletin(globalDeleteBulletinId);
         }
     }
-
     private class EventListenerBulletinBoard implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -233,21 +235,30 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
             Iterator<DataSnapshot> it = dataSnapshot.getChildren().iterator();
             while (it.hasNext()) {
                 DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
-                BulletinBoard b = dataSnapshot1.getValue(BulletinBoard.class);
+                 BulletinBoard b = dataSnapshot1.getValue(BulletinBoard.class);
+                if (dataSnapshot1.hasChild("Likes")) {
+                    Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
+                    while (iterator2.hasNext()) {
+                        DataSnapshot dataSnapshot2 = (DataSnapshot) iterator2.next();
+                        b.setLiked(dataSnapshot2.getKey().equals(mYasPasPreferences.sGetRegisteredNum()));
+                    }
+                } else {
+                    b.setLiked(false);
+                }
                 bulletinBoards.add(b);
                 bulletinBoardsIds.add(dataSnapshot1.getKey().toString());
                 if (!it.hasNext()) {
                     try {
                         if (!getActivity().isFinishing()) {
                             mVpBulletinBoard.setVisibility(View.VISIBLE);
-                            adapterBulletinBoardSponsor = new AdapterBulletinBoardSponsor(getActivity(), bulletinBoards, bulletinBoardsIds, BulletinBoardSponsorFragment.this);
+                            adapterBulletinBoardSponsor = new AdapterBulletinBoardSponsor(getActivity(), bulletinBoards, bulletinBoardsIds, BulletinBoardSponsorFragment.this, mSyteId);
                             mVpBulletinBoard.setAdapter(adapterBulletinBoardSponsor);
                             mVpBulletinBoard.invalidate();
                             mIvLeftIndicator.setVisibility(View.GONE);
 
                             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
                             if (bulletinBoards.size() > 1) {
-                              //  mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+                                //  mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
                                 mIvRightIndicator.setVisibility(View.VISIBLE);
                                 mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
                             } else {
@@ -339,7 +350,6 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
         oFrBse.setValue(paramSub, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-
                 mPrgDia.dismiss();
 
             }

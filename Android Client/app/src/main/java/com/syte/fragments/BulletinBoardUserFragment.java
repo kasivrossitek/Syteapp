@@ -20,6 +20,7 @@ import com.syte.adapters.AdapterBulletinBoardUser;
 import com.syte.listeners.OnBulletinBoardUpdate;
 import com.syte.models.BulletinBoard;
 import com.syte.utils.StaticUtils;
+import com.syte.utils.YasPasPreferences;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,18 +40,17 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
         private Firebase mFireBaseBulletinBoard;
         private EventListenerBulletinBoard eventListenerBulletinBoard;
         private AdapterBulletinBoardUser adapterBulletinBoardUser;
+    private YasPasPreferences mYasPasPreferences;
         @Override
         public void onResume()
             {
                 super.onResume();
                 mVpBulletinBoard=(ViewPager)mRootView.findViewById(R.id.xVpBulletinBoard);
-
                 mVpBulletinBoard.setFadingEdgeLength(0);
                 mVpBulletinBoard.setPageTransformer(true, new DepthPageTransformer());
                 mVpBulletinBoard.addOnPageChangeListener(this);
                 mFireBaseBulletinBoard.addValueEventListener(eventListenerBulletinBoard);
-
-                adapterBulletinBoardUser=new AdapterBulletinBoardUser(getActivity(),bulletinBoards,this);
+                adapterBulletinBoardUser=new AdapterBulletinBoardUser(getActivity(),bulletinBoards,this, bulletinBoardsIds, mSyteId);
                 mVpBulletinBoard.setAdapter(adapterBulletinBoardUser);
                 mVpBulletinBoard.invalidate();
                 mVpBulletinBoard.setCurrentItem(0);
@@ -88,6 +88,7 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
                 bulletinBoards=new ArrayList<>();
                 bulletinBoardsIds=new ArrayList<>();
                 eventListenerBulletinBoard=new EventListenerBulletinBoard();
+                mYasPasPreferences = YasPasPreferences.GET_INSTANCE(getActivity());
             }// END mInItObjects()
         private void mInItWidgets()
             {
@@ -153,6 +154,8 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
             startActivity(mIntReadMore);
         }
 
+
+
     private class EventListenerBulletinBoard implements ValueEventListener
             {
                 @Override
@@ -166,6 +169,15 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
                     {
                         DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
                         BulletinBoard b = dataSnapshot1.getValue(BulletinBoard.class);
+                        if (dataSnapshot1.hasChild("Likes")) {
+                            Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
+                            while (iterator2.hasNext()) {
+                                DataSnapshot dataSnapshot2 = (DataSnapshot) iterator2.next();
+                                b.setLiked(dataSnapshot2.getKey().equals(mYasPasPreferences.sGetRegisteredNum()));
+                            }
+                        } else {
+                            b.setLiked(false);
+                        }
                         bulletinBoards.add(b);
                         bulletinBoardsIds.add(dataSnapshot1.getKey().toString());
                         if(!it.hasNext())
@@ -175,7 +187,7 @@ public class BulletinBoardUserFragment extends Fragment implements ViewPager.OnP
                                 if (!getActivity().isFinishing())
                                 {
                                     mLinLayBulletin.setVisibility(View.VISIBLE);
-                                    adapterBulletinBoardUser=new AdapterBulletinBoardUser(getActivity(),bulletinBoards,BulletinBoardUserFragment.this);
+                                    adapterBulletinBoardUser=new AdapterBulletinBoardUser(getActivity(),bulletinBoards,BulletinBoardUserFragment.this,bulletinBoardsIds,mSyteId);
                                     mVpBulletinBoard.setAdapter(adapterBulletinBoardUser);
                                     mVpBulletinBoard.invalidate();
 

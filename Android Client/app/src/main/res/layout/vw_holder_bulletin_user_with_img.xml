@@ -54,6 +54,20 @@
             android:padding="@dimen/syte_detail_margin_8"
             android:background="@color/color_white"/>
         <!--END SUBJECT-->
+        <!--LIKE-->
+        <RelativeLayout
+            android:id="@+id/xRelLayBulletinLike"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/xIvlike"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_like_in_active_grey"
+                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <!-- END LIKE-->
     </LinearLayout>
     <View
         android:layout_width="match_parent"

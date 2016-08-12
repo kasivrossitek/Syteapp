@@ -24,9 +24,9 @@ import java.util.TimeZone;
  */
 public class StaticUtils {
     //URLs --
-    public static String FIREBASE_BASE_URL = "https://yaspasbeta.firebaseIO.com/"; // STAGING
+     public static String FIREBASE_BASE_URL = "https://yaspasbeta.firebaseIO.com/"; // STAGING
 
-  //  public static String FIREBASE_BASE_URL="https://gosyte.firebaseio.com/"; // PRODUCTION
+  //  public static String FIREBASE_BASE_URL = "https://gosyte.firebaseio.com/"; // PRODUCTION
     // public static String FIREBASE_BASE_URL = "https://yaspastest.firebaseio.com/";//kasi test firebase url
 
     public static String AUTH_DB_URL = FIREBASE_BASE_URL + "authDB";
@@ -48,7 +48,7 @@ public class StaticUtils {
     public static String YASPAS_ABOUT_US = "/aboutUs";
     public static String YASPAS_WHAT_WE_DO = "/whatWeDo";
     public static String OWNED_YASPAS = "ownedYasPases";
-    public static String PUBLIC_YASPAS = FIREBASE_BASE_URL+"publicYasPases";
+    public static String PUBLIC_YASPAS = FIREBASE_BASE_URL + "publicYasPases";
     public static String FOLLOWING_YASPAS = "followingYasPases";
     public static String FOLLOWERS_YASPAS = "followerYasPasees";
     public static String MY_CHAT = "myChat";

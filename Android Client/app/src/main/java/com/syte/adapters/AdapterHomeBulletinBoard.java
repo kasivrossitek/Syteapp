@@ -118,7 +118,7 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    private void setB_WITH_IMAGE(final ViewHolderHomeBulletinWithImage viewHolderHomeBulletinWithImage, int pos) {
+    private void setB_WITH_IMAGE(final ViewHolderHomeBulletinWithImage viewHolderHomeBulletinWithImage, final int pos) {
         final FilteredBulletinBoard filteredBulletinBoard = filteredBulletinBoards.get(pos);
         viewHolderHomeBulletinWithImage.getmTvBulletinTitle().setText(filteredBulletinBoard.getBulletinSubject());
         viewHolderHomeBulletinWithImage.getmTvBulletinBody().setText(filteredBulletinBoard.getBulletinBody());
@@ -147,10 +147,12 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
             @Override
             public void onClick(View v) {
                 if (!filteredBulletinBoard.isLiked()) {
+                    bulletinUpdateLikes(pos);
                     filteredBulletinBoard.setLiked(true);
                     viewHolderHomeBulletinWithImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_active_grey);
                 } else {
                     filteredBulletinBoard.setLiked(false);
+                    bulletinRemoveLike(pos);
                     viewHolderHomeBulletinWithImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_in_active_grey);
                 }
             }

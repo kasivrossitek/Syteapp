@@ -283,7 +283,6 @@ public class MobileNumberEntryActivity extends Activity implements View.OnClickL
             mChildFirebaseAuthDbUrl.removeEventListener(MobileNumberEntryActivity.this);
             final AuthDb serverAuthDB = dataSnapshot.getValue(AuthDb.class);
             if (serverAuthDB.getVerificationStatus().equalsIgnoreCase("VERIFIED")) {
-
                 Firebase firebaseYasPasee = new Firebase(StaticUtils.YASPASEE_URL).child(serverAuthDB.getRegisteredNum());
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("deviceToken", mYasPasPref.sGetGCMToken());

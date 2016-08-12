@@ -10,4 +10,5 @@ public interface OnBulletinBoardUpdate
         public void onBulletinEdit(String paramBulletinId,BulletinBoard paramBulletinBoard);
         public void onBulletinDelete(String paramBulletinId);
         public void onBulletinReadMore(int paramPosition);
+
     }

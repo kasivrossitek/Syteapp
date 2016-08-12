@@ -71,7 +71,7 @@ public class BulletinUserReadMoreActivity extends AppCompatActivity implements V
             setContentView(R.layout.activity_bulletin_user_read_more);
             mInItObjects();
             mInItWidgets();
-            adapterBulletinBoardReadMoreUser=new AdapterBulletinBoardReadMoreUser(BulletinUserReadMoreActivity.this,bulletinBoards);
+            adapterBulletinBoardReadMoreUser=new AdapterBulletinBoardReadMoreUser(BulletinUserReadMoreActivity.this,bulletinBoards, bulletinBoardsIds, mSyteId);
             mVpBulletinBoard.setAdapter(adapterBulletinBoardReadMoreUser);
             mVpBulletinBoard.invalidate();
             mVpBulletinBoard.setCurrentItem(0);
@@ -188,7 +188,7 @@ public class BulletinUserReadMoreActivity extends AppCompatActivity implements V
                         if (!isFinishing())
                         {
                             mRellayPageIndicator.setVisibility(View.VISIBLE);
-                            adapterBulletinBoardReadMoreUser=new AdapterBulletinBoardReadMoreUser(BulletinUserReadMoreActivity.this,bulletinBoards);
+                            adapterBulletinBoardReadMoreUser=new AdapterBulletinBoardReadMoreUser(BulletinUserReadMoreActivity.this,bulletinBoards,bulletinBoardsIds,mSyteId);
                             mVpBulletinBoard.setAdapter(adapterBulletinBoardReadMoreUser);
                             mVpBulletinBoard.invalidate();
 
