@@ -65,7 +65,7 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
         mVpBulletinBoard.setPageTransformer(true, new DepthPageTransformer());
         mVpBulletinBoard.addOnPageChangeListener(this);
 
-        adapterBulletinBoardSponsor = new AdapterBulletinBoardSponsor(getActivity(), bulletinBoards, bulletinBoardsIds, this,mSyteId);
+        adapterBulletinBoardSponsor = new AdapterBulletinBoardSponsor(getActivity(), bulletinBoards, bulletinBoardsIds, this, mSyteId);
         mVpBulletinBoard.setAdapter(adapterBulletinBoardSponsor);
         mVpBulletinBoard.invalidate();
         mVpBulletinBoard.setCurrentItem(0);
@@ -227,6 +227,7 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
             mDeleteBulletin(globalDeleteBulletinId);
         }
     }
+
     private class EventListenerBulletinBoard implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -235,16 +236,24 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
             Iterator<DataSnapshot> it = dataSnapshot.getChildren().iterator();
             while (it.hasNext()) {
                 DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
-                 BulletinBoard b = dataSnapshot1.getValue(BulletinBoard.class);
+                BulletinBoard b = dataSnapshot1.getValue(BulletinBoard.class);
                 if (dataSnapshot1.hasChild("Likes")) {
-                    Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
+                   /* Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
                     while (iterator2.hasNext()) {
                         DataSnapshot dataSnapshot2 = (DataSnapshot) iterator2.next();
-                        b.setLiked(dataSnapshot2.getKey().equals(mYasPasPreferences.sGetRegisteredNum()));
+                        b.setLiked(dataSnapshot2.getKey().toString().trim().equals(mYasPasPreferences.sGetRegisteredNum()));
+                    }*/
+                    Log.d("prefsponsor", "" + mYasPasPreferences.sGetRegisteredNum());
+                    if (dataSnapshot1.child("Likes").hasChild(mYasPasPreferences.sGetRegisteredNum())) {
+                        b.setLiked(true);
+                    } else {
+                        b.setLiked(false);
+
                     }
                 } else {
                     b.setLiked(false);
                 }
+                Log.d("bulletinboardsponsorkey", "" + dataSnapshot1.getKey().toString() + " " + mSyteId);
                 bulletinBoards.add(b);
                 bulletinBoardsIds.add(dataSnapshot1.getKey().toString());
                 if (!it.hasNext()) {
@@ -359,6 +368,7 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
     private void mDeleteBulletin(final String paramBulletinId) {
         mPrgDia.show();
         globalDeleteBulletinId = "";
+        mAddRewardPoints(StaticUtils.REWARD_POINTS_DELETE_BULLETIN);
         Firebase mFireBaseSpecificBulletinBoard = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(mSyteId).child(paramBulletinId);
         mFireBaseSpecificBulletinBoard.removeValue();
         mFireBaseBulletinBoard.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -382,5 +392,31 @@ public class BulletinBoardSponsorFragment extends Fragment implements View.OnCli
 
             }
         });
-    }
+    }//END DELETE BULLETIN
+
+    public void mAddRewardPoints(final int rewardPoints) {
+
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
 }// END BulletinBoardUserFragment

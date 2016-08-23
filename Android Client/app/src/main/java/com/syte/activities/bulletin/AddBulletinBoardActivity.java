@@ -270,9 +270,9 @@ public class AddBulletinBoardActivity extends Activity implements View.OnClickLi
                                         mCloudinaryContent.sImageToBeDeleted);
                                 Intent i = new Intent(AddBulletinBoardActivity.this, MediaUploadService.class);
                                 startService(i);
-
                             }
                             mUpdateYasPasLatestBulletin(mBulletinBoard.getSubject(), dataSnapshot.getKey(), dataSnapshot.child("dateTime").getValue());
+                            mAddRewardPoints(StaticUtils.REWARD_POINTS_CREATE_BULLETIN);
                         }
 
                         @Override
@@ -339,4 +339,29 @@ public class AddBulletinBoardActivity extends Activity implements View.OnClickLi
             }
         });
     } // END mUpdateYasPasLatestBulletin()
+    public void mAddRewardPoints(final int rewardPoints) {
+
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(yasPasPreferences.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(yasPasPreferences.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(yasPasPreferences.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
 } // END AddBulletinBoardActivity()

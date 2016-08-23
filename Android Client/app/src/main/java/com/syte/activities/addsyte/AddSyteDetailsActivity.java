@@ -316,7 +316,7 @@ public class AddSyteDetailsActivity extends Activity implements View.OnClickList
         mUpdateMap.put("mobileNo", mSyte.getMobileNo());
         mUpdateMap.put("emailid", mSyte.getEmailid());//Email and Website on 28-6-16 by kasi
         mUpdateMap.put("website", mSyte.getWebsite());//Email and Website on 28-6-16 by kasi
-        mUpdateMap.put("syteType", mSyte.getSyteType());//Syte Type on14-7-16
+        mUpdateMap.put("syteType", mSyte.getSyteType());//Syte Type on 14-7-16
         mUpdateMap.put("dateModified", ServerValue.TIMESTAMP);
         mFireBsYasPasObj.updateChildren(mUpdateMap, new Firebase.CompletionListener() {
             @Override

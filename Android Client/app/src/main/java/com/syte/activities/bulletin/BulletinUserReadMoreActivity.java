@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -135,9 +136,12 @@ public class BulletinUserReadMoreActivity extends AppCompatActivity implements V
             else if(paramPos==0 && bulletinBoards.size()>1)
             {
                 mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
-                mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+               // mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+                mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
+                mIvLeftIndicator.setVisibility(View.GONE);
+                mIvRightIndicator.setVisibility(View.VISIBLE);
             }
-            else if(paramPos == bulletinBoards.size()-1 && bulletinBoards.size()>1 && paramPos >0)
+           /* else if(paramPos == bulletinBoards.size()-1 && bulletinBoards.size()>1 && paramPos >0)
             {
                 mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
                 mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
@@ -146,7 +150,7 @@ public class BulletinUserReadMoreActivity extends AppCompatActivity implements V
             {
                 mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
                 mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
-            }
+            }*/
         } // END mSetPage()
     @Override
     public void onPageScrollStateChanged(int state)
@@ -179,6 +183,18 @@ public class BulletinUserReadMoreActivity extends AppCompatActivity implements V
             {
                 DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
                 BulletinBoard b = dataSnapshot1.getValue(BulletinBoard.class);
+                if (dataSnapshot1.hasChild("Likes")) {
+                    Log.d("prefsponsor", "" + mYasPasPref.sGetRegisteredNum());
+                    if (dataSnapshot1.child("Likes").hasChild(mYasPasPref.sGetRegisteredNum())) {
+                        b.setLiked(true);
+                    } else {
+                        b.setLiked(false);
+
+                    }
+                } else {
+                    b.setLiked(false);
+                }
+                Log.d("bulletinboardkey", "" + dataSnapshot1.getKey().toString());
                 bulletinBoards.add(b);
                 bulletinBoardsIds.add(dataSnapshot1.getKey().toString());
                 if(!it.hasNext())

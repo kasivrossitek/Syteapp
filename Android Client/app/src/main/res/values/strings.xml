@@ -254,6 +254,11 @@
     <string name="edit_profile_page_title">Edit Profile</string>
     <string name="edit_profile_page_name_lbl">Name</string>
     <string name="edit_profile_name_hint">Enter your full name</string>
+    <string name="edit_profile_total_points_lbl">Total points</string>
+    <string name="edit_profile_total_points">Points</string>
+    <string name="edit_profile_contributor">Level of contributor</string>
+    <string name="edit_profile_level_type">Level Type</string>
+
 
     <!--Syte Team Member Detail-->
     <string name="syte_tm_mem_detail_title">Member details</string>
@@ -319,11 +324,34 @@
     <string name="feedback_title_lbl_txt">Feedback</string>
     <string name="title_activity_feedback">FeedbackActvity</string>
     <string name="feedback_body_hint_lbl_txt">write description on your feedback type</string>
-
     <string name="err_feedback_page_empty_title">Enter syte title</string>
     <string name="err_feedback_page_empty_description">Enter description</string>
     <string name="err_feedback_page_reported">Your feedback is reported</string>
     <string name="err_feedback_page_not_reported">Your feedback is not reported. Please try again.</string>
+    <!-- REWARD POINTS DIALOG-->
+    <string name="reward_points_earn_lbl">How do i earn points?</string>
+    <string name="reward_points_earn_description_lbl">Every time you contribute to Syte,you earn Syte points.Here\'s a list of what you can contribute, and how much it\'s worth.</string>
+    <string name="reward_points_close">CLOSE</string>
+    <string name="reward_points">points</string>
+    <!-- REWARD LEVEL DIALOG-->
+    <string name="reward_level_earn_lbl">Earn points, reach new level</string>
+    <string name="reward_level_earn_description_lbl">The more points you earn, the higher your level and the more you\'re recognised.</string>
+    <string name="reward_level_close">CLOSE</string>
+    <string name="reward_level_points">points</string>
+    <string name="reward_level">Level</string>
+    <string name="reward_level_1">Beginner</string>
+    <string name="reward_level_2">Scout</string>
+    <string name="reward_level_3">Explorer</string>
+    <string name="reward_level_4">Cibbiuser</string>
+    <string name="reward_level_5">Guru</string>
+    <string name="reward_level_6">Expert</string>
+    <string name="reward_level_1_points">10</string>
+    <string name="reward_level_2_points">50</string>
+    <string name="reward_level_3_points">100</string>
+    <string name="reward_level_4_points">250</string>
+    <string name="reward_level_5_points">500</string>
+    <string name="reward_level_6_points">1000</string>
+
 
 
 </resources>

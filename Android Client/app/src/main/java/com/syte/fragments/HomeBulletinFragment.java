@@ -110,13 +110,10 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                 if (mNetworkStatus.isNetworkAvailable()) {
                     Intent mInt_AddSyteLoc = new Intent(getActivity(), AddSyteLocationActivity.class);
                     Bundle mBun = new Bundle();
-
                     Syte mSyte = new Syte();
-
                     mSyte.setLatitude(HomeActivity.LOC_VIRTUAL.getLatitude());
                     mSyte.setLongitude(HomeActivity.LOC_VIRTUAL.getLongitude());
                     mSyte.setImageUrl("");
-
                     ArrayList<YasPasTeams> mTeamMembers = new ArrayList<>();
                     mBun.putParcelable(StaticUtils.IPC_SYTE, mSyte);
                     mBun.putString(StaticUtils.IPC_SYTE_ID, "");
@@ -141,14 +138,14 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     @Override
     public void onHomeBulletinItemCliecked(FilteredBulletinBoard filteredBulletinBoard) {
         if (mNetworkStatus.isNetworkAvailable()) {
-            Log.e("---", "" + filteredBulletinBoard.getIsOwned()+filteredBulletinBoard.isPublic());
-            if(filteredBulletinBoard.isPublic()){
+            Log.e("---", "" + filteredBulletinBoard.getIsOwned() + filteredBulletinBoard.isPublic());
+            if (filteredBulletinBoard.isPublic()) {
                 Intent mIntSyteDetailSponsor = new Intent(getActivity(), SyteDetailSponsorActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(StaticUtils.IPC_SYTE_ID, filteredBulletinBoard.getSyteId());
                 mIntSyteDetailSponsor.putExtras(bundle);
                 startActivity(mIntSyteDetailSponsor);
-            }else {
+            } else {
                 if (filteredBulletinBoard.getIsOwned()) {
                     Intent mIntSyteDetailSponsor = new Intent(getActivity(), SyteDetailSponsorActivity.class);
                     Bundle bundle = new Bundle();
@@ -172,7 +169,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
 
     class TempSyte {
         public String syteId, syteName, syteAddress, syteOwner;
-        public boolean isFav,isPublic;
+        public boolean isFav, isPublic;
 
         public TempSyte(String pSyteId, String pSyteName, String pSyteAddress, String pOwner, boolean pIsFav, boolean syteType) {
             this.syteId = pSyteId;
@@ -180,7 +177,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
             this.syteAddress = pSyteAddress;
             this.syteOwner = pOwner;
             this.isFav = pIsFav;
-            this.isPublic=syteType;
+            this.isPublic = syteType;
         }
     }// END TempSyte
 
@@ -308,7 +305,6 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                     adapterHomeBulletinBoard = new AdapterHomeBulletinBoard(getActivity(), displayinFilteredBulletins, this);
                     mRvBulletins.setAdapter(adapterHomeBulletinBoard);
                 } else if (adapterHomeBulletinBoard != null) {
-
                     adapterHomeBulletinBoard.notifyDataSetChanged();
                 } else {
 
@@ -572,7 +568,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                         Syte syte = dataSnapshot.getValue(Syte.class);
                         if (syte.getIsDeleted() == 0 && syte.getIsActive() == 1) {
                             TempSyte tempSyte = new TempSyte(dataSnapshot.getKey(), syte.getName(), syte.getCity() + " " + syte.getZipCode(), syte.getOwner(),
-                                    dataSnapshot.child(StaticUtils.FOLLOWERS_YASPAS).hasChild(yasPasPreferences.sGetRegisteredNum()),syte.getSyteType().trim().equalsIgnoreCase("Public"));
+                                    dataSnapshot.child(StaticUtils.FOLLOWERS_YASPAS).hasChild(yasPasPreferences.sGetRegisteredNum()), syte.getSyteType().trim().equalsIgnoreCase("Public"));
                             tempSytes.add(tempSyte);
                         }
                     }
@@ -637,10 +633,20 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                                 System.out.println(tempSytes.get(pIndex).syteName + "--" + tempSytes.get(pIndex).isFav);
                                 filteredBulletinBoard.setIsFavourite(tempSytes.get(pIndex).isFav);
                                 if (dataSnapshot1.hasChild("Likes")) {
-                                    Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
+                                   /* Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
                                     while (iterator2.hasNext()) {
                                         DataSnapshot dataSnapshot2 = (DataSnapshot) iterator2.next();
-                                        filteredBulletinBoard.setLiked(dataSnapshot2.getKey().equals(yasPasPreferences.sGetRegisteredNum()));
+                                        if(dataSnapshot2.getKey().toString().equalsIgnoreCase(yasPasPreferences.sGetRegisteredNum())) {
+                                            filteredBulletinBoard.setLiked(true);
+
+                                        }
+                                    }*/
+                                    Log.d("pref",""+yasPasPreferences.sGetRegisteredNum());
+                                    if (dataSnapshot1.child("Likes").hasChild(yasPasPreferences.sGetRegisteredNum())) {
+                                        filteredBulletinBoard.setLiked(true);
+                                    } else {
+                                        filteredBulletinBoard.setLiked(false);
+
                                     }
                                 } else {
                                     filteredBulletinBoard.setLiked(false);

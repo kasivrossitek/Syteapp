@@ -174,10 +174,13 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter {
                     mBulletinBoards.get(position).setLiked(true);
                     mIvlike.setImageResource(R.drawable.ic_like_active_grey);
                     bulletinUpdateLikes(mBulletinBoardsIds.get(position));
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
+
                 } else {
                     mBulletinBoards.get(position).setLiked(false);
                     mIvlike.setImageResource(R.drawable.ic_like_in_active_grey);
                     bulletinRemoveLike(mBulletinBoardsIds.get(position));
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
                 }
             }
         });
@@ -226,4 +229,29 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter {
             }
         });
     }
+    public void mAddRewardPoints(final int rewardPoints) {
+
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYaspasPreference.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYaspasPreference.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYaspasPreference.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
 }// END AdapterBulletinBoardSponsor()

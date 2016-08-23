@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/popup_wd"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/xRewardTop"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.syte.widgets.TvRobortoRegular
+            android:id="@+id/xTvrewardHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:text="@string/reward_level_earn_lbl"
+            android:textColor="@color/color_black_opacity_87"
+            android:textSize="20sp" />
+
+        <com.syte.widgets.TvRobortoMedium
+            android:id="@+id/xTvrewarddesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/xTvrewardHeading"
+            android:paddingBottom="20dp"
+            android:minLines="3"
+            android:text="@string/reward_level_earn_description_lbl"
+            android:textColor="@color/color_black_opacity_54"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/xdivider_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/xRewardTop"
+        android:background="@color/color_black_opacity_12"></View>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/xListlevels"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/xRellayclose"
+        android:layout_below="@+id/xdivider_view"
+        android:scrollbars="vertical">
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/xRellayclose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/holo_gray_light"
+        android:padding="20dp">
+
+        <com.syte.widgets.TvRobortoMedium
+            android:id="@+id/xTvClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/reward_points_close"
+            android:textColor="@color/color_orange"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

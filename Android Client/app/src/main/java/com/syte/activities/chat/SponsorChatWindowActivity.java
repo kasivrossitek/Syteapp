@@ -167,10 +167,7 @@ public class SponsorChatWindowActivity extends AppCompatActivity implements View
         firebaseChat = new Firebase(StaticUtils.CHAT_URL).child(mSyteId).child(mUserRegisterdNum);
         firebaseYasPaseemyChat = new Firebase(StaticUtils.YASPASEE_URL).child(mUserRegisterdNum).child(StaticUtils.MY_CHAT).child(mSyteId);
         firebaseYasPaseemyChatUnReadCount = firebaseYasPaseemyChat.child("unReadCount");
-
         firebaseChatPush = new Firebase(StaticUtils.CHAT_PUSH_NOTIFICATION_URL);
-
-
         layoutManager = new LinearLayoutManager(SponsorChatWindowActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         chatMessages = new ArrayList<>();

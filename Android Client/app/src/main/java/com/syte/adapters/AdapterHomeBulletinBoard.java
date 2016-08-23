@@ -150,10 +150,12 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
                     bulletinUpdateLikes(pos);
                     filteredBulletinBoard.setLiked(true);
                     viewHolderHomeBulletinWithImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_active_grey);
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
                 } else {
                     filteredBulletinBoard.setLiked(false);
                     bulletinRemoveLike(pos);
                     viewHolderHomeBulletinWithImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_in_active_grey);
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
                 }
             }
         });
@@ -188,12 +190,15 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
             public void onClick(View v) {
                 if (!filteredBulletinBoard.isLiked()) {
                     bulletinUpdateLikes(pos);
+
                     filteredBulletinBoard.setLiked(true);
                     viewHolderHomeBulletinWithoutImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_active_grey);
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
                 } else {
                     filteredBulletinBoard.setLiked(false);
                     bulletinRemoveLike(pos);
                     viewHolderHomeBulletinWithoutImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_in_active_grey);
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
                 }
             }
         });
@@ -244,7 +249,31 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
             }
         });
     }
+    public void mAddRewardPoints(final int rewardPoints) {
 
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYaspaspreferences.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYaspaspreferences.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYaspaspreferences.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
     private void loadImage(final ProgressBar progressBar, ImageView imageView, String imageUrl) {
 
         imageView.setImageResource(android.R.color.transparent);

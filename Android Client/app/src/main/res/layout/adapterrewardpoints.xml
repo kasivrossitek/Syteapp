@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xRelLayTeamMemberVwHolder"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/vw_holder_team_member_unit_ht">
+
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvRewardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+        android:ellipsize="end"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz" />
+
+
+    <com.syte.widgets.TvRobortoMedium
+        android:id="@+id/xTvRewardpoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_72"
+        android:layout_toLeftOf="@+id/xTvPointss"
+        android:ellipsize="end"
+        android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+        android:singleLine="true"
+        android:text="10"
+        android:textColor="#008000"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz" />
+
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvPointss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
+        android:ellipsize="end"
+        android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+        android:singleLine="true"
+        android:text="@string/reward_points"
+        android:textColor="@color/color_black_opacity_54"
+        android:textSize="@dimen/syte_detail_txt_sz_12" />
+
+
+</RelativeLayout>

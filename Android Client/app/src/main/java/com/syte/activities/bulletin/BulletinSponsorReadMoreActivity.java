@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -145,14 +146,17 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
             mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
         } else if (paramPos == 0 && bulletinBoards.size() > 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
-            mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
-        } else if (paramPos == bulletinBoards.size() - 1 && bulletinBoards.size() > 1 && paramPos > 0) {
+            // mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
+            mIvRightIndicator.setImageResource(R.drawable.ic_bulletin_more);
+            mIvLeftIndicator.setVisibility(View.GONE);
+            mIvRightIndicator.setVisibility(View.VISIBLE);
+        } /*else if (paramPos == bulletinBoards.size() - 1 && bulletinBoards.size() > 1 && paramPos > 0) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
             mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
         } else if (bulletinBoards.size() > 1 && paramPos > 0 && paramPos < bulletinBoards.size() - 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_active_14px);
             mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
-        }
+        }*/
     } // END mSetPage()
 
     @Override
@@ -222,10 +226,6 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
 
     }
 
-    @Override
-    public void onBulletinLike(String paramPosition) {
-
-    }
 
     @Override
     public void onDialogLeftBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish) {
@@ -259,6 +259,18 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
             while (it.hasNext()) {
                 DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
                 BulletinBoard b = dataSnapshot1.getValue(BulletinBoard.class);
+                if (dataSnapshot1.hasChild("Likes")) {
+                    Log.d("prefsponsor", "" + mYasPasPreferences.sGetRegisteredNum());
+                    if (dataSnapshot1.child("Likes").hasChild(mYasPasPreferences.sGetRegisteredNum())) {
+                        b.setLiked(true);
+                    } else {
+                        b.setLiked(false);
+
+                    }
+                } else {
+                    b.setLiked(false);
+                }
+                Log.d("bulletinboardkey", "" + dataSnapshot1.getKey().toString());
                 bulletinBoards.add(b);
                 bulletinBoardsIds.add(dataSnapshot1.getKey().toString());
                 if (!it.hasNext()) {
@@ -346,6 +358,7 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
     private void mDeleteBulletin(final String paramBulletinId) {
         mPrgDia.show();
         globalDeleteBulletinId = "";
+        mAddRewardPoints(StaticUtils.REWARD_POINTS_DELETE_BULLETIN);
         Firebase mFireBaseSpecificBulletinBoard = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(mSyteId).child(paramBulletinId);
         mFireBaseSpecificBulletinBoard.removeValue();
         mFireBaseBulletinBoard.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -370,4 +383,30 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
             }
         });
     }
+
+    public void mAddRewardPoints(final int rewardPoints) {
+
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
 }// END BulletinBoardUserFragment

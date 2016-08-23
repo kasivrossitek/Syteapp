@@ -1,0 +1,27 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <web-app-sidebar></web-app-sidebar>
+
+        <div class=" col-sm-10 main">
+            <h3>View </h3>
+            <ng-map class="angular-google-map-container" map-initialized="mycallback(map)" scrollwheel="false"
+                    center="current-position" zoom="12">
+
+                <marker ng-repeat="p in vm.positions" position="{{p.lat}},{{p.lng}}"></marker>
+            </ng-map>
+
+
+            <!--
+            <div ng-controller="WebAppMainViewController as vm">
+                   <div id="map-canvas"></div>
+                <script type="text/javascript">
+                    google.maps.event.addDomListener(window, "load", initializeMap);
+                </script>
+            </div>
+            -->
+
+
+        </div>
+    </div>
+</div>

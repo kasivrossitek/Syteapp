@@ -346,6 +346,7 @@ public class AddSyteOptinalDetailsActivity extends Activity implements View.OnCl
             @Override
             public void onComplete(FirebaseError firebaseError1, Firebase firebase) {
                 if (firebaseError1 == null) {
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_CREATE_PRIVATE_SYTE);
                     AddSyteLocationActivity.TO_BE_DELETED.finish();
                     AddSyteAddressActivity.TO_BE_DELETED.finish();
                     AddSyteDetailsActivity.TO_BE_DELETED.finish();
@@ -369,6 +370,7 @@ public class AddSyteOptinalDetailsActivity extends Activity implements View.OnCl
             @Override
             public void onComplete(FirebaseError firebaseError1, Firebase firebase) {
                 if (firebaseError1 == null) {
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_CREATE_PUBLIC_SYTE);
                     AddSyteLocationActivity.TO_BE_DELETED.finish();
                     AddSyteAddressActivity.TO_BE_DELETED.finish();
                     AddSyteDetailsActivity.TO_BE_DELETED.finish();
@@ -379,6 +381,32 @@ public class AddSyteOptinalDetailsActivity extends Activity implements View.OnCl
                     CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(AddSyteOptinalDetailsActivity.this, AddSyteOptinalDetailsActivity.this);
                     customDialogs.sShowDialog_Common("", getString(R.string.err_msg_error_occurred), "", "", "OK", "ErrorOccurredGenData", false, false);
                 }
+            }
+        });
+    }
+
+    public void mAddRewardPoints(final int rewardPoints) {
+
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPref.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYasPasPref.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYasPasPref.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
     }

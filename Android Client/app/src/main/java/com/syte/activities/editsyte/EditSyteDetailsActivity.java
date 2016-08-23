@@ -448,7 +448,6 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
 
     private void mRemovepublicsyte() {
         final Firebase firebaseRemovePublic = new Firebase(StaticUtils.PUBLIC_YASPAS);
-
         firebaseRemovePublic.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

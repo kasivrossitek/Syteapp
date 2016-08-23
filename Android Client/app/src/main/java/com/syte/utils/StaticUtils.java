@@ -9,6 +9,12 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ServerValue;
+import com.syte.R;
+import com.syte.widgets.CustomDialogs;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,9 +30,9 @@ import java.util.TimeZone;
  */
 public class StaticUtils {
     //URLs --
-     public static String FIREBASE_BASE_URL = "https://yaspasbeta.firebaseIO.com/"; // STAGING
+   // public static String FIREBASE_BASE_URL = "https://yaspasbeta.firebaseIO.com/"; // STAGING
 
-  //  public static String FIREBASE_BASE_URL = "https://gosyte.firebaseio.com/"; // PRODUCTION
+      public static String FIREBASE_BASE_URL = "https://gosyte.firebaseio.com/"; // PRODUCTION
     // public static String FIREBASE_BASE_URL = "https://yaspastest.firebaseio.com/";//kasi test firebase url
 
     public static String AUTH_DB_URL = FIREBASE_BASE_URL + "authDB";
@@ -133,10 +139,46 @@ public class StaticUtils {
     public static int HOME_STARTING_FRAG_NOTIFICATION_SYTE_FOLLOW_REJECTED = 9;
     //Settings feedback tags by kasi on 4/6/16
     public static String FEED_BACK_NAME = "feedbackname";
-    public static String IPC_PHONE_CONTACTS_ID = "ipcPhoneContactsId";
-    public static String IPC_PHONE_CONTACTS_NUMBERS = "ipcPhoneContactsNumbers";
-    public static String IPC_WHATSAPP_CONTACTS_ID = "ipcWhatsappContactsId";
-    public static String IPC_WHATSAPP_CONTACTS_NUMBERS = "ipcWhatsappContactsNumbers";
+    //Reward names and Reward points
+    public static String REWARD_NAME_CREATE_PRIVATE_SYTE = "Create private Syte";
+    public static String REWARD_NAME_CREATE_PUBLIC_SYTE = "Create public Syte";
+    public static String REWARD_NAME_CREATE_BULLETIN = "Create Bulletins";
+    public static String REWARD_NAME_EDIT_PUBLIC_SYTE = "Edit public Syte";
+    public static String REWARD_NAME_REPORT_SYTE = "Report a Syte";
+    public static String REWARD_NAME_DELETE_PRIVATE_SYTE = "Delete private Syte";
+    public static String REWARD_NAME_DELETE_PUBLIC_SYTE = "Delete public Syte";
+    public static String REWARD_NAME_DELETE_BULLETIN = "Delete bulletin";
+    public static String REWARD_NAME_LIKE_BULLETIN = "Like bulletin";
+    public static String REWARD_NAME_UNLIKE_BULLETIN = "Unlike bulletin";
+    public static String REWARD_NAME_RECEIVE_LIKE_BULLETIN = "Receive lIke bulletin";
+    public static String REWARD_NAME_RECEIVE_UNLIKE_BULLETIN = "Receive unlike bulletin";
+
+    public static int REWARD_POINTS_CREATE_PRIVATE_SYTE = 50;
+    public static int REWARD_POINTS_CREATE_PUBLIC_SYTE = 100;
+    public static int REWARD_POINTS_CREATE_BULLETIN = 50;
+    public static int REWARD_POINTS_EDIT_PUBLIC_SYTE = 10;
+    public static int REWARD_POINTS_REPORT_SYTE = 10;
+    public static int REWARD_POINTS_DELETE_PRIVATE_SYTE = -50;
+    public static int REWARD_POINTS_DELETE_PUBLIC_SYTE = -100;
+    public static int REWARD_POINTS_DELETE_BULLETIN = -50;
+    public static int REWARD_POINTS_LIKE_BULLETIN = 5;
+    public static int REWARD_POINTS_UNLIKE_BULLETIN = -5;
+    public static int REWARD_POINTS_RECEIVE_LIKE_BULLETIN = 20;
+    public static int REWARD_POINTS_RECEIVE_UNLIKE_BULLETIN = -20;
+
+    public static int REWARD_LEVEL_POINTS_1 = 0;
+    public static int REWARD_LEVEL_POINTS_2 = 50;
+    public static int REWARD_LEVEL_POINTS_3 = 100;
+    public static int REWARD_LEVEL_POINTS_4 = 250;
+    public static int REWARD_LEVEL_POINTS_5 = 500;
+    public static int REWARD_LEVEL_POINTS_6 = 1000;
+
+    public static String REWARD_LEVEL_NAME_1 = "Beginner";
+    public static String REWARD_LEVEL_NAME_2 = "Scout";
+    public static String REWARD_LEVEL_NAME_3 = "Explorer";
+    public static String REWARD_LEVEL_NAME_4 = "cibbiusser";
+    public static String REWARD_LEVEL_NAME_5 = "Guru";
+    public static String REWARD_LEVEL_NAME_6 = "Expert";
 
 
     //public static String IPC_OWNED_SYTE="ipcsyteowned";
@@ -277,6 +319,27 @@ public class StaticUtils {
         BULLETIN_TIME_FORMAT.setTimeZone(TimeZone.getDefault());
         Date mServerDate = new Date(paramServerUTC);
         return BULLETIN_TIME_FORMAT.format(mServerDate).substring(0, 3);
+    }
+
+    public static void addReward(String mYaspasRegistrationNum, int rewardPoints) {
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYaspasRegistrationNum);
+        HashMap<String, Object> mUpdateMap1 = new HashMap<String, Object>();
+        mUpdateMap1.put("rewards",rewardPoints);
+        mFireBsYasPasObj.updateChildren(mUpdateMap1, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+
+                } else {
+                    // mPrgDia.dismiss();
+                    /*CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(AddSyteOptinalDetailsActivity.this, AddSyteOptinalDetailsActivity.this);
+                    customDialogs.sShowDialog_Common("", getString(R.string.err_msg_error_occurred), "", "", "OK", "ErrorOccurredGenData", false, false);
+       */
+                }
+            }
+        });
+
+
     }
        /* public static boolean IS_MEDIA_UPLOAD_SERVICE_RUNNING(Context context)
             {

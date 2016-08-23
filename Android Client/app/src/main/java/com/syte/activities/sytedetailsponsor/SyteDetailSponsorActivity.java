@@ -226,9 +226,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 Intent mInt_Followers = new Intent(SyteDetailSponsorActivity.this, SyteDetailFollowersActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
-
                 bundle.putParcelable(StaticUtils.IPC_SYTE, mSyte);
-
                 mInt_Followers.putExtras(bundle);
                 startActivity(mInt_Followers);
                 break;
@@ -259,13 +257,12 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 break;
             }
             case R.id.xLinLayContactUs: {
-
                 showContactInfoPopup();
                 break;
             }
             case R.id.xRelLayChat: {
                 if (mNetworkStatus.isNetworkAvailable()) {
-                    if (mSyte.getSyteType().equalsIgnoreCase("Public")) {
+                    if (mSyte.getSyteType().equalsIgnoreCase("Private")) {
                         Bundle bundle = new Bundle();
                         bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
                         bundle.putString(StaticUtils.IPC_SYTE_NAME, mSyte.getName());
@@ -273,10 +270,10 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                         Intent intentSponsorChatListActivity = new Intent(SyteDetailSponsorActivity.this, SponsorChatListActivity.class);
                         intentSponsorChatListActivity.putExtras(bundle);
                         startActivity(intentSponsorChatListActivity);
-                    } else {
-                        CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, this);
-                        customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
                     }
+                } else {
+                    CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, this);
+                    customDialogs.sShowDialog_Common(YasPasMessages.NO_INTERNET_SUBJECT, YasPasMessages.NO_INTERNET_HEADING, YasPasMessages.NO_INTERNET_BODY, "NO", "YES", "NoNw", true, false);
                 }
 
                 break;
@@ -285,7 +282,6 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                 if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Private")) {
                     showMenuSettingsPopup();
                 } else if (mSyte.getSyteType().toString().trim().equalsIgnoreCase("Public")) {
-
                     showPublicMenuSettingsPopup();
 
                 }
@@ -323,6 +319,32 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(SyteDetailSponsorActivity.this, this);
         customDialogs.sShowDialog_Common(YasPasMessages.ERR_OCC_SUBJECT, YasPasMessages.DELETE_SYTE_ERR_OCC_HEADING, null, null, "OK", "deleteSyteError", false, false);
     }// END onDeleteSyteErrorOccured()
+
+    public void mAddRewardPoints(final int rewardPoints) {
+
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         public final List<Fragment> mFragmentTab = new ArrayList<>();
@@ -493,7 +515,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
 
         mTvSyteName.setText(mSyte.getName());
         mTvSyteCity.setText(mSyte.getCity());
-        mRelLayChat.setOnClickListener(null);
+        mRelLayChat.setVisibility(View.GONE);
         if (mSyte.getMobileNo().trim().length() > 0) {
             mIvPhIcn.setVisibility(View.VISIBLE);
             mTvMobileNumber.setText(mSyte.getMobileNo());
@@ -783,9 +805,11 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         if (paramDialogType == CustomDialogs.D_TYPE_COMMON && paramCallingMethod.equalsIgnoreCase("deleteSyte")) {
             Log.e("DELETE SYTE", mSyteId + "syte Type" + mSyte.getSyteType());
             if (mSyte.getSyteType().equalsIgnoreCase("Public")) {
+                mAddRewardPoints(StaticUtils.REWARD_POINTS_DELETE_PUBLIC_SYTE);
                 DeleteASyteRequest deleteASyteRequest = new DeleteASyteRequest(SyteDetailSponsorActivity.this, mSyteId, SyteDetailSponsorActivity.this, true);
                 deleteASyteRequest.sDeleteSyteStart();
             } else {
+                mAddRewardPoints(StaticUtils.REWARD_POINTS_DELETE_PRIVATE_SYTE);
                 DeleteASyteRequest deleteASyteRequest = new DeleteASyteRequest(SyteDetailSponsorActivity.this, mSyteId, SyteDetailSponsorActivity.this, false);
                 deleteASyteRequest.sDeleteSyteStart();
             }
@@ -837,6 +861,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         mTvDeleteSyte.setVisibility(View.VISIBLE);
         mTvDeleteSyte.setText("Delete this Syte");
         mTvClaimThisSyte.setText("Claim this syte");
+        mTvClaimThisSyte.setVisibility(View.GONE);
         mTvDeleteSyte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

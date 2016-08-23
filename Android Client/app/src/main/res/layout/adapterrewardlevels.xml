@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xRelLayTeamMemberVwHolder"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/vw_holder_team_member_unit_ht">
+
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvRewardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_16"
+        android:ellipsize="end"
+        android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+        android:singleLine="true"
+        android:text="@string/reward_level"
+        android:textColor="@color/color_black_opacity_87"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz" />
+
+    <ImageView
+        android:id="@+id/xIvlevelImg"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="@dimen/vw_holder_team_member_margin_72"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/xTvtotalpoints"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_reward_6" />
+
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvRewardlevelname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/edittext_small_lbl_margin_btm"
+        android:layout_toRightOf="@+id/xIvlevelImg"
+        android:ellipsize="end"
+        android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+        android:singleLine="true"
+        android:text="@string/reward_level_6"
+        android:textColor="@color/color_orange"
+        android:textSize="12sp" />
+    <com.syte.widgets.TvRobortoMedium
+        android:id="@+id/xTvRewardlevelpoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_72"
+        android:layout_toLeftOf="@+id/xTvPointss"
+        android:ellipsize="end"
+        android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+        android:singleLine="true"
+        android:text="@string/reward_level_6_points"
+        android:textColor="#008000"
+        android:textSize="@dimen/vw_holder_team_member_name_txt_sz" />
+
+    <com.syte.widgets.TvRobortoRegular
+        android:id="@+id/xTvPointss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/vw_holder_team_member_margin_16"
+        android:ellipsize="end"
+        android:maxLength="@integer/syte_invite_friends_name_txt_sz"
+        android:singleLine="true"
+        android:text="@string/reward_points"
+        android:textColor="@color/color_black_opacity_54"
+        android:textSize="12sp" />
+
+
+</RelativeLayout>

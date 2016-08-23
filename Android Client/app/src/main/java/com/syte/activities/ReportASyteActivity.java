@@ -24,9 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ServerValue;
+import com.firebase.client.ValueEventListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
@@ -174,6 +176,7 @@ public class ReportASyteActivity extends Activity implements View.OnClickListene
                     mEtReportBody.setText("");
                     mLinlayimg.setVisibility(View.GONE);
                     mTvUpload.setVisibility(View.VISIBLE);
+                    mAddRewardPoints(StaticUtils.REWARD_POINTS_REPORT_SYTE);
                     CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(ReportASyteActivity.this, ReportASyteActivity.this);
                     customDialogs.sShowDialog_Common("Thankyou!", getString(R.string.err_report_a_syte_page_reported), null, null, "OK", "RB", false, false);
                 } else {
@@ -227,7 +230,31 @@ public class ReportASyteActivity extends Activity implements View.OnClickListene
             }
         }
     }// END onActivityResult();
+    public void mAddRewardPoints(final int rewardPoints) {
 
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), rewardPoints);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
     //Report a syte image upload
     private void mAddReportImage() {
         mPrgDia.show();
