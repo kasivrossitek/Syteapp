@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.syte.R;
@@ -17,6 +18,8 @@ public class ViewHolderHomeBulletinWithImage extends RecyclerView.ViewHolder {
     private ProgressBar mPbLoader;
     private TextView mTvBulletinTitle, mTvBulletinDuration, mTvBulletinBody, mTvSyteName, mTvSyteAddress;
     private LinearLayout mLinLayItem;
+    private RelativeLayout mRellayLikeIcon;
+
 
     public ViewHolderHomeBulletinWithImage(View itemView) {
         super(itemView);
@@ -30,6 +33,8 @@ public class ViewHolderHomeBulletinWithImage extends RecyclerView.ViewHolder {
         mTvSyteAddress = (TextView) itemView.findViewById(R.id.xTvSyteAddress);
         mLinLayItem = (LinearLayout) itemView.findViewById(R.id.xLinLayItem);
         mIvLikeIcon = (ImageView) itemView.findViewById(R.id.xIvLikeIcon);
+        mRellayLikeIcon = (RelativeLayout) itemView.findViewById(R.id.xRellayLikeIcon);
+
     }
 
     public void setmIvBulletinImage(ImageView mIvBulletinImage) {
@@ -110,5 +115,9 @@ public class ViewHolderHomeBulletinWithImage extends RecyclerView.ViewHolder {
 
     public void setmLinLayItem(LinearLayout mLinLayItem) {
         this.mLinLayItem = mLinLayItem;
+    }
+
+    public RelativeLayout getmRellayLikeIcon() {
+        return mRellayLikeIcon;
     }
 }

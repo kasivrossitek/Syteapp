@@ -296,7 +296,6 @@ public class MobileNumberEntryActivity extends Activity implements View.OnClickL
                 if (mPrgDia != null) {
                     mPrgDia.dismiss();
                 }
-
                 Intent i = new Intent(MobileNumberEntryActivity.this, OTPVerificationActivity.class);
                 Bundle mBun = new Bundle();
                 mBun.putDouble("ipcCurrentLat", getIntent().getExtras().getDouble("ipcCurrentLat"));

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BulletinBoard implements Parcelable {
-    private String subject, body, imageUrl;//, owner;
+    private String subject, body, imageUrl, owner;
     private Object dateTime;
     private int sendToAllFollowers; // 0 - false, 1 - True
     private boolean isLiked;//kasi added on 11-8-16
@@ -18,13 +18,23 @@ public class BulletinBoard implements Parcelable {
     public BulletinBoard() {
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     protected BulletinBoard(Parcel in) {
         subject = in.readString();
         body = in.readString();
+        owner = in.readString();
         imageUrl = in.readString();
         dateTime = (Object) in.readValue(Object.class.getClassLoader());
         sendToAllFollowers = in.readInt();
         isLiked = (boolean) in.readValue(Boolean.class.getClassLoader());
+
         //owner = in.readString();
     }
 
@@ -98,10 +108,11 @@ public class BulletinBoard implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(subject);
         dest.writeString(body);
+        dest.writeString(owner);
         dest.writeString(imageUrl);
         dest.writeValue(dateTime);
         dest.writeInt(sendToAllFollowers);
-        // dest.writeString(owner);
         dest.writeValue(isLiked);
+
     }
 }

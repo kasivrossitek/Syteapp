@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ import com.syte.models.Followers;
 import com.syte.models.FollowingYasPas;
 import com.syte.models.Syte;
 import com.syte.models.WhatWeDo;
+import com.syte.models.YasPasManager;
 import com.syte.models.YasPasPush;
 import com.syte.models.YasPasTeam;
 import com.syte.utils.NetworkStatus;
@@ -107,7 +109,7 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
     private LinearLayout mLinLaySytePhone, mLinLayContactUs;
     private TextView mTvMobileNumber;
     private ImageView mIvPhIcn;
-
+    YasPasManager mYasPasManager;//for getting syte manager
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -122,13 +124,14 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_syte_detail_user);
         mInItObjects();
         mInItWidgets();
+        mGetManager();
         mSendAnalyticsData();
         mFirebaseGenInfo = new Firebase(StaticUtils.YASPAS_URL).child(mSyteId);
         eventListenerGenInfo = new EventListenerGenInfo();
         mAdapterTab = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapterTab);
         tabLayout.setupWithViewPager(viewPager);
-        mSetBulletinBoard();
+      //  mSetBulletinBoard();
     }// END onCreate()
 
     private void mSendAnalyticsData() {
@@ -222,6 +225,28 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
         mTvMobileNumber = (TextView) findViewById(R.id.xTvMobileNumber);
         mIvPhIcn = (ImageView) findViewById(R.id.xIvPhIcn);
     }// END mInItWidgets()
+    private void mGetManager() {
+        //  Syte's get manager
+
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPAS_URL).child(mSyteId).child(StaticUtils.YASPAS_MANAGERS);
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> it = dataSnapshot.getChildren().iterator();
+                while (it.hasNext()) {
+                    DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
+                    mYasPasManager = dataSnapshot1.getValue(YasPasManager.class);
+                    Log.d("user_syte_manager", "" + mYasPasManager.getManagerId() + mSyteId);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    } // END mGetManager()
 
     @Override
     public void onClick(View v) {
@@ -362,6 +387,7 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
         Fragment mCurrentFragment = new BulletinBoardUserFragment();
         Bundle bundle = new Bundle();
         bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
+        bundle.putParcelable(StaticUtils.IPC_SYTE_MANAGER, mYasPasManager);//kasi  on 17-9-16
         // bundle.putSerializable("test",this);
         mCurrentFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -371,9 +397,9 @@ public class SyteDetailUserActivity extends AppCompatActivity implements View.On
     private class EventListenerGenInfo implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-
             mSyte = dataSnapshot.getValue(Syte.class);
             if (mSyte != null) {
+                mSetBulletinBoard();//kasi 17-9-16
                 mTvSyteName.setText(mSyte.getName());
                 mTvSyteCity.setText(mSyte.getCity());
 

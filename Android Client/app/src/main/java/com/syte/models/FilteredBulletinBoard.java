@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by khalid.p on 31-03-2016.
  */
 public class FilteredBulletinBoard implements Serializable {
-    private String syteId, syteName, syteAddress, bulletinId, bulletinSubject, bulletinBody, bulletinImageUrl;
+    private String syteId, syteName, syteAddress, bulletinId, bulletinSubject, bulletinBody, bulletinImageUrl,owner;
     private Object dateTime;
     private int sendToAllFollowers;
     private boolean isFavourite, isOwned, isLiked,isPublic;
@@ -53,6 +53,14 @@ public class FilteredBulletinBoard implements Serializable {
 
     public void setSendToAllFollowers(int sendToAllFollowers) {
         this.sendToAllFollowers = sendToAllFollowers;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getSyteId() {

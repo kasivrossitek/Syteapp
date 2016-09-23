@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--HOME SCREEN BULLETIN LIKE-->
+    <dimen name="home_screen_bulletin_like_sz">18dp</dimen>
+
+</resources>

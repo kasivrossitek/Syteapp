@@ -55,8 +55,10 @@ import com.syte.fragments.SyteDetailWhatWeDoFragment;
 import com.syte.listeners.OnCustomDialogsListener;
 import com.syte.listeners.OnDeleteSyteRequest;
 import com.syte.models.AboutUs;
+import com.syte.models.BulletinBoard;
 import com.syte.models.Syte;
 import com.syte.models.WhatWeDo;
+import com.syte.models.YasPasManager;
 import com.syte.models.YasPasTeam;
 import com.syte.utils.DeleteASyteRequest;
 import com.syte.utils.NetworkStatus;
@@ -99,7 +101,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
     private ViewPager viewPager;
     ViewPagerAdapter mAdapterTab;
     // BULLETIN BOARD
-    //private FrameLayout mFlBulletinBoard;
+    YasPasManager mYasPasManager;//for getting syte manager
 
     // CONTACT INFO
     private LinearLayout mLinLaySytePhone, mLinLayContactUs;
@@ -113,6 +115,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_syte_detail_sponsor);
         mInItObjects();
         mInItWidgets();
+        mGetManager();
         mFirebaseGenInfo = new Firebase(StaticUtils.YASPAS_URL).child(mSyteId);
         eventListenerGenInfo = new EventListenerGenInfo();
         mAdapterTab = new ViewPagerAdapter(getSupportFragmentManager());
@@ -124,6 +127,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
     @Override
     protected void onResume() {
         super.onResume();
+
         mPrgDia.show();
         mFirebaseGenInfo.addValueEventListener(eventListenerGenInfo);
     } // END onResume()
@@ -165,6 +169,28 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         whatWeDo.setDescription("");
         mYasPasPreferences = YasPasPreferences.GET_INSTANCE(SyteDetailSponsorActivity.this);
     }// END mInItObjects()
+
+    private void mGetManager() {
+        //  Syte's get manager
+
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPAS_URL).child(mSyteId).child(StaticUtils.YASPAS_MANAGERS);
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> it = dataSnapshot.getChildren().iterator();
+                while (it.hasNext()) {
+                    DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
+                    mYasPasManager = dataSnapshot1.getValue(YasPasManager.class);
+                    Log.d("sytemanager", "" + mYasPasManager.getManagerId() + mSyteId);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    } // END mGetManager()
 
     private void mInItWidgets() {
         mRelLayBackSponsor = (RelativeLayout) findViewById(R.id.xRelLayBackSponsor);
@@ -266,7 +292,6 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                         Bundle bundle = new Bundle();
                         bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
                         bundle.putString(StaticUtils.IPC_SYTE_NAME, mSyte.getName());
-
                         Intent intentSponsorChatListActivity = new Intent(SyteDetailSponsorActivity.this, SponsorChatListActivity.class);
                         intentSponsorChatListActivity.putExtras(bundle);
                         startActivity(intentSponsorChatListActivity);
@@ -322,7 +347,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
 
     public void mAddRewardPoints(final int rewardPoints) {
 
-        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
         mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -336,6 +361,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
                         StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), rewardPoints);
                     }
                 }
+                mFireBsYasPasObj.removeEventListener(this);
 
             }
 
@@ -394,6 +420,7 @@ public class SyteDetailSponsorActivity extends AppCompatActivity implements View
         Bundle bundle = new Bundle();
         bundle.putParcelable(StaticUtils.IPC_SYTE, mSyte);//kasi  on 21-7-16
         bundle.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
+        bundle.putParcelable(StaticUtils.IPC_SYTE_MANAGER, mYasPasManager);//kasi  on 17-9-16
         mCurrentFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.xFlBulletinBoard, mCurrentFragment).commit();

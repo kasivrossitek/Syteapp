@@ -255,7 +255,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     if (dataSnapshot.hasChild("rewards")) {
                         Long rewards = (Long) dataSnapshot.child("rewards").getValue();
                         int totalrewards = rewards.intValue();
-                        mTvRewardpoints.setText("" + totalrewards);
+                        if(totalrewards>0) {
+                            mTvRewardpoints.setText("" + totalrewards);
+                        }else{
+                            totalrewards=0;
+                            mTvRewardpoints.setText("" + totalrewards);
+                        }
                         if (totalrewards >= StaticUtils.REWARD_LEVEL_POINTS_1 && totalrewards < StaticUtils.REWARD_LEVEL_POINTS_2) {
                             mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_1);
                             mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_1);
@@ -338,7 +343,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 mDialog.dismiss();
             }
         });
-    }// END showPicOptionDialog()
+    }// END show reward points Dialog()
 
     private void showRewardLevelDialog() {
         final Dialog mDialog = new Dialog(EditProfileActivity.this);
@@ -360,7 +365,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 mDialog.dismiss();
             }
         });
-    }// END showPicOptionDialog()
+    }// END show reward level Dialog()
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

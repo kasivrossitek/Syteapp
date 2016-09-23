@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.syte.R;
+import com.syte.listeners.OnBulletinBoardUpdate;
 import com.syte.models.BulletinBoard;
 import com.syte.utils.StaticUtils;
 import com.syte.utils.YasPasPreferences;
@@ -46,9 +47,10 @@ public class AdapterBulletinBoardReadMoreUser extends PagerAdapter {
     private ArrayList<String> mBulletinBoardsIds;
     private YasPasPreferences mYaspasPreference;
     private String syteId;
+    private OnBulletinBoardUpdate onBulletinBoardUpdate;
 
 
-    public AdapterBulletinBoardReadMoreUser(Context paramCon, ArrayList<BulletinBoard> paramBulletinBoards, ArrayList<String> bulletinBoardsIds, String mSyteId) {
+    public AdapterBulletinBoardReadMoreUser(Context paramCon, ArrayList<BulletinBoard> paramBulletinBoards, ArrayList<String> bulletinBoardsIds, OnBulletinBoardUpdate onbulletinboardUpdate, String mSyteId) {
         mContext = paramCon;
         mYaspasPreference = YasPasPreferences.GET_INSTANCE(paramCon);
         mLayoutInflater = (LayoutInflater) mContext
@@ -61,6 +63,7 @@ public class AdapterBulletinBoardReadMoreUser extends PagerAdapter {
                 .cacheOnDisk(true)
                 .considerExifParams(true).build();
         mBulletinBoardsIds = bulletinBoardsIds;
+        onBulletinBoardUpdate = onbulletinboardUpdate;
         syteId = mSyteId;
 
     }
@@ -158,13 +161,15 @@ public class AdapterBulletinBoardReadMoreUser extends PagerAdapter {
                 if (!mBulletinBoards.get(position).isLiked()) {
                     mBulletinBoards.get(position).setLiked(true);
                     mIvlike.setImageResource(R.drawable.ic_like_active_grey);
-                    bulletinUpdateLikes(mBulletinBoardsIds.get(position));
-                    mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
+                    mYaspasPreference.sSetbulletinposition(position);
+                    onBulletinBoardUpdate.onBulletinLike(position, mBulletinBoards.get(position).getOwner());
+
                 } else {
                     mBulletinBoards.get(position).setLiked(false);
                     mIvlike.setImageResource(R.drawable.ic_like_in_active_grey);
-                    bulletinRemoveLike(mBulletinBoardsIds.get(position));
-                    mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
+                    mYaspasPreference.sSetbulletinposition(position);
+                    onBulletinBoardUpdate.onBulletinLike(position, mBulletinBoards.get(position).getOwner());
+
                 }
             }
         });
@@ -177,7 +182,6 @@ public class AdapterBulletinBoardReadMoreUser extends PagerAdapter {
         HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
         mUpdateMap.put("registeredNum", mYaspasPreference.sGetRegisteredNum());
         Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes").child(mYaspasPreference.sGetRegisteredNum());
-
         mFBLikes.setValue(mUpdateMap, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
@@ -191,7 +195,7 @@ public class AdapterBulletinBoardReadMoreUser extends PagerAdapter {
 
     public void bulletinRemoveLike(String bullletinid) {
 
-        Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
+        final Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
 
         mFBremoveLikes.addValueEventListener(new ValueEventListener() {
             @Override
@@ -202,6 +206,7 @@ public class AdapterBulletinBoardReadMoreUser extends PagerAdapter {
                         DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
                         if (dataSnapshot1.getKey().equalsIgnoreCase(mYaspasPreference.sGetRegisteredNum())) {
                             dataSnapshot1.getRef().removeValue();
+                            mFBremoveLikes.removeEventListener(this);
                         }
                     }
                 }

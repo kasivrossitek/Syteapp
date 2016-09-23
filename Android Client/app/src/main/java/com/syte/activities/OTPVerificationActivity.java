@@ -125,8 +125,6 @@ public class OTPVerificationActivity extends Activity implements View.OnClickLis
                 mPrgDia.dismiss();
                 CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(OTPVerificationActivity.this, this);
                 customDialogs.sShowDialog_Common(null, getString(R.string.err_msg_veification_code_expired), null, "NO", "YES", "Exipred Code", true, true);
-
-
             } else if (serverAuthDB.getVerificationStatus().equalsIgnoreCase("WRONG")) {
                 mPrgDia.dismiss();
                 CustomDialogs customDialogs = CustomDialogs.CREATE_DIALOG(OTPVerificationActivity.this, this);

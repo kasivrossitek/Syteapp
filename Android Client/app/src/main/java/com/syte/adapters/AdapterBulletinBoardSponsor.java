@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -30,8 +27,7 @@ import com.syte.utils.YasPasPreferences;
 import com.syte.widgets.EnlargeImageDialog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+
 
 /**
  * Created by khalid.p on 27-02-2016.
@@ -184,17 +180,18 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
         mRelLayBulletinLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (! mBulletinBoards.get(position).isLiked()) {
+                Log.d("sponsor syteid", "" + syteId);
+                mYaspasPreference.sSetlikeboolean(true);
+                if (!mBulletinBoards.get(position).isLiked()) {
                     mBulletinBoards.get(position).setLiked(true);
                     mIvLike.setImageResource(R.drawable.ic_like_active_grey);
-                    bulletinUpdateLikes(mBulletinBoardsIds.get(position));
-                    mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
+                    mYaspasPreference.sSetbulletinposition(position);
+                    onBulletinBoardUpdate.onBulletinLike(position,mBulletinBoards.get(position).getOwner());
                 } else {
                     mBulletinBoards.get(position).setLiked(false);
                     mIvLike.setImageResource(R.drawable.ic_like_in_active_grey);
-                    bulletinRemoveLike(mBulletinBoardsIds.get(position));
-                    mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
-
+                    mYaspasPreference.sSetbulletinposition(position);
+                    onBulletinBoardUpdate.onBulletinLike(position, mBulletinBoards.get(position).getOwner());
                 }
             }
         });
@@ -203,69 +200,4 @@ public class AdapterBulletinBoardSponsor extends PagerAdapter {
         return itemView;
     }
 
-    public void bulletinUpdateLikes(String bullletinid) {
-        HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
-        mUpdateMap.put("registeredNum", mYaspasPreference.sGetRegisteredNum());
-        Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes").child(mYaspasPreference.sGetRegisteredNum());
-
-        mFBLikes.setValue(mUpdateMap, new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                if (firebaseError == null) {
-
-
-                }
-            }
-        });
-    }
-
-    public void bulletinRemoveLike(String bullletinid) {
-
-        Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
-
-        mFBremoveLikes.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                    while (iterator.hasNext()) {
-                        DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
-                        if (dataSnapshot1.getKey().equalsIgnoreCase(mYaspasPreference.sGetRegisteredNum())) {
-                            dataSnapshot1.getRef().removeValue();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
-    public void mAddRewardPoints(final int rewardPoints) {
-
-        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYaspasPreference.sGetRegisteredNum());
-        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
-                    if (dataSnapshot.hasChild("rewards")) {
-                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
-                        int totalrewards = rewards.intValue();
-                        totalrewards = totalrewards + rewardPoints;
-                        StaticUtils.addReward(mYaspasPreference.sGetRegisteredNum(), totalrewards);
-                    } else {
-                        StaticUtils.addReward(mYaspasPreference.sGetRegisteredNum(), rewardPoints);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }//END REWARDS
 }// END AdapterBulletinBoardSponsor()

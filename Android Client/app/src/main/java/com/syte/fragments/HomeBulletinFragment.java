@@ -51,6 +51,7 @@ import com.syte.models.FilteredBulletinBoard;
 import com.syte.models.Listcontacts;
 import com.syte.models.PhoneContact;
 import com.syte.models.Syte;
+import com.syte.models.YasPasManager;
 import com.syte.models.YasPasTeams;
 import com.syte.utils.NetworkStatus;
 import com.syte.utils.StaticUtils;
@@ -77,9 +78,7 @@ import java.util.Iterator;
 /**
  * Created by khalid.p on 01-04-2016.
  */
-public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, OnCustomDialogsListener, OnHomeBulletinListener
-
-{
+public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, OnCustomDialogsListener, OnHomeBulletinListener {
     private View mRootView;
     private GeoFire geoFire;
     private GeoQuery geoQuery;
@@ -97,6 +96,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     //private TextView mTvCenterLbl;
     private RelativeLayout mRellayNoSyte;
     private Button mBtnImLucky;
+    private YasPasManager mYasPasManager;
     private Dialog mDialog;
     Bundle bundle;
     private Firebase mFBOwnedYasPaseesUrl;
@@ -168,16 +168,17 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
     }
 
     class TempSyte {
-        public String syteId, syteName, syteAddress, syteOwner;
+        public String syteId, syteName, syteAddress, syteOwner, syteManager;
         public boolean isFav, isPublic;
 
-        public TempSyte(String pSyteId, String pSyteName, String pSyteAddress, String pOwner, boolean pIsFav, boolean syteType) {
+        public TempSyte(String pSyteId, String pSyteName, String pSyteAddress, String pOwner, boolean pIsFav, boolean syteType, String managerId) {
             this.syteId = pSyteId;
             this.syteName = pSyteName;
             this.syteAddress = pSyteAddress;
             this.syteOwner = pOwner;
             this.isFav = pIsFav;
             this.isPublic = syteType;
+            this.syteManager = managerId;
         }
     }// END TempSyte
 
@@ -204,6 +205,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         super.onPause();
         try {
             geoQuery.removeAllListeners();
+            adapterHomeBulletinBoard = null;
         } catch (Exception e) {
             //do not do anything, as listener was removed earlier}
         }
@@ -241,7 +243,6 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                     bundle1.putString(StaticUtils.IPC_USER_REG_NUM, bundle.getString(StaticUtils.IPC_ONGOING_CHAT_ID));
                     bundle1.putString(StaticUtils.IPC_USER_IMAGE, bundle.getString(StaticUtils.IPC_ONGOING_CHAT_SENDERIMG));
                     bundle1.putString(StaticUtils.IPC_USER_NAME, bundle.getString(StaticUtils.IPC_ONGOING_CHAT_SENDERNAME));
-
                     Intent intentChatWindowActivity = new Intent(getActivity(), SponsorChatWindowActivity.class);
                     intentChatWindowActivity.putExtras(bundle1);
                     bundle = null;
@@ -256,7 +257,6 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                     bundle1.putString(StaticUtils.IPC_SYTE_NAME, bundle.getString(StaticUtils.IPC_ONGOING_CHAT_SENDERNAME));
                     bundle1.putString(StaticUtils.IPC_SYTE_IMAGE, bundle.getString(StaticUtils.IPC_ONGOING_CHAT_SENDERIMG));
                     bundle1.putStringArrayList(StaticUtils.IPC_SYTE_OWNERS, arrayListSyteOwners);
-
                     Intent intentChatWindowActivity = new Intent(getActivity(), UserChatWindowActivity.class);
                     intentChatWindowActivity.putExtras(bundle1);
                     bundle = null;
@@ -272,15 +272,15 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                 if ((round(HomeActivity.LOC_VIRTUAL.getLatitude(), 2) == round(Double.parseDouble(yasPasPreferences.sGetSyteLat()), 2)) && round(HomeActivity.LOC_VIRTUAL.getLongitude(), 2) == round(Double.parseDouble(yasPasPreferences.sGetSyteLongitude()), 2)) {
 
                     displayinFilteredBulletins = getcachedata();
-                    if (adapterHomeBulletinBoard == null && displayinFilteredBulletins.size() > 0) {
+                    if (adapterHomeBulletinBoard == null && displayinFilteredBulletins.size() > 0 && !yasPasPreferences.sGetlikeboolean()) {
 
                         adapterHomeBulletinBoard = new AdapterHomeBulletinBoard(getActivity(), displayinFilteredBulletins, this);
                         mRvBulletins.setAdapter(adapterHomeBulletinBoard);
-                    } else if (adapterHomeBulletinBoard != null) {
+                    } else if (adapterHomeBulletinBoard != null && !yasPasPreferences.sGetlikeboolean()) {
 
                         adapterHomeBulletinBoard.notifyDataSetChanged();
                     } else {
-
+                        yasPasPreferences.sSetlikeboolean(false);
                         setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);//kasi commented on 7-8-16
                     }
                     //end kasi 7-8-16 for cache
@@ -300,19 +300,17 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
             if ((round(HomeActivity.LOC_VIRTUAL.getLatitude(), 1) == round(Double.parseDouble(yasPasPreferences.sGetSyteLat()), 1)) && (round(HomeActivity.LOC_VIRTUAL.getLongitude(), 1) == round(Double.parseDouble(yasPasPreferences.sGetSyteLongitude()), 1))) {
 
                 displayinFilteredBulletins = getcachedata();
-                if (adapterHomeBulletinBoard == null && displayinFilteredBulletins.size() > 0) {
-
+                if (adapterHomeBulletinBoard == null && displayinFilteredBulletins.size() > 0 && !yasPasPreferences.sGetlikeboolean()) {
                     adapterHomeBulletinBoard = new AdapterHomeBulletinBoard(getActivity(), displayinFilteredBulletins, this);
                     mRvBulletins.setAdapter(adapterHomeBulletinBoard);
-                } else if (adapterHomeBulletinBoard != null) {
+                } else if (adapterHomeBulletinBoard != null && !yasPasPreferences.sGetlikeboolean()) {
                     adapterHomeBulletinBoard.notifyDataSetChanged();
                 } else {
-
+                    yasPasPreferences.sSetlikeboolean(false);
                     setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);//kasi commented on 7-8-16
                 }
                 //end kasi 7-8-16 for cache
             } else {
-
                 //  Log.d("kasi", "test3" + round(HomeActivity.LOC_VIRTUAL.getLatitude(), 1) + "long" + round(HomeActivity.LOC_VIRTUAL.getLongitude(), 1) + "lat" + round(Double.parseDouble(yasPasPreferences.sGetSyteLat()), 1) + "lng" + round(HomeActivity.LOC_VIRTUAL.getLongitude(), 1));
                 setNewGeoLoc(yasPasPreferences.sGetFilterDistance(), false);//kasi commented on 7-8-16
             }
@@ -332,7 +330,6 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
 
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
-
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.DOWN);
         return bd.doubleValue();
@@ -559,6 +556,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                 break;
             }
             final String finalSyteId = sytesIds.get(i);
+            mGetManager(finalSyteId);
             Firebase firebaseSyte = new Firebase(StaticUtils.YASPAS_URL).child(finalSyteId);
             final int finalI = i;
             firebaseSyte.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -568,7 +566,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                         Syte syte = dataSnapshot.getValue(Syte.class);
                         if (syte.getIsDeleted() == 0 && syte.getIsActive() == 1) {
                             TempSyte tempSyte = new TempSyte(dataSnapshot.getKey(), syte.getName(), syte.getCity() + " " + syte.getZipCode(), syte.getOwner(),
-                                    dataSnapshot.child(StaticUtils.FOLLOWERS_YASPAS).hasChild(yasPasPreferences.sGetRegisteredNum()), syte.getSyteType().trim().equalsIgnoreCase("Public"));
+                                    dataSnapshot.child(StaticUtils.FOLLOWERS_YASPAS).hasChild(yasPasPreferences.sGetRegisteredNum()), syte.getSyteType().trim().equalsIgnoreCase("Public"), mYasPasManager.getManagerId());
                             tempSytes.add(tempSyte);
                         }
                     }
@@ -591,6 +589,29 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
         }
     }// END getSyteData()
 
+    private void mGetManager(final String finalSyteId) {
+        //  Syte's get manager
+
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPAS_URL).child(finalSyteId).child(StaticUtils.YASPAS_MANAGERS);
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> it = dataSnapshot.getChildren().iterator();
+                while (it.hasNext()) {
+                    DataSnapshot dataSnapshot1 = (DataSnapshot) it.next();
+                    mYasPasManager = dataSnapshot1.getValue(YasPasManager.class);
+                    Log.d("sytemanager", "" + mYasPasManager.getManagerId() + finalSyteId);
+
+                }
+                mFireBsYasPasObj.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    } // END mGetManager()
 
     private void getBulletinData(final int pIndex) {
 
@@ -633,15 +654,7 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                                 System.out.println(tempSytes.get(pIndex).syteName + "--" + tempSytes.get(pIndex).isFav);
                                 filteredBulletinBoard.setIsFavourite(tempSytes.get(pIndex).isFav);
                                 if (dataSnapshot1.hasChild("Likes")) {
-                                   /* Iterator<DataSnapshot> iterator2 = dataSnapshot1.child("Likes").getChildren().iterator();
-                                    while (iterator2.hasNext()) {
-                                        DataSnapshot dataSnapshot2 = (DataSnapshot) iterator2.next();
-                                        if(dataSnapshot2.getKey().toString().equalsIgnoreCase(yasPasPreferences.sGetRegisteredNum())) {
-                                            filteredBulletinBoard.setLiked(true);
-
-                                        }
-                                    }*/
-                                    Log.d("pref",""+yasPasPreferences.sGetRegisteredNum());
+                                    Log.d("pref", "" + yasPasPreferences.sGetRegisteredNum());
                                     if (dataSnapshot1.child("Likes").hasChild(yasPasPreferences.sGetRegisteredNum())) {
                                         filteredBulletinBoard.setLiked(true);
                                     } else {
@@ -651,7 +664,12 @@ public class HomeBulletinFragment extends Fragment implements SwipeRefreshLayout
                                 } else {
                                     filteredBulletinBoard.setLiked(false);
                                 }
-
+                                if (dataSnapshot1.hasChild("owner")) {
+                                    Log.d("pref", "" + yasPasPreferences.sGetRegisteredNum());
+                                    filteredBulletinBoard.setOwner(bulletinBoard.getOwner());
+                                } else {
+                                    filteredBulletinBoard.setOwner(tempSytes.get(pIndex).syteManager);
+                                }
                                 allFilteredBulletins.add(filteredBulletinBoard);
                                 if (allFilteredBulletins.size() == 10) {
                                     display(false);

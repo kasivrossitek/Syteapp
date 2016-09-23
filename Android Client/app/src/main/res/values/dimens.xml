@@ -117,6 +117,8 @@
     <dimen name="home_screen_lft_drawer_row_2_icon_lft_margin">16dp</dimen>
     <dimen name="home_screen_lft_drawer_row_2_text_lft_margin">72dp</dimen>
     <dimen name="home_screen_lft_drawer_row_2_icon_sz">24dp</dimen>
+    <!--HOME SCREEN BULLETIN LIKE-->
+    <dimen name="home_screen_bulletin_like_sz">12dp</dimen>
     <!--Edit Text-->
     <dimen name="edittext_small_lbl_sz">12sp</dimen>
     <dimen name="edittext_medium_lbl_sz">16sp</dimen>
@@ -188,7 +190,6 @@
     <dimen name="syte_detail_contact_info_ht">40dp</dimen>
     <dimen name="syte_detail_contact_info_icon_sz">24dp</dimen>
     <dimen name="syte_detail_contact_info_icon_margin">4dp</dimen>
-
     <dimen name="syte_detail_txt_sz_20">20sp</dimen>
 
     <dimen name="syte_detail_txt_sz_16">16sp</dimen>

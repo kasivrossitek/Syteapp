@@ -177,4 +177,26 @@ public class YasPasPreferences {
         return mPref.getString(StaticUtils.IPC_SYTE_LOC_LONG, "77.646");
     }
 
+    //for bulletin like position
+    public void sSetbulletinposition(int pos) {
+        mEditor.putInt(StaticUtils.IPC_VIEWPAGER_BULETIN_POS, pos);
+        mEditor.commit();
+    }
+
+    public int sGetbulletinposition() {
+
+        return mPref.getInt(StaticUtils.IPC_VIEWPAGER_BULETIN_POS, 0);
+    }
+
+    //for bulletin like boolean
+    public void sSetlikeboolean(boolean flag) {
+        mEditor.putBoolean(StaticUtils.IPC_BULETIN_BOOLEAN, flag);
+        mEditor.commit();
+    }
+
+    public boolean sGetlikeboolean() {
+
+        return mPref.getBoolean(StaticUtils.IPC_BULETIN_BOOLEAN, false);
+    }
+
 }

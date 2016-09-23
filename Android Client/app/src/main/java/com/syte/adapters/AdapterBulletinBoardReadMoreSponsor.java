@@ -170,17 +170,17 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter {
         mRelLayBulletinLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mYaspasPreference.sSetlikeboolean(true);
                 if (!mBulletinBoards.get(position).isLiked()) {
                     mBulletinBoards.get(position).setLiked(true);
                     mIvlike.setImageResource(R.drawable.ic_like_active_grey);
-                    bulletinUpdateLikes(mBulletinBoardsIds.get(position));
-                    mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
-
+                    mYaspasPreference.sSetbulletinposition(position);
+                    onBulletinBoardUpdate.onBulletinLike(position, mBulletinBoards.get(position).getOwner());
                 } else {
                     mBulletinBoards.get(position).setLiked(false);
                     mIvlike.setImageResource(R.drawable.ic_like_in_active_grey);
-                    bulletinRemoveLike(mBulletinBoardsIds.get(position));
-                    mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
+                    mYaspasPreference.sSetbulletinposition(position);
+                    onBulletinBoardUpdate.onBulletinLike(position, mBulletinBoards.get(position).getOwner());
                 }
             }
         });
@@ -207,7 +207,7 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter {
 
     public void bulletinRemoveLike(String bullletinid) {
 
-        Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
+        final Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(syteId).child(bullletinid).child("Likes");
 
         mFBremoveLikes.addValueEventListener(new ValueEventListener() {
             @Override
@@ -218,6 +218,7 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter {
                         DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
                         if (dataSnapshot1.getKey().equalsIgnoreCase(mYaspasPreference.sGetRegisteredNum())) {
                             dataSnapshot1.getRef().removeValue();
+                            mFBremoveLikes.removeEventListener(this);
                         }
                     }
                 }
@@ -229,6 +230,7 @@ public class AdapterBulletinBoardReadMoreSponsor extends PagerAdapter {
             }
         });
     }
+
     public void mAddRewardPoints(final int rewardPoints) {
 
         Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYaspasPreference.sGetRegisteredNum());

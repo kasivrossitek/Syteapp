@@ -19,18 +19,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
@@ -38,6 +45,7 @@ import com.syte.R;
 
 
 import com.syte.YasPasApp;
+import com.syte.adapters.AdapterRewardlevel;
 import com.syte.fragments.HomeBulletinFragment;
 import com.syte.fragments.MapFragment;
 import com.syte.fragments.MyFavouriteSyteFragment;
@@ -89,6 +97,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private BrdcstNotificationReceived brdcstNotificationReceived;
     private BrdcstChatMessages brdcstChatMessages;
     private Context cont;
+    private TextView mTvLevelTypName;
+    private ImageView mIvlevelTypeImg;
+    private LinearLayout mlinlaylevelsinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,14 +180,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             mCurrentFragment.setArguments(mBun);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
-            showFavourite_Search_Filter_Icon(true, false, true, true, true);
+            showFavourite_Search_Filter_Icon(false, false, true, true, true);
         } else {
             mPageTitle.setText(getString(R.string.home_bulletin_screen_page_title));
             mCurrentFragment = new HomeBulletinFragment();
             mCurrentFragment.setArguments(mBun);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
-            showFavourite_Search_Filter_Icon(true, false, true, true, true);
+            showFavourite_Search_Filter_Icon(false, false, true, true, true);
         }
     }
 
@@ -275,7 +286,54 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         mTvMsgUnreadCount = (TextView) findViewById(R.id.xTvMsgUnreadCount);
         mPbChatMsgCounterLoader = (ProgressBar) findViewById(R.id.xPbChatMsgCounterLoader);
+        mTvLevelTypName = (TextView) findViewById(R.id.xTvLevelTypName);
+        mIvlevelTypeImg = (ImageView) findViewById(R.id.xIvLevelTypeImg);
+        mlinlaylevelsinfo=(LinearLayout)findViewById(R.id.xlinlaylevelsinfo);
+        mlinlaylevelsinfo.setOnClickListener(this);
     }// END mInItWidgets()
+    //REWARD LEVELS
+    private void mGetRewardpoints() {
+        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPref.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        if (totalrewards >= StaticUtils.REWARD_LEVEL_POINTS_1 && totalrewards < StaticUtils.REWARD_LEVEL_POINTS_2) {
+                            mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_1);
+                            mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_1);
+                        } else if (totalrewards >= StaticUtils.REWARD_LEVEL_POINTS_2 && totalrewards < StaticUtils.REWARD_LEVEL_POINTS_3) {
+                            mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_2);
+                            mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_2);
+                        } else if (totalrewards >= StaticUtils.REWARD_LEVEL_POINTS_3 && totalrewards < StaticUtils.REWARD_LEVEL_POINTS_4) {
+                            mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_3);
+                            mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_3);
+                        } else if (totalrewards >= StaticUtils.REWARD_LEVEL_POINTS_4 && totalrewards < StaticUtils.REWARD_LEVEL_POINTS_5) {
+                            mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_4);
+                            mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_4);
+                        } else if (totalrewards >= StaticUtils.REWARD_LEVEL_POINTS_5 && totalrewards < StaticUtils.REWARD_LEVEL_POINTS_6) {
+                            mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_5);
+                            mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_5);
+                        } else if (totalrewards >= StaticUtils.REWARD_LEVEL_POINTS_6) {
+                            mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_6);
+                            mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_6);
+                        }
+                    } else {
+                        mTvLevelTypName.setText(StaticUtils.REWARD_LEVEL_NAME_1);
+                        mIvlevelTypeImg.setImageResource(R.drawable.ic_reward_1);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
 
     private void showFavourite_Search_Filter_Icon(boolean showFavourite, boolean showSearch, boolean showFilter, boolean showSwitch, boolean showNotification) {
         if (showFavourite) {
@@ -312,6 +370,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                     mDrawerLayout.closeDrawer(GravityCompat.START);
                 else
+                    mGetRewardpoints();
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             }
@@ -324,7 +383,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
                     mIvSwitch.setImageResource(R.drawable.ic_action_bar_map_view);
                 }
-                showFavourite_Search_Filter_Icon(true, false, true, true, true);
+                showFavourite_Search_Filter_Icon(false, false, true, true, true);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             }
@@ -337,7 +396,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
                     mIvSwitch.setImageResource(R.drawable.ic_action_bar_home);
                 }
-                showFavourite_Search_Filter_Icon(true, true, false, true, true);
+                showFavourite_Search_Filter_Icon(false, true, false, true, true);
 
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
@@ -474,7 +533,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     mCurrentFragment.setArguments(mBun);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
-                    showFavourite_Search_Filter_Icon(true, true, false, true, true);
+                    showFavourite_Search_Filter_Icon(false, true, false, true, true);
                 } else {
                     mIvSwitch.setImageResource(R.drawable.ic_action_bar_map_view);
                     mPageTitle.setText(getString(R.string.home_bulletin_screen_page_title));
@@ -482,7 +541,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     mCurrentFragment.setArguments(mBun);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.frame_container, mCurrentFragment).commit();
-                    showFavourite_Search_Filter_Icon(true, false, true, true, true);
+                    showFavourite_Search_Filter_Icon(false, false, true, true, true);
                 }
 
                 break;
@@ -501,7 +560,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 startActivityForResult(new Intent(HomeActivity.this, EditProfileActivity.class), StaticUtils.ACTION_EDIT_PROFILE_REQUEST);
                 break;
             }
-            case R.id.xRelLayRow1: {
+            case R.id.xlinlaylevelsinfo: {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 startActivityForResult(new Intent(HomeActivity.this, EditProfileActivity.class), StaticUtils.ACTION_EDIT_PROFILE_REQUEST);
                 break;

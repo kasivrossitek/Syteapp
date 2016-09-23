@@ -22,6 +22,68 @@
 
             />
 
+        <LinearLayout
+            android:id="@+id/xlinlaylevelsinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <ImageView
+                    android:id="@+id/xIvLevelTypeImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_reward_1" />
+
+                <RelativeLayout
+                    android:id="@+id/xRellaylevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/xIvLevelTypeImg">
+
+                    <com.syte.widgets.TvRobortoMedium
+                        android:id="@+id/xTvcontributor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reward_level"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/syte_detail_txt_sz_12" />
+
+                    <ImageView
+                        android:id="@+id/xIvlevelinfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/xTvcontributor"
+
+                        android:src="@drawable/ic_reward_info_white_12px" />
+                </RelativeLayout>
+
+                <com.syte.widgets.TvRobortoMedium
+                    android:id="@+id/xTvLevelTypName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/xRellaylevel"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/xIvLevelTypeImg"
+                    android:text="@string/reward_level_1"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/txt_sz_16" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
         <com.syte.widgets.TvRobortoMedium
             android:id="@+id/xTvUserName"
             android:layout_width="match_parent"

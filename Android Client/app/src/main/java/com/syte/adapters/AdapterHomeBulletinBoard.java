@@ -3,6 +3,7 @@ package com.syte.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,19 +144,22 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
         } else {
             viewHolderHomeBulletinWithImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_in_active_grey);
         }
-        viewHolderHomeBulletinWithImage.getmIvLikeIcon().setOnClickListener(new View.OnClickListener() {
+        viewHolderHomeBulletinWithImage.getmRellayLikeIcon().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("syte id onclick", "" + filteredBulletinBoards.get(pos).getSyteId());
                 if (!filteredBulletinBoard.isLiked()) {
                     bulletinUpdateLikes(pos);
                     filteredBulletinBoard.setLiked(true);
                     viewHolderHomeBulletinWithImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_active_grey);
                     mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
+                    mAddRewardRecievelikePoints(StaticUtils.REWARD_POINTS_RECEIVE_LIKE_BULLETIN, filteredBulletinBoard.getOwner());
                 } else {
                     filteredBulletinBoard.setLiked(false);
                     bulletinRemoveLike(pos);
                     viewHolderHomeBulletinWithImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_in_active_grey);
                     mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
+                    mAddRewardRecievelikePoints(StaticUtils.REWARD_POINTS_RECEIVE_UNLIKE_BULLETIN, filteredBulletinBoard.getOwner());
                 }
             }
         });
@@ -185,20 +189,23 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
         } else {
             viewHolderHomeBulletinWithoutImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_in_active_grey);
         }
-        viewHolderHomeBulletinWithoutImage.getmIvLikeIcon().setOnClickListener(new View.OnClickListener() {
+        viewHolderHomeBulletinWithoutImage.getmRellayLikeIcon().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("syte id onclick", "" + filteredBulletinBoards.get(pos).getSyteId());
                 if (!filteredBulletinBoard.isLiked()) {
                     bulletinUpdateLikes(pos);
-
                     filteredBulletinBoard.setLiked(true);
                     viewHolderHomeBulletinWithoutImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_active_grey);
                     mAddRewardPoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
+                    mAddRewardRecievelikePoints(StaticUtils.REWARD_POINTS_RECEIVE_LIKE_BULLETIN, filteredBulletinBoard.getOwner());
+
                 } else {
                     filteredBulletinBoard.setLiked(false);
                     bulletinRemoveLike(pos);
                     viewHolderHomeBulletinWithoutImage.getmIvLikeIcon().setImageResource(R.drawable.ic_like_in_active_grey);
                     mAddRewardPoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
+                    mAddRewardRecievelikePoints(StaticUtils.REWARD_POINTS_RECEIVE_UNLIKE_BULLETIN, filteredBulletinBoard.getOwner());
                 }
             }
         });
@@ -212,22 +219,26 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
     public void bulletinUpdateLikes(int pos) {
         HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
         mUpdateMap.put("registeredNum", mYaspaspreferences.sGetRegisteredNum());
-        Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(filteredBulletinBoards.get(pos).getSyteId()).child(filteredBulletinBoards.get(pos).getBulletinId()).child("Likes").child(mYaspaspreferences.sGetRegisteredNum());
+        final Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(filteredBulletinBoards.get(pos).getSyteId()).child(filteredBulletinBoards.get(pos).getBulletinId()).child("Likes").child(mYaspaspreferences.sGetRegisteredNum());
 
-        mFBLikes.setValue(mUpdateMap, new Firebase.CompletionListener() {
+        mFBLikes.updateChildren(mUpdateMap, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 if (firebaseError == null) {
 
-
+                    Log.d("home bulletin", "" + "likes added");
+                } else {
+                    Log.d("home bulletins", "" + firebaseError.getMessage());
                 }
+                AdapterHomeBulletinBoard.this.notifyDataSetChanged();
+
             }
         });
     }
 
     public void bulletinRemoveLike(int pos) {
 
-        Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(filteredBulletinBoards.get(pos).getSyteId()).child(filteredBulletinBoards.get(pos).getBulletinId()).child("Likes");
+        final Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(filteredBulletinBoards.get(pos).getSyteId()).child(filteredBulletinBoards.get(pos).getBulletinId()).child("Likes");
 
         mFBremoveLikes.addValueEventListener(new ValueEventListener() {
             @Override
@@ -238,6 +249,9 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
                         DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
                         if (dataSnapshot1.getKey().equalsIgnoreCase(mYaspaspreferences.sGetRegisteredNum())) {
                             dataSnapshot1.getRef().removeValue();
+                            mFBremoveLikes.removeEventListener(this);
+                            AdapterHomeBulletinBoard.this.notifyDataSetChanged();
+                            Log.d("home bulletin", "" + "likes removed");
                         }
                     }
                 }
@@ -249,9 +263,11 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
             }
         });
     }
+
+    //REWARDS FOR GIVING LIKES
     public void mAddRewardPoints(final int rewardPoints) {
 
-        Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYaspaspreferences.sGetRegisteredNum());
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYaspaspreferences.sGetRegisteredNum());
         mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -265,7 +281,7 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
                         StaticUtils.addReward(mYaspaspreferences.sGetRegisteredNum(), rewardPoints);
                     }
                 }
-
+                mFireBsYasPasObj.removeEventListener(this);
             }
 
             @Override
@@ -274,6 +290,34 @@ public class AdapterHomeBulletinBoard extends RecyclerView.Adapter<RecyclerView.
             }
         });
     }//END REWARDS
+
+    //REWARDS FOR RECIEVING LIKE
+    public void mAddRewardRecievelikePoints(final int rewardPoints, final String owner) {
+
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(owner);
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(owner, totalrewards);
+                    } else {
+                        StaticUtils.addReward(owner, rewardPoints);
+                    }
+                }
+                mFireBsYasPasObj.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }//END REWARDS
+
     private void loadImage(final ProgressBar progressBar, ImageView imageView, String imageUrl) {
 
         imageView.setImageResource(android.R.color.transparent);

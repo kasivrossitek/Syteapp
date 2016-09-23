@@ -102,6 +102,7 @@ public class AddBulletinBoardActivity extends Activity implements View.OnClickLi
         mBulletinBoard = new BulletinBoard();
         mBulletinBoard.setSubject("");
         mBulletinBoard.setBody("");
+        mBulletinBoard.setOwner("");
         mBulletinBoard.setImageUrl("");
         mBulletinBoard.setSendToAllFollowers(1);
         yasPasPreferences = YasPasPreferences.GET_INSTANCE(AddBulletinBoardActivity.this);
@@ -236,7 +237,7 @@ public class AddBulletinBoardActivity extends Activity implements View.OnClickLi
     private void addBulletin() {
         Firebase mFirebaseBulletin = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(mSyteId);
         mBulletinBoard.setDateTime(ServerValue.TIMESTAMP);
-       // mBulletinBoard.setOwner(yasPasPreferences.sGetRegisteredNum());
+        mBulletinBoard.setOwner(yasPasPreferences.sGetRegisteredNum());
                 /*Checking if bulletin is having image
                 * 1. if no - then making Image Url is empty so that It will appear without image at Syte detail & bulletin read more pages
                 * 2. if yes - then hardcoding "dummyUrl" as Image URL, so that It will appear with image at Syte detail & bulletin read more pages

@@ -120,14 +120,21 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/xIvLikeIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                <RelativeLayout
+                    android:id="@+id/xRellayLikeIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
-                    android:src="@drawable/ic_like_in_active_grey"
-                    android:visibility="visible" />
+                    android:padding="12dp"
+                    android:layout_marginTop="14dp"
+                    >
+                    <ImageView
+                        android:id="@+id/xIvLikeIcon"
+                        android:layout_width="@dimen/home_screen_bulletin_like_sz"
+                        android:layout_height="@dimen/home_screen_bulletin_like_sz"
+                        android:src="@drawable/ic_like_in_active_grey"
+                        android:visibility="visible" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 

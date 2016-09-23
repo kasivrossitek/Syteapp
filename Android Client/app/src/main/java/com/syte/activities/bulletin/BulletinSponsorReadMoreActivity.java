@@ -2,6 +2,7 @@ package com.syte.activities.bulletin;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.view.ViewPager;
@@ -15,11 +16,15 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.syte.R;
 import com.syte.adapters.AdapterBulletinBoardReadMoreSponsor;
 import com.syte.listeners.OnBulletinBoardUpdate;
 import com.syte.listeners.OnCustomDialogsListener;
 import com.syte.models.BulletinBoard;
+import com.syte.models.YasPasManager;
 import com.syte.utils.NetworkStatus;
 import com.syte.utils.StaticUtils;
 import com.syte.utils.YasPasMessages;
@@ -39,6 +44,7 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
     private ImageView mIvLeftIndicator, mIvRightIndicator;
     private Bundle mBun;
     private String mSyteId;
+    private YasPasManager mYaspasManager;
     private ArrayList<BulletinBoard> bulletinBoards;
     private ArrayList<String> bulletinBoardsIds;
     private Firebase mFireBaseBulletinBoard;
@@ -50,6 +56,11 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
     private String globalDeleteBulletinId = "";
     private YasPasPreferences mYasPasPreferences;
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    //  private GoogleApiClient client;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -83,12 +94,16 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
         adapterBulletinBoardReadMoreSponsor = new AdapterBulletinBoardReadMoreSponsor(BulletinSponsorReadMoreActivity.this, bulletinBoards, bulletinBoardsIds, this, mSyteId);
         mVpBulletinBoard.setAdapter(adapterBulletinBoardReadMoreSponsor);
         mVpBulletinBoard.invalidate();
-        mVpBulletinBoard.setCurrentItem(0);
+        //  mVpBulletinBoard.setCurrentItem(mYasPasPreferences.sGetbulletinposition());//kasi added for view pager position 14-9-2016
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        // client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }// END onActivityCreated()
 
     private void mInItObjects() {
         mBun = getIntent().getExtras();
         mSyteId = mBun.getString(StaticUtils.IPC_SYTE_ID);
+        mYaspasManager = mBun.getParcelable(StaticUtils.IPC_SYTE_MANAGER);
         mPagePosition = mBun.getInt(StaticUtils.IPC_BULLETIN_PAGE_POSITION);
         mFireBaseBulletinBoard = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(mSyteId);
         bulletinBoards = new ArrayList<>();
@@ -144,6 +159,8 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
         if (paramPos == 0 && bulletinBoards.size() == 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
             mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_in_active_14px);
+            mIvLeftIndicator.setVisibility(View.GONE);
+            mIvRightIndicator.setVisibility(View.GONE);
         } else if (paramPos == 0 && bulletinBoards.size() > 1) {
             mIvLeftIndicator.setImageResource(R.drawable.ic_yp_left_arrow_in_active_14px);
             // mIvRightIndicator.setImageResource(R.drawable.ic_yp_right_arrow_active_14px);
@@ -226,6 +243,116 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
 
     }
 
+    @Override
+    public void onBulletinLike(int paramPosition, String owner) {
+        mPrgDia.show();
+        if (bulletinBoards.get(paramPosition).isLiked()) {
+            bulletinUpdateLikes(bulletinBoardsIds.get(paramPosition));
+            mAddRewardlikePoints(StaticUtils.REWARD_POINTS_LIKE_BULLETIN);
+            mAddRewardRecievelikePoints(StaticUtils.REWARD_POINTS_RECEIVE_LIKE_BULLETIN, owner);
+        } else {
+            bulletinRemoveLike(bulletinBoardsIds.get(paramPosition));
+            mAddRewardlikePoints(StaticUtils.REWARD_POINTS_UNLIKE_BULLETIN);
+            mAddRewardRecievelikePoints(StaticUtils.REWARD_POINTS_RECEIVE_UNLIKE_BULLETIN, owner);
+        }
+    }
+
+    public void bulletinUpdateLikes(String bullletinid) {
+        HashMap<String, Object> mUpdateMap = new HashMap<String, Object>();
+        mUpdateMap.put("registeredNum", mYasPasPreferences.sGetRegisteredNum());
+        Firebase mFBLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(mSyteId).child(bullletinid).child("Likes").child(mYasPasPreferences.sGetRegisteredNum());
+
+        mFBLikes.setValue(mUpdateMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+
+                }
+            }
+        });
+    }
+
+    public void bulletinRemoveLike(String bullletinid) {
+
+        final Firebase mFBremoveLikes = new Firebase(StaticUtils.YASPAS_BULLETIN_BOARD_URL).child(mSyteId).child(bullletinid).child("Likes");
+
+        mFBremoveLikes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                    while (iterator.hasNext()) {
+                        DataSnapshot dataSnapshot1 = (DataSnapshot) iterator.next();
+                        if (dataSnapshot1.getKey().equalsIgnoreCase(mYasPasPreferences.sGetRegisteredNum())) {
+                            dataSnapshot1.getRef().removeValue();
+                            mFBremoveLikes.removeEventListener(this);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    //REWARDS FOR GIVNG LIKE
+    public void mAddRewardlikePoints(final int rewardPoints) {
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), totalrewards);
+                    } else {
+                        StaticUtils.addReward(mYasPasPreferences.sGetRegisteredNum(), rewardPoints);
+                    }
+                    mVpBulletinBoard.setCurrentItem(mYasPasPreferences.sGetbulletinposition());//kasi added for view pager position 14-9-2016
+                }
+                mFireBsYasPasObj.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                mPrgDia.dismiss();
+            }
+        });
+    }//END REWARDS
+
+    //17-9-16 REWARD FOR RECIEVING LIKE
+    public void mAddRewardRecievelikePoints(final int rewardPoints, final String recieverId) {
+        final Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(recieverId);
+        mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null && dataSnapshot != null) {
+                    if (dataSnapshot.hasChild("rewards")) {
+                        Long rewards = (Long) dataSnapshot.child("rewards").getValue();
+                        int totalrewards = rewards.intValue();
+                        totalrewards = totalrewards + rewardPoints;
+                        StaticUtils.addReward(recieverId, totalrewards);
+                    } else {
+                        StaticUtils.addReward(recieverId, rewardPoints);
+                    }
+                    mVpBulletinBoard.setCurrentItem(mYasPasPreferences.sGetbulletinposition());//kasi added for view pager position 17-9-2016
+                }
+                mPrgDia.dismiss();
+                mFireBsYasPasObj.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                mPrgDia.dismiss();
+            }
+        });
+    }//END RECIEVE REWARDS
+
 
     @Override
     public void onDialogLeftBtnClicked(int paramDialogType, String paramCallingMethod, boolean paramIsFinish) {
@@ -250,6 +377,46 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
         }
     }
 
+   /* @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "BulletinSponsorReadMore Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.syte.activities.bulletin/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }*/
+
+    /*  @Override
+      public void onStop() {
+          super.onStop();
+
+          // ATTENTION: This was auto-generated to implement the App Indexing API.
+          // See https://g.co/AppIndexing/AndroidStudio for more information.
+          Action viewAction = Action.newAction(
+                  Action.TYPE_VIEW, // TODO: choose an action type.
+                  "BulletinSponsorReadMore Page", // TODO: Define a title for the content shown.
+                  // TODO: If you have web page content that matches this app activity's content,
+                  // make sure this auto-generated web page URL is correct.
+                  // Otherwise, set the URL to null.
+                  Uri.parse("http://host/path"),
+                  // TODO: Make sure this auto-generated app URL is correct.
+                  Uri.parse("android-app://com.syte.activities.bulletin/http/host/path")
+          );
+          AppIndex.AppIndexApi.end(client, viewAction);
+          client.disconnect();
+      }
+  */
     private class EventListenerBulletinBoard implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -265,10 +432,14 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
                         b.setLiked(true);
                     } else {
                         b.setLiked(false);
-
                     }
                 } else {
                     b.setLiked(false);
+                }
+                if (dataSnapshot1.hasChild("owner")) {
+                    b.setOwner(b.getOwner());
+                } else {
+                    b.setOwner(mYaspasManager.getManagerId());
                 }
                 Log.d("bulletinboardkey", "" + dataSnapshot1.getKey().toString());
                 bulletinBoards.add(b);
@@ -385,7 +556,6 @@ public class BulletinSponsorReadMoreActivity extends AppCompatActivity implement
     }
 
     public void mAddRewardPoints(final int rewardPoints) {
-
         Firebase mFireBsYasPasObj = new Firebase(StaticUtils.YASPASEE_URL).child(mYasPasPreferences.sGetRegisteredNum());
         mFireBsYasPasObj.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

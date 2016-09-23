@@ -33,7 +33,6 @@ public class SyteFollowerDetailsActivity extends AppCompatActivity implements Vi
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_syte_follower_details);
-
                 mInItObjects();
                 mInItWidgets();
                 mSetValues();
@@ -75,7 +74,6 @@ public class SyteFollowerDetailsActivity extends AppCompatActivity implements Vi
             {
                 String cURL = mCloudinary.url().transformation(cTransformation).generate(mFollower.getUserProfilePic());
                 ImageLoader.getInstance().displayImage(cURL, mIvFollowerImage, mDisImgOpt);
-
                 mTvFollowerName.setText(mFollower.getUserName().toString().trim());
                 mTvFollowerGender.setText(mFollower.getUserGender().toString().trim());
             }// END mSetValues()

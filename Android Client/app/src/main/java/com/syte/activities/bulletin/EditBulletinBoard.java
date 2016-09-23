@@ -322,6 +322,7 @@ public class EditBulletinBoard extends Activity implements View.OnClickListener,
                 upadateHashMap.put("imageUrl",mBulletinBoard.getImageUrl());
                 upadateHashMap.put("dateTime", ServerValue.TIMESTAMP);
                 upadateHashMap.put("sendToAllFollowers", mBulletinBoard.getSendToAllFollowers());
+                upadateHashMap.put("owner",mBulletinBoard.getOwner());
                 mFirebaseBulletin.setValue(upadateHashMap, new Firebase.CompletionListener() {
                     @Override
                     public void onComplete(FirebaseError firebaseError, final Firebase firebase) {

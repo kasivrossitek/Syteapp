@@ -127,6 +127,7 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
         if (mSyte.getSyteType() != null) {
             if (mSyte.getSyteType().toString().trim().equalsIgnoreCase(mRadiopublic.getText().toString().trim())) {
                 mRadioGrp.check(mRadiopublic.getId());
+                mRadioGrp.setVisibility(View.GONE);
             } else if (mSyte.getSyteType().toString().trim().equalsIgnoreCase(mRadioprivate.getText().toString().trim())) {
                 mRadioGrp.check(mRadioprivate.getId());
             }
@@ -289,13 +290,13 @@ public class EditSyteDetailsActivity extends Activity implements OnClickListener
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 if (firebaseError == null) {
                     mPrgDia.dismiss();
-                    Intent mIntent_EditSyteDetails = new Intent(EditSyteDetailsActivity.this, EditSyteMainActivity.class);
-                    Bundle mBdl = new Bundle();
-                    mBdl.putParcelable(StaticUtils.IPC_SYTE, mSyte);
-                    mBdl.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
+                   // Intent mIntent_EditSyteDetails = new Intent(EditSyteDetailsActivity.this, EditSyteMainActivity.class);
+                   // Bundle mBdl = new Bundle();
+                   // mBdl.putParcelable(StaticUtils.IPC_SYTE, mSyte);
+                   // mBdl.putString(StaticUtils.IPC_SYTE_ID, mSyteId);
                     //mBdl.putParcelableArrayList(StaticUtils.IPC_TEAM_MEMBERS_LIST, mTeamMembers);
-                    mIntent_EditSyteDetails.putExtras(mBdl);
-                    startActivity(mIntent_EditSyteDetails);
+                   // mIntent_EditSyteDetails.putExtras(mBdl);
+                   // startActivity(mIntent_EditSyteDetails);
                     EditSyteLocationActivity.TO_BE_DELETED.finish();
                     EditSyteAddressActivity.TO_BE_DELETED.finish();
                     finish();
